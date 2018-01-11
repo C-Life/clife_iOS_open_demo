@@ -1,0 +1,6 @@
+framework module HETMattressDeviceSDK {
+  umbrella header "HETMattressDeviceSDK.h"
+
+  export *
+  module * { export * }
+}

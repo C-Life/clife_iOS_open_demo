@@ -1,0 +1,6 @@
+framework module HETPublicSDK_WiFiModule_HF_LPT100_V3 {
+  umbrella header "HETPublicSDK_WiFiModule_HF_LPT100_V3.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,1 @@
+../../../../HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_Realtek8711AF/HETPublicSDK_WiFiModule_Realtek8711AF.framework/Headers/KZLBroadcast_SSID_Password.h
