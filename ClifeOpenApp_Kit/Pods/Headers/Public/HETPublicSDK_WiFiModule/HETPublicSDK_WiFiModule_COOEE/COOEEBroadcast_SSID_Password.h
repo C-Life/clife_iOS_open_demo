@@ -1,0 +1,1 @@
+../../../../HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_COOEE/HETPublicSDK_WiFiModule_COOEE.framework/Headers/COOEEBroadcast_SSID_Password.h

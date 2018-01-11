@@ -1,0 +1,1 @@
+../../../../HETOpenSDK/Optional/HETMattressDeviceSDK.framework/Headers/LGService.h

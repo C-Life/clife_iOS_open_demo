@@ -1,0 +1,1 @@
+../../../../HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_HF_LPT100_V3/HETPublicSDK_WiFiModule_HF_LPT100_V3.framework/Headers/HFBroadcast_SSID_Password.h

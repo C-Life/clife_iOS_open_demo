@@ -1,0 +1,148 @@
+/*
+ Localizable.strings
+ HETOpenPlatformSDKDemo
+
+ Created by miao on 2017/8/28.
+ Copyright © 2017年 het. All rights reserved.
+ */
+
+"HomeVCTitle" = "开放平台SDKdemo";
+// 通用
+"CommonSure" = "确认";
+"CommonCancel" = "取消";
+"CommonDelete" = "删除";
+"CommonSet" = "设置";
+"CommonOK" = "好";
+"CommoniKnoew" = "我知道了";
+
+"CommonDeleteSuccess" = "删除成功";
+"CommonDeleteFailed" = "删除失败";
+
+"CommonSetSuccsss" = "设置成功";
+"CommonSetFailed" = "设置失败";
+
+"CommonDeviceOnline" = "在线";
+"CommonDeviceOffline" = "离线";
+
+// 设备分享
+"ShareFunctionWeiXin" = "微信";
+"ShareFunctionQQ" = "QQ";
+"ShareFunctionWeibo" = "微博";
+
+"ShareFuntionTitle" = "设备分享";
+"ShareFuntionWeiXinAlert" = "您还没有安装微信客户端!";
+"ShareFuntionQQAlert" = "您还没有安装QQ客户端!";
+"ShareFunctionWeiboAlert" = "您还没有安装微博客户端!";
+
+"ShareFunctionFaceToFace" = "面对面分享";
+"ShareFunctionThird" = "远程分享";
+
+"ShareFriendNavTitle" = "好友权限管理";
+"ShareNoFriendAlert" = "您还未分享该设备给好友";
+"ShareFunctionAlertTips" = "其他人将通过分享获得设备的控制权限，请勿将设备分享给陌生人";
+// Appdelegate
+
+"GetDeviceControlAuthSuccess" = "获取设备权限成功";
+
+"PuLLDownRefresh" = "加载失败，请下拉刷新";
+"HomeVCTitle" = "首页";
+// 设备列表界面
+"DeviceListVCTitle" = "设备列表";
+"AuthorizError" = "登录失败，请重新登录";
+"UnLoginLabelStr" = "当前未登录状态";
+"LoginBtnTitle" = "登录";
+"AddDevcieTipStr" = "赶紧去添加设备吧!";
+
+"UnBindDeviceStr" = "解绑";
+"UnBindDeviceSuccess" = "解除绑定成功";
+"UnBindDeviceError" = "解绑失败，请重新操作";
+"AccessTokenOutDate" = "您的账号已经在其他设备登录，请重新登录";
+"BindDeviceSuccess" = "绑定成功";
+"DeviceControlViewOndevelopment" = "努力开发中,请关注!";
+
+"DeviceOffLineState" = "设备离线";
+// 蓝牙设备绑定
+"BindBleBindFaile" = "绑定失败";
+"BLEOpenAlert" = "蓝牙没有开启，在设置中打开蓝牙";
+
+// 我的界面
+"MyVCTitle" = "我的";
+"CurrentAccountStr" = "当前账号";
+"ChangePassWordStr" = "设置密码";
+"MyNewsStr" = "我的消息";
+"FAQStr" = "常见问题";
+"FeedbackStr" = "意见反馈";
+"PrivacyPolicyStr" = "隐私政策";
+"CopyrightStatementStr" = "版权声明";
+"ExitLoginBtnTitle" = "退出登录";
+
+// 消息页面
+"MessageCenterNavTitle" = "消息中心";
+"MessageCenterListNavTitle" = "消息列表";
+"MessageTypeTimeJustNow" = "刚刚";
+"MessageTypeTimeMinuteBefore" = "分钟前";
+"MessageTypeTimeHoureBefore" = "小时前";
+
+// 意见反馈
+"FeedBackAlertContent" = "请填写您的宝贵意见";
+"FeedBackAlertIsUpLoading" = "正在提交...";
+"FeedBackSubmitSuccess" = "提交成功，谢谢您的反馈";
+"FeedBackSubmitFailed" = "提交失败，请检测网络连接";
+"FeedBackSubmitBtn" = "提交";
+
+// 常见问题
+"FrequentlyAskedQuestions" = "常见问题";
+
+// 修改密码界面
+"ChangePasswordVCTitle" = "设置密码";
+"CompleteBtnTitle" = "完成";
+"CurrentPasswordTextFieldPlaceholder" = "当前密码";
+"NewPasswordTextFieldPlaceholder" = "新密码(6-20位数字和字母组合密码)";
+
+// 添加设备界面
+"AddDeviceVCTitle" = "添加设备";
+"SearchDeviceErrorTitle" = "扫描失败";
+"SearchDeviceErrorMessage" = "扫描失败,是否重新扫描?";
+"ExitBtnTitle" = "退出";
+"SearchAgainTitle" = "重新链接";
+
+// 绑定说明界面
+"BindInstructionVCTitle" = "绑定说明";
+"BindInstructionCurrentWifl" = "当前WiFi";
+
+// 设置wifi密码界面
+"SetPasswordVCTitle" = "添加设备";
+"NextBindButtonTitle" = "下一步";
+"SavePswButtonLabelStr" = "记住密码";
+"PasswordFieldPlaceholder" = "请输入密码";
+"WifiNameFieldPlaceholder" = "WiFi账号";
+"CenterLabelStr" = "请确认您当前的WiFi或使用其他WiFi进行绑定";
+"EmptyWifiNameTip" = "请设置WiFi";
+"ToConnectWifi" = "去连接wifi";
+"ConnectWifiHelpInfo" = "将手机WiFi连接如上图并返回该界面";
+"DeviceBindWithType" = "设备分类绑定";
+"DeviceListTitle" = "设备列表";
+"ChangeWifiTitle" = "切换WiFi";
+"ChangeWifiAlertInfo" = "请到WiFi设置页面进行连接设置";
+
+// 扫一扫
+"ScanQRCodeTitle" = "扫一扫";
+"ScanQRCodeHelpInfo" = "将二维码对准方框，即可自动扫描";
+"ScanQRCodeLightOn" = "照明";
+"ScanQRCodeFailed" = "扫描失败";
+"ScanQRCodeFailedAlertMessage" = "请检查是否为C-Life产品的二维码,您也可以试试手动绑定";
+"ScanQRCodeGetDeiceInfoLoading" = "正在获取设备信息，请稍等";
+"ScanQRCodeGetMessageFailed" = "获取设备信息失败，请重新扫描";
+
+// 扫描设备
+"ScanDeiveLoading" = "扫描设备...";
+"ScanDeiveReigesterToCloud" = "设备注册云端...";
+
+// 舒眠灯
+"LEDDeviceTitle" = "舒眠灯";
+"LEDDeviceColorTitle" = "颜色";
+"LEDDeviceLightValue" = "亮度";
+"LEDDeviceHardwareUpgrade " = "固件升级";
+"LEDDevieBleTitle" = "蓝牙";
+"LEDDeviceUpgradeTitle" = "升级";
+"LEDDeviceReadModeAlert" = "阅读模式颜色不能调节哦！";

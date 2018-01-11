@@ -1,0 +1,1 @@
+../../../../HETOpenSDK/Optional/HETMattressDeviceSDK.framework/Headers/CBUUID+StringExtraction.h

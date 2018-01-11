@@ -1,0 +1,11 @@
+/* 
+  InfoPlist.strings
+  HETOpenPlatformSDKDemo
+
+  Created by miao on 2017/8/28.
+  Copyright © 2017年 het. All rights reserved.
+*/
+
+
+// Localizable App Name是App在英语环境环境下显示的名称
+CFBundleDisplayName = "HETOpenSDKDemo";
