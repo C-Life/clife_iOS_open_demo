@@ -1,1 +1,0 @@
-../../../../HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_MTK7687/HETPublicSDK_WiFiModule_MTK7687.framework/Headers/ELIANBroadcast_SSID_Password.h

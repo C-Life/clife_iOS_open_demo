@@ -1,1 +1,0 @@
-../../../../HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_TI_CC3200R2/HETPublicSDK_WiFiModule_TI_CC3200R2.framework/Headers/TIBroadcast_SSID_Password.h

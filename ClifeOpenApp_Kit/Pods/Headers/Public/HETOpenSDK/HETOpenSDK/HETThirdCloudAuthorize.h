@@ -1,1 +1,0 @@
-../../../../HETOpenSDK/SDK/HETOpenSDK.framework/Headers/HETThirdCloudAuthorize.h

@@ -1,1 +1,0 @@
-../../../../HETOpenSDK/Optional/HETMattressDeviceSDK.framework/Headers/HETMattressDeviceSDK.h
