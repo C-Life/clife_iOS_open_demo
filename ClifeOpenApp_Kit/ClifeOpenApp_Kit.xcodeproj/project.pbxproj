@@ -52,7 +52,6 @@
 		0A7FBA6D1F6FF2DF00E82808 /* HETBindBleDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FBA6C1F6FF2DF00E82808 /* HETBindBleDeviceVC.m */; };
 		0A848C88200DA24700E2D519 /* HETBindGPRSDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A848C87200DA24700E2D519 /* HETBindGPRSDeviceVC.m */; };
 		0A848C8B200DA36500E2D519 /* AirPuriflerBindView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A848C8A200DA36500E2D519 /* AirPuriflerBindView.m */; };
-		0A862EBA2003860C0039E7E0 /* HETChangNetWorkState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A862EB92003860C0039E7E0 /* HETChangNetWorkState.m */; };
 		0A931AFB1F8F374F00096313 /* bindHelp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A931AFA1F8F374F00096313 /* bindHelp.bundle */; };
 		0AA91EC91F5D43FC00825132 /* HETNotificationMacro.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA91EC81F5D43FC00825132 /* HETNotificationMacro.m */; };
 		0ACCEC351F57AE5A00F9F41C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0ACCEC311F57AE5A00F9F41C /* LICENSE */; };
@@ -198,8 +197,6 @@
 		0A848C87200DA24700E2D519 /* HETBindGPRSDeviceVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HETBindGPRSDeviceVC.m; sourceTree = "<group>"; };
 		0A848C89200DA36500E2D519 /* AirPuriflerBindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirPuriflerBindView.h; sourceTree = "<group>"; };
 		0A848C8A200DA36500E2D519 /* AirPuriflerBindView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirPuriflerBindView.m; sourceTree = "<group>"; };
-		0A862EB82003860C0039E7E0 /* HETChangNetWorkState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HETChangNetWorkState.h; sourceTree = "<group>"; };
-		0A862EB92003860C0039E7E0 /* HETChangNetWorkState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HETChangNetWorkState.m; sourceTree = "<group>"; };
 		0A931AFA1F8F374F00096313 /* bindHelp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = bindHelp.bundle; sourceTree = "<group>"; };
 		0AA91EC71F5D43FC00825132 /* HETNotificationMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETNotificationMacro.h; sourceTree = "<group>"; };
 		0AA91EC81F5D43FC00825132 /* HETNotificationMacro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETNotificationMacro.m; sourceTree = "<group>"; };
@@ -938,8 +935,6 @@
 			children = (
 				191CF37A1F6FCEF100104975 /* DeviceCell.h */,
 				191CF37B1F6FCEF100104975 /* DeviceCell.m */,
-				0A862EB82003860C0039E7E0 /* HETChangNetWorkState.h */,
-				0A862EB92003860C0039E7E0 /* HETChangNetWorkState.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1346,7 +1341,6 @@
 				0A0600B41F7F8BF200B508EC /* HETMessageTypeModel.m in Sources */,
 				0A7FBA4B1F6FEB6000E82808 /* HETinstructionsPageView.m in Sources */,
 				0A7FBA4D1F6FEB6000E82808 /* HETSetPassWordVC.m in Sources */,
-				0A862EBA2003860C0039E7E0 /* HETChangNetWorkState.m in Sources */,
 				0A0C35AF1F4FB9CB0084F0F3 /* main.m in Sources */,
 				0A7E4FF81F70C4A9009DF8BF /* BleTableViewCell.m in Sources */,
 				0A2EA0251F8B78E8006D8F60 /* UIImage+DiplomatResize.m in Sources */,
