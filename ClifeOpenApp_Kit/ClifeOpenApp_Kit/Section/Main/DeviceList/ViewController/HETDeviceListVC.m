@@ -15,6 +15,7 @@
 #import "DeviceCell.h"
 #import "UIScrollView+EmptyDataSet.h"
 #import "HETH5ViewController.h"
+#import "HETChangNetWorkState.h"
 
 #define cellH  72.0f
 
@@ -36,7 +37,8 @@
 @property (nonatomic,assign) BOOL                                                  isLogin;
 /** 是否展示空白页 **/
 @property (nonatomic,assign) BOOL                                                  isShowEmpty;
-
+/** 改变网络环境，登录界面 **/
+@property (nonatomic,strong) HETChangNetWorkState                                  *settingView;
 @end
 
 @implementation HETDeviceListVC
@@ -112,6 +114,21 @@
         make.height.equalTo(@(36*BasicHeight));
     }];
 
+//#if (HET_IS_ENTERPRISE==1)
+    [self.view addSubview:self.settingView];
+    [self.settingView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.bottom.equalTo(self.view.mas_bottom).offset(-36*BasicHeight);
+        make.left.right.equalTo(self.view);
+        make.height.equalTo(@(200*BasicHeight));
+    }];
+
+    WEAKSELF
+    self.settingView.changeBlock = ^{
+        STRONGSELF
+        [strongSelf exitLoginAction];
+    };
+//#endif
 }
 
 
@@ -264,7 +281,8 @@
         OPLog(@"h5PagePath--->:%@",h5Path);
         // [HETCommonHelp HidHud];
         if(error){
-            NSLog(@"获取H5失败");
+            OPLog(@"获取H5失败");
+            [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
         }else{
             NSString *desPath  = [NSString stringWithFormat:@"%@/index.html",h5Path];
             h5vc.h5Path = @"http://10.8.9.77:8080/index.html";
@@ -375,7 +393,11 @@
         else
         {
             OPLog(@"error:%@",error);
-            [HETCommonHelp showHudAutoHidenWithMessage:AuthorizError];
+            if (error.code == -1009) {
+                 [HETCommonHelp showHudAutoHidenWithMessage:@"请检查手机网络"];
+            }else{
+                 [HETCommonHelp showHudAutoHidenWithMessage:AuthorizError];
+            }
             self.isLogin = NO;
         }
     }];
@@ -534,7 +556,13 @@
     return _loginBtn;
 }
 
-
+- (HETChangNetWorkState *)settingView
+{
+    if (!_settingView) {
+        _settingView = [HETChangNetWorkState new];
+    }
+    return _settingView;
+}
 
 - (void)dealloc
 {

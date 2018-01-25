@@ -8,7 +8,8 @@
 
 #import "HETH5ViewController.h"
 #import "HETShareDevcieVC.h"
-#import "HETScanQrcodeVC.h"
+//#import "HETScanQrcodeVC.h"
+#import "HETSQRCodeScanningVC.h"
 
 #import <WebKit/WebKit.h>
 @interface HETH5ViewController ()<WKNavigationDelegate,HETWKWebViewJavascriptBridgeDelegate>
@@ -97,7 +98,7 @@
 
 - (void)scanCodeTest
 {
-    HETScanQrcodeVC *scanVC = [HETScanQrcodeVC new];
+    HETSQRCodeScanningVC *scanVC = [HETSQRCodeScanningVC new];
     WEAKSELF
     scanVC.h5PathBlock = ^(NSString *h5Path) {
         STRONGSELF

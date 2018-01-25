@@ -22,17 +22,19 @@
 #define kTestAPPKEY @"30765"
 #define kTestAPPSECRET @"5f699a78c319444cb8a291296049572c"
 
+//#define kTestAPPKEY @"30048"
+//#define kTestAPPSECRET @"9e0ab42cc3b54fca8c56affa6be059cf"
+
 #define WX_APP_KEY      @"xxxxxx"
 #define WX_APP_SECRET   @"xxxxxx"
 
-#define QQ_APP_ID       @"xxxxxx"
-#define QQ_APP_KEY      @"xxxxxx"
-
+#define QQ_APP_ID       @"xxxxx"
+#define QQ_APP_KEY      @"xxxxx"
 
 NSString *const KHETJPushAppKey = @"xxxxxx";
 #define WB_APP_KEY      @"xxxxxx"
 #define WB_APP_SECRET   @"xxxxxx"
-#define WB_RedirectURL  @"http://www.clife.cn"
+#define WB_RedirectURL  @"http://www.clife.net"
 
 static NSString *KHETJPushchannel = @"Publish channel";
 static BOOL isProduction = FALSE;
@@ -89,8 +91,8 @@ static BOOL isProduction = FALSE;
     theme.navHeadlineContent = @"安全登录";           // 标题
     theme.logoshow = YES;                           // logo显示
     theme.weixinLogin = YES;                        // 微信登录显示
-    theme.qqLogin = NO;                            // QQ登录显示
-    theme.weiboLogin = NO;                         // 微博登录显示
+    theme.qqLogin = YES;                            // QQ登录显示
+    theme.weiboLogin = YES;                         // 微博登录显示
     theme.loginType = @"1";                         // 主题样式（1、2、3）
     theme.navTitleColor = @"FFFFFFFF";              // 导航标题文字颜色
     theme.loginBtnFontColor = @"EA5855";          // 登录按钮文字颜色

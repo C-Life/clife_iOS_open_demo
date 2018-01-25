@@ -65,24 +65,25 @@
     [self.contentView addSubview:self.onlineLabel];
     self.onlineLabel.font = [UIFont systemFontOfSize:15];
 
-
     [self.deviceImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.mas_left).offset(25 *BasicWidth);
         make.size.mas_equalTo(CGSizeMake(40,40));
         make.centerY.equalTo(self.contentView.mas_centerY);
     }];
+
     [self.deviceNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.mas_top).offset(15 *BasicHeight);
         make.left.mas_equalTo(self.deviceImageView.mas_right).offset(25*BasicWidth);
-        make.right.equalTo(self.contentView);
+        make.width.equalTo(@(210 *BasicWidth));
     }];
+
     [self.macNameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.mas_equalTo(self).offset(-15 *BasicHeight);
         make.left.mas_equalTo(self.deviceImageView.mas_right).offset(25*BasicWidth);
         make.right.equalTo(self.contentView);
     }];
     [self.onlineLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(self.contentView).offset(-29*BasicWidth);
+        make.left.mas_equalTo(self.deviceNameLabel.mas_right).offset(15*BasicWidth);
         make.centerY.equalTo(self.contentView);
     }];
 }

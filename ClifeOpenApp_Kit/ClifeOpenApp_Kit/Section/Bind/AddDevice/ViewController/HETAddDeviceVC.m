@@ -8,9 +8,10 @@
 
 #import "HETAddDeviceVC.h"
 #import "HETBindInstructionVC.h"
-#import "HETScanQrcodeVC.h"
+//#import "HETScanQrcodeVC.h"
 #import "HETSetPassWordVC.h"
 #import "HETDeviceSubTypeListVC.h"
+#import "HETSQRCodeScanningVC.h"
 
 #import "AddDevcieCell.h"
 #import "HETAddDeviceTopView.h"
@@ -154,7 +155,7 @@
     self.topView.selectIndex = ^(NSInteger index) {
         switch (index) {
             case 0:
-                [weakSelf.navigationController pushViewController:[HETScanQrcodeVC new] animated:YES];
+                [weakSelf.navigationController pushViewController:[HETSQRCodeScanningVC new] animated:YES];
                 break;
             case 1:
                 break;

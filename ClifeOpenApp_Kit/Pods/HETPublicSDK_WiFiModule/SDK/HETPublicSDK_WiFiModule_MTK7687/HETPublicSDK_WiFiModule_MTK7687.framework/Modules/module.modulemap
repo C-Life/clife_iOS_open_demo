@@ -1,0 +1,6 @@
+framework module HETPublicSDK_WiFiModule_MTK7687 {
+  umbrella header "HETPublicSDK_WiFiModule_MTK7687.h"
+
+  export *
+  module * { export * }
+}

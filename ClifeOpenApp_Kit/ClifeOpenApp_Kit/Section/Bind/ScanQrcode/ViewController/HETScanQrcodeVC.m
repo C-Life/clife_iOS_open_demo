@@ -10,6 +10,7 @@
 #import "HETSetPassWordVC.h"
 #import "HETBindBleDeviceVC.h"
 #import "HETH5ViewController.h"
+#import "HETBindGPRSDeviceVC.h"
 #import "QRView.h"
 
 #import "ZBarSDK.h"
@@ -175,13 +176,25 @@
         return;
     }
     OPLog(@"urlStr: %@",urlStr);
-    // 例子：urlStr: http://open.clife.net/v1/web/open/product?param={"a":3531}
+    // 例子：urlStr: http://open.clife.net/v1/web/open/product?param={"a":xxx}
+    // 直接扫描二维码获取产品id，再获取设备信息
     if ([urlStr rangeOfString:@"product?param="].length > 0) {
         [self scanDevice:urlStr];
     }
+    // https://api.clife.cn/v1/device/getQrcode?param={"a":xxx,"m":"xxx","i":"xxx"}
+    // 扫描二维码，获取产品id,mac地址，设备imei，再绑定GSM设备
+    else if ([urlStr rangeOfString:@"getQrcode?param"].length > 0) {
+        [self bindGSMDevice:urlStr];
+    }
+    // 扫描获取分享码
     else if ([urlStr rangeOfString:@"shareCode"].length > 0) {
         [self scanShareCode:urlStr];
     }
+    // 扫描条形码获取设备信息
+    else if ([self isDigital:urlStr]){
+        [self getDeviceInfoWithUrlStr:urlStr];
+    }
+    // 扫描H5调试地址
     else if ([urlStr rangeOfString:@"http"].length > 0) {
         if (self.h5PathBlock)
         {
@@ -191,10 +204,11 @@
                 [self.navigationController popViewControllerAnimated:YES];
             });
         }
+        else{
+            [self setZBarReaderViewStart];
+        }
     }
-    else if ([self isDigital:urlStr]){
-        [self getDeviceInfoWithUrlStr:urlStr];
-    }
+    // 扫描失败
     else{
         [self scanError];
     }
@@ -291,12 +305,33 @@
         [HETCommonHelp hideHudFromView:weakSelf.view];
         // msg=appId与产品未做关联
         if (error.code == 100022013) {
-            [weakSelf scanError];
+            [HETCommonHelp showHudAutoHidenWithMessage:ScanQRCodeGetMessageFailed];
         }else{
             [HETCommonHelp showHudAutoHidenWithMessage:ScanQRCodeGetMessageFailed];
             [weakSelf setZBarReaderViewStart];
         }
     }];
+}
+
+- (void)bindGSMDevice:(NSString *)urlStr
+{
+    NSArray *arr = [urlStr componentsSeparatedByString:@"="];
+    NSString *jsonStr = [arr lastObject];
+    NSData *JSONData = [jsonStr dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *responseJSONDict = [NSJSONSerialization JSONObjectWithData:JSONData options:NSJSONReadingMutableLeaves error:nil];
+    NSNumber *productId = [responseJSONDict valueForKey:@"a"];
+    NSNumber *mac = [responseJSONDict valueForKey:@"m"];
+    NSNumber *imei = [responseJSONDict valueForKey:@"i"];
+
+    if (productId && (mac || imei)) {
+        NSString *imeiStr = [NSString stringWithFormat:@"%@",imei];
+        NSString *macStr = [NSString stringWithFormat:@"%@",mac];
+        HETBindGPRSDeviceVC *gprsVC = [HETBindGPRSDeviceVC new];
+        gprsVC.mac = macStr;
+        gprsVC.imei = imeiStr;
+        gprsVC.productId = [NSString stringWithFormat:@"%@",productId];
+        [self.navigationController pushViewController:gprsVC animated:YES];
+    }
 }
 
 - (void)getDeviceInfoWithUrlStr:(NSString *)urlStr{
@@ -363,13 +398,23 @@
     }
 
     OPLog(@"urlStr: %@",urlStr);
+    // 例子：urlStr: http://open.clife.net/v1/web/open/product?param={"a":xxx}
     // 直接扫描二维码获取产品id，再获取设备信息
     if ([urlStr rangeOfString:@"product?param="].length > 0) {
         [self scanDevice:urlStr];
     }
+    // https://api.clife.cn/v1/device/getQrcode?param={"a":xxx,"m":"xxx","i":"xxx"}
+    // 扫描二维码，获取产品id,mac地址，设备imei，再绑定GSM设备
+    else if ([urlStr rangeOfString:@"getQrcode?param"].length > 0) {
+        [self bindGSMDevice:urlStr];
+    }
     // 扫描获取分享码
     else if ([urlStr rangeOfString:@"shareCode ="].length > 0) {
         [self scanShareCode:urlStr];
+    }
+    // 扫描条形码获取设备信息
+    else if ([self isDigital:urlStr]){
+        [self getDeviceInfoWithUrlStr:urlStr];
     }
     // 扫描H5调试地址
     else if ([urlStr rangeOfString:@"getPreviceUrl"].length > 0) {
@@ -381,11 +426,11 @@
                 [self.navigationController popViewControllerAnimated:YES];
             });
         }
+        else{
+            [self setZBarReaderViewStart];
+        }
     }
-    // 扫描条形码获取设备信息
-    else if ([self isDigital:urlStr]){
-        [self getDeviceInfoWithUrlStr:urlStr];
-    }
+    // 扫描失败
     else{
         [self scanError];
     }
@@ -433,3 +478,4 @@
  */
 
 @end
+

@@ -11,10 +11,17 @@
 #import "HETSetPassWordVC.h"
 #import "HETBindBleDeviceVC.h"
 #import "HETDeviceListVC.h"
+#import <HETMattressDeviceSDK/HETMattressDeviceSDK.h>
+#import "HETBindGPRSDeviceVC.h"
 
 #define cellH  72.0f
 
+
 @interface HETDeviceSubTypeListVC ()<UITableViewDataSource,UITableViewDelegate>
+{
+    
+    HETBLEMattressDevice *_mattressDevice;
+}
 /** 睡眠带子 **/
 
 /** 设备列表 **/
@@ -81,7 +88,51 @@
 
 -(void)scanBleDeviceAction:(NSUInteger)productId{
     
-
+    [HETCommonHelp showCustomHudtitle:@"正在扫描蓝牙设备"];
+    _mattressDevice=nil;
+    _mattressDevice=[[HETBLEMattressDevice alloc]init];
+    WEAKSELF;
+    [_mattressDevice scanBleDevicesProductId:productId timeOut:10 scanBleDevices:^(NSArray<LGPeripheral *> *deviceArray, NSError *error) {
+        if(error)
+        {
+            NSLog(@"蓝牙扫描失败:%@",error);
+            [HETCommonHelp HidHud];
+            [HETCommonHelp showHudAutoHidenWithMessage:@"蓝牙扫描失败" ];
+            [_mattressDevice disconnect];
+            _mattressDevice=nil;
+        }
+        else
+        {
+            [HETCommonHelp HidHud];
+            [HETCommonHelp showCustomHudtitle:@"正在绑定蓝牙设备"];
+            LGPeripheral *per=[deviceArray firstObject];
+            
+            [_mattressDevice bindBleDevice:per deviceProductId:productId successBlock:^(NSString *deviceId){
+                [_mattressDevice disconnect];
+                _mattressDevice=nil;
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [HETCommonHelp HidHud];
+                    [HETCommonHelp showHudAutoHidenWithMessage:@"蓝牙绑定成功"];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kBindDeviceSuccess object:nil];
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                            [self.navigationController popToRootViewControllerAnimated:true];
+                        });
+                    });
+                });
+                
+            } failBlock:^(NSError *error) {
+                NSLog(@"绑定失败");
+                [_mattressDevice disconnect];
+                _mattressDevice=nil;
+                [HETCommonHelp HidHud];
+                [HETCommonHelp showHudAutoHidenWithMessage:@"蓝牙绑定失败"];
+            }];
+            
+        }
+        
+    }];
+    
  
 }
 
@@ -135,6 +186,13 @@
         HETSetPassWordVC *setPasswordVC = [HETSetPassWordVC new];
         setPasswordVC.device = device;
         [self.navigationController pushViewController:setPasswordVC animated:YES];
+        return;
+    }
+
+    if ([device.moduleType integerValue] == 4) {
+        HETBindGPRSDeviceVC *gprsVC = [HETBindGPRSDeviceVC new];
+        gprsVC.device = device;
+        [self.navigationController pushViewController:gprsVC animated:YES];
         return;
     }
 }
