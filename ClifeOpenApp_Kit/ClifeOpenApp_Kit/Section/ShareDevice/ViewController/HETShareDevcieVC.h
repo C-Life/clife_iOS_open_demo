@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface HETShareDevcieVC : UIViewController
-@property (nonatomic,strong) NSString            *deviceId;
+/** 设备信息 **/
+@property (nonatomic,strong)  HETDevice *deviceModel;
+
 
 @end

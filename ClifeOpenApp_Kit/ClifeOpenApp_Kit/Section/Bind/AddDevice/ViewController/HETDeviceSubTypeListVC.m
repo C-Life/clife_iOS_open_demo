@@ -11,19 +11,19 @@
 #import "HETSetPassWordVC.h"
 #import "HETBindBleDeviceVC.h"
 #import "HETDeviceListVC.h"
-#import <HETMattressDeviceSDK/HETMattressDeviceSDK.h>
+//#import <HETMattressDeviceSDK/HETMattressDeviceSDK.h>
 #import "HETBindGPRSDeviceVC.h"
 
 #define cellH  72.0f
 
 
 @interface HETDeviceSubTypeListVC ()<UITableViewDataSource,UITableViewDelegate>
-{
-    
-    HETBLEMattressDevice *_mattressDevice;
-}
+//{
+//
+//    HETBLEMattressDevice *_mattressDevice;
+//}
 /** 睡眠带子 **/
-
+//@property (nonatomic,strong) HETBLEMattressDevice                                  *mattressDevice;
 /** 设备列表 **/
 @property (nonatomic,strong) UITableView                                           *deviceListTableView;
 /** 设备数组 **/
@@ -87,53 +87,52 @@
 }
 
 -(void)scanBleDeviceAction:(NSUInteger)productId{
-    
-    [HETCommonHelp showCustomHudtitle:@"正在扫描蓝牙设备"];
-    _mattressDevice=nil;
-    _mattressDevice=[[HETBLEMattressDevice alloc]init];
-    WEAKSELF;
-    [_mattressDevice scanBleDevicesProductId:productId timeOut:10 scanBleDevices:^(NSArray<LGPeripheral *> *deviceArray, NSError *error) {
-        if(error)
-        {
-            NSLog(@"蓝牙扫描失败:%@",error);
-            [HETCommonHelp HidHud];
-            [HETCommonHelp showHudAutoHidenWithMessage:@"蓝牙扫描失败" ];
-            [_mattressDevice disconnect];
-            _mattressDevice=nil;
-        }
-        else
-        {
-            [HETCommonHelp HidHud];
-            [HETCommonHelp showCustomHudtitle:@"正在绑定蓝牙设备"];
-            LGPeripheral *per=[deviceArray firstObject];
-            
-            [_mattressDevice bindBleDevice:per deviceProductId:productId successBlock:^(NSString *deviceId){
-                [_mattressDevice disconnect];
-                _mattressDevice=nil;
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [HETCommonHelp HidHud];
-                    [HETCommonHelp showHudAutoHidenWithMessage:@"蓝牙绑定成功"];
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [[NSNotificationCenter defaultCenter] postNotificationName:kBindDeviceSuccess object:nil];
-                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                            [self.navigationController popToRootViewControllerAnimated:true];
-                        });
-                    });
-                });
-                
-            } failBlock:^(NSError *error) {
-                NSLog(@"绑定失败");
-                [_mattressDevice disconnect];
-                _mattressDevice=nil;
-                [HETCommonHelp HidHud];
-                [HETCommonHelp showHudAutoHidenWithMessage:@"蓝牙绑定失败"];
-            }];
-            
-        }
-        
-    }];
-    
- 
+
+//    [HETCommonHelp showMessage:ScanningBleDevice toView:self.view];
+//
+//    self.mattressDevice=nil;
+//    self.mattressDevice=[[HETBLEMattressDevice alloc]init];
+//    WEAKSELF;
+//    [self.mattressDevice scanBleDevicesProductId:productId timeOut:10 scanBleDevices:^(NSArray<LGPeripheral *> *deviceArray, NSError *error) {
+//        STRONGSELF
+//        if(error)
+//        {
+//            OPLog(@"蓝牙扫描失败:%@",error);
+//            [HETCommonHelp hideHudFromView:strongSelf.view];
+//            [HETCommonHelp showHudAutoHidenWithMessage:BleScanFail];
+//            [strongSelf.mattressDevice disconnect];
+//            strongSelf.mattressDevice=nil;
+//        }
+//        else
+//        {
+//            [HETCommonHelp hideHudFromView:strongSelf.view];
+//            [HETCommonHelp showMessage:BindingBleDevice toView:strongSelf.view];
+//            LGPeripheral *per=[deviceArray firstObject];
+//
+//            [strongSelf.mattressDevice bindBleDevice:per deviceProductId:productId successBlock:^(NSString *deviceId){
+//                [strongSelf.mattressDevice disconnect];
+//                strongSelf.mattressDevice=nil;
+//                dispatch_async(dispatch_get_main_queue(), ^{
+//                    [HETCommonHelp HidHud];
+//                    [HETCommonHelp showHudAutoHidenWithMessage:BindBleDeviceSuccess];
+//                    dispatch_async(dispatch_get_main_queue(), ^{
+//                        [[NSNotificationCenter defaultCenter] postNotificationName:kBindDeviceSuccess object:nil];
+//                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//                            [self.navigationController popToRootViewControllerAnimated:true];
+//                        });
+//                    });
+//                });
+//
+//            } failBlock:^(NSError *error) {
+//                OPLog(@"绑定失败");
+//                [strongSelf.mattressDevice disconnect];
+//                strongSelf.mattressDevice=nil;
+//                [HETCommonHelp hideHudFromView:strongSelf.view];
+//                [HETCommonHelp showHudAutoHidenWithMessage:BindBleDeviceFail];
+//            }];
+//
+//        }
+//    }];
 }
 
 #pragma mark - UITableViewDataSource

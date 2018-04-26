@@ -112,7 +112,7 @@ static  NSString *CloudAuthOpenIdKey = @"HETCloudAuthOpenIdKey";
     NSString *kTestAPPKEY =  @"30765";
     NSString *kTestAPPSECRET =  @"5f699a78c319444cb8a291296049572c";
     NSString *reqStr = [NSString stringWithFormat:@"appId=%@&appSecret=%@&timestamp=%@&authorizationCode=%@",kTestAPPKEY,kTestAPPSECRET,timeTamp,_AuthCode];
-    NSURL *url = [NSURL URLWithString:@"http://10.8.9.47:8100/v1/cloud/auth"];
+    NSURL *url = [NSURL URLWithString:@"http://200.200.200.230:8100/v1/cloud/auth"];
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.HTTPBody = [reqStr dataUsingEncoding:NSUTF8StringEncoding];

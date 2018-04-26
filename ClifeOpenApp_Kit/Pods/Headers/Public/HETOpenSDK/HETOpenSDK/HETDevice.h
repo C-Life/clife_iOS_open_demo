@@ -1,1 +1,0 @@
-../../../../HETOpenSDK/SDK/HETOpenSDK.framework/Headers/HETDevice.h

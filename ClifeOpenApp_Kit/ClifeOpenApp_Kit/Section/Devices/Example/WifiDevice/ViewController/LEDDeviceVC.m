@@ -575,7 +575,7 @@
 - (void)shareDevice
 {
     HETShareDevcieVC *shareDeviceVC = [HETShareDevcieVC new];
-    shareDeviceVC.deviceId = self.device.deviceId;
+    shareDeviceVC.self.deviceModel = self.device;
     [self.navigationController pushViewController:shareDeviceVC animated:YES];
 }
 

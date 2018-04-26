@@ -40,10 +40,12 @@
 "ShareFriendNavTitle" = "好友权限管理";
 "ShareNoFriendAlert" = "您还未分享该设备给好友";
 "ShareFunctionAlertTips" = "其他人将通过分享获得设备的控制权限，请勿将设备分享给陌生人";
+"ShareFunctionTimeTips"= "二维码将在15分钟后失效";
+"ShareFunctionScanTips"= "请使用APP扫描二维码";
 // Appdelegate
 
 "GetDeviceControlAuthSuccess" = "获取设备权限成功";
-
+"LoginThemeTitle" = "安全登录";
 "PuLLDownRefresh" = "加载失败，请下拉刷新";
 "HomeVCTitle" = "首页";
 // 设备列表界面
@@ -61,6 +63,7 @@
 "DeviceControlViewOndevelopment" = "努力开发中,请关注!";
 
 "DeviceOffLineState" = "设备离线";
+"CloudAuth" = "云授权";
 // 蓝牙设备绑定
 "BindBleBindFaile" = "绑定失败";
 "BLEOpenAlert" = "蓝牙没有开启，在设置中打开蓝牙";
@@ -133,6 +136,7 @@
 "ScanQRCodeFailedAlertMessage" = "请检查是否为C-Life产品的二维码,您也可以试试手动绑定";
 "ScanQRCodeGetDeiceInfoLoading" = "正在获取设备信息，请稍等";
 "ScanQRCodeGetMessageFailed" = "获取设备信息失败，请重新扫描";
+"PhotoLibrary" = "相册";
 
 // 扫描设备
 "ScanDeiveLoading" = "扫描设备...";
@@ -146,3 +150,23 @@
 "LEDDevieBleTitle" = "蓝牙";
 "LEDDeviceUpgradeTitle" = "升级";
 "LEDDeviceReadModeAlert" = "阅读模式颜色不能调节哦！";
+
+//设备分享
+"DeviceWeiXinShareTitle" = "智能设备共享";
+"DeviceWeiXinShareContent" = "您的好友邀请您体验他的智能设备";
+
+// H5VC
+"SQRCodeTestBtnTitle" = "二维码调试";
+
+// 设置密码
+"SettingPasswordTitle" = "设置密码";
+
+// HETDeviceSubTypeListVC
+"ScanningBleDevice" = "正在扫描蓝牙设备";
+"BleScanFail" = "蓝牙扫描失败";
+"BindingBleDevice" = "正在绑定蓝牙设备";
+"BindBleDeviceSuccess" = "蓝牙绑定成功";
+"BindBleDeviceFail" = "蓝牙绑定失败";
+
+// 授权登录
+"SafeLoginTitle" = "安全登录";

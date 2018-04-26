@@ -31,6 +31,9 @@
 		0A688BA41F554E91009C5451 /* UIColor+BNRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A688B9E1F554E91009C5451 /* UIColor+BNRAdditions.m */; };
 		0A688BA51F554E91009C5451 /* UIImage+BNRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A688BA01F554E91009C5451 /* UIImage+BNRAdditions.m */; };
 		0A688BA61F554E91009C5451 /* UIViewController+BNRAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A688BA21F554E91009C5451 /* UIViewController+BNRAdditions.m */; };
+		0A75899920843C4B0058DBC1 /* HETH5ContainBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A75881220843C4A0058DBC1 /* HETH5ContainBaseViewController.m */; };
+		0A75899A20843C4B0058DBC1 /* HETH5CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A75881520843C4A0058DBC1 /* HETH5CustomNavigationBar.m */; };
+		0A75899D20843C4B0058DBC1 /* HETWiFiDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A75881C20843C4A0058DBC1 /* HETWiFiDeviceH5ViewController.m */; };
 		0A77FDF31F59167500FE0CCF /* XiaoC_loading@2x.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0A77FDF11F59167500FE0CCF /* XiaoC_loading@2x.gif */; };
 		0A77FDF41F59167500FE0CCF /* XiaoC_loading@3x.gif in Resources */ = {isa = PBXBuildFile; fileRef = 0A77FDF21F59167500FE0CCF /* XiaoC_loading@3x.gif */; };
 		0A7E4FF81F70C4A9009DF8BF /* BleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7E4FF71F70C4A9009DF8BF /* BleTableViewCell.m */; };
@@ -52,10 +55,9 @@
 		0A7FBA6D1F6FF2DF00E82808 /* HETBindBleDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A7FBA6C1F6FF2DF00E82808 /* HETBindBleDeviceVC.m */; };
 		0A848C88200DA24700E2D519 /* HETBindGPRSDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A848C87200DA24700E2D519 /* HETBindGPRSDeviceVC.m */; };
 		0A848C8B200DA36500E2D519 /* AirPuriflerBindView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A848C8A200DA36500E2D519 /* AirPuriflerBindView.m */; };
+		0A862EBA2003860C0039E7E0 /* HETChangNetWorkState.m in Sources */ = {isa = PBXBuildFile; fileRef = 0A862EB92003860C0039E7E0 /* HETChangNetWorkState.m */; };
 		0A931AFB1F8F374F00096313 /* bindHelp.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 0A931AFA1F8F374F00096313 /* bindHelp.bundle */; };
 		0AA91EC91F5D43FC00825132 /* HETNotificationMacro.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AA91EC81F5D43FC00825132 /* HETNotificationMacro.m */; };
-		0ACCEC351F57AE5A00F9F41C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 0ACCEC311F57AE5A00F9F41C /* LICENSE */; };
-		0ACCEC361F57AE5A00F9F41C /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACCEC331F57AE5A00F9F41C /* MBProgressHUD.m */; };
 		0ACCEC3B1F57AEF500F9F41C /* HETCommonHelp.m in Sources */ = {isa = PBXBuildFile; fileRef = 0ACCEC3A1F57AEF500F9F41C /* HETCommonHelp.m */; };
 		0ACCEFFC1F57B2A900F9F41C /* libPods-ClifeOpenApp_Kit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 77015388C5B7112104192A31 /* libPods-ClifeOpenApp_Kit.a */; };
 		0AD3447B2019CA8A009D6F04 /* UIButton+EXtern.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AD344782019CA8A009D6F04 /* UIButton+EXtern.m */; };
@@ -81,7 +83,14 @@
 		197C45461FA84EF600AEAD6F /* HETCloudAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 197C45451FA84EF600AEAD6F /* HETCloudAuthViewController.m */; };
 		197C45481FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 197C45471FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard */; };
 		199F842F1F70ADFB00A88CBA /* HETBleControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199F842E1F70ADFB00A88CBA /* HETBleControllerViewController.m */; };
-		19A2E1A31FB04F0D00E40748 /* HETH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19A2E1A21FB04F0D00E40748 /* HETH5ViewController.m */; };
+		19BBA3452079B38800EA5AA5 /* humidi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 19BBA3442079B38800EA5AA5 /* humidi.bundle */; };
+		C697DA1B2084B6E300B0C12A /* HETBLEDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C697DA1A2084B6E300B0C12A /* HETBLEDeviceH5ViewController.m */; };
+		C697DA222084B72200B0C12A /* h5_nav_back_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C697DA1C2084B72200B0C12A /* h5_nav_back_black@2x.png */; };
+		C697DA232084B72200B0C12A /* h5_nav_back_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C697DA1D2084B72200B0C12A /* h5_nav_back_black@3x.png */; };
+		C697DA242084B72200B0C12A /* h5_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C697DA1E2084B72200B0C12A /* h5_more@2x.png */; };
+		C697DA252084B72200B0C12A /* h5_more@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C697DA1F2084B72200B0C12A /* h5_more@3x.png */; };
+		C697DA262084B72200B0C12A /* h5_nav_back_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = C697DA202084B72200B0C12A /* h5_nav_back_white@3x.png */; };
+		C697DA272084B72200B0C12A /* h5_nav_back_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = C697DA212084B72200B0C12A /* h5_nav_back_white@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -154,6 +163,12 @@
 		0A688BA01F554E91009C5451 /* UIImage+BNRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+BNRAdditions.m"; sourceTree = "<group>"; };
 		0A688BA11F554E91009C5451 /* UIViewController+BNRAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+BNRAdditions.h"; sourceTree = "<group>"; };
 		0A688BA21F554E91009C5451 /* UIViewController+BNRAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+BNRAdditions.m"; sourceTree = "<group>"; };
+		0A75881120843C4A0058DBC1 /* HETH5ContainBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETH5ContainBaseViewController.h; sourceTree = "<group>"; };
+		0A75881220843C4A0058DBC1 /* HETH5ContainBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETH5ContainBaseViewController.m; sourceTree = "<group>"; };
+		0A75881420843C4A0058DBC1 /* HETH5CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETH5CustomNavigationBar.h; sourceTree = "<group>"; };
+		0A75881520843C4A0058DBC1 /* HETH5CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETH5CustomNavigationBar.m; sourceTree = "<group>"; };
+		0A75881B20843C4A0058DBC1 /* HETWiFiDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETWiFiDeviceH5ViewController.h; sourceTree = "<group>"; };
+		0A75881C20843C4A0058DBC1 /* HETWiFiDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETWiFiDeviceH5ViewController.m; sourceTree = "<group>"; };
 		0A77FDF11F59167500FE0CCF /* XiaoC_loading@2x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "XiaoC_loading@2x.gif"; sourceTree = "<group>"; };
 		0A77FDF21F59167500FE0CCF /* XiaoC_loading@3x.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "XiaoC_loading@3x.gif"; sourceTree = "<group>"; };
 		0A7E4FF61F70C4A9009DF8BF /* BleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BleTableViewCell.h; sourceTree = "<group>"; };
@@ -197,13 +212,11 @@
 		0A848C87200DA24700E2D519 /* HETBindGPRSDeviceVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HETBindGPRSDeviceVC.m; sourceTree = "<group>"; };
 		0A848C89200DA36500E2D519 /* AirPuriflerBindView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirPuriflerBindView.h; sourceTree = "<group>"; };
 		0A848C8A200DA36500E2D519 /* AirPuriflerBindView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirPuriflerBindView.m; sourceTree = "<group>"; };
+		0A862EB82003860C0039E7E0 /* HETChangNetWorkState.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HETChangNetWorkState.h; sourceTree = "<group>"; };
+		0A862EB92003860C0039E7E0 /* HETChangNetWorkState.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HETChangNetWorkState.m; sourceTree = "<group>"; };
 		0A931AFA1F8F374F00096313 /* bindHelp.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = bindHelp.bundle; sourceTree = "<group>"; };
 		0AA91EC71F5D43FC00825132 /* HETNotificationMacro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETNotificationMacro.h; sourceTree = "<group>"; };
 		0AA91EC81F5D43FC00825132 /* HETNotificationMacro.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETNotificationMacro.m; sourceTree = "<group>"; };
-		0ACCEC311F57AE5A00F9F41C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		0ACCEC321F57AE5A00F9F41C /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
-		0ACCEC331F57AE5A00F9F41C /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
-		0ACCEC341F57AE5A00F9F41C /* README.mdown */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.mdown; sourceTree = "<group>"; };
 		0ACCEC391F57AEF500F9F41C /* HETCommonHelp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETCommonHelp.h; sourceTree = "<group>"; };
 		0ACCEC3A1F57AEF500F9F41C /* HETCommonHelp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETCommonHelp.m; sourceTree = "<group>"; };
 		0ACCEFFD1F57B2E500F9F41C /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -252,12 +265,19 @@
 		197C45471FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HETCloudAuthStoryboard.storyboard; sourceTree = "<group>"; };
 		199F842D1F70ADFB00A88CBA /* HETBleControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETBleControllerViewController.h; sourceTree = "<group>"; };
 		199F842E1F70ADFB00A88CBA /* HETBleControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETBleControllerViewController.m; sourceTree = "<group>"; };
-		19A2E1A11FB04F0D00E40748 /* HETH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETH5ViewController.h; sourceTree = "<group>"; };
-		19A2E1A21FB04F0D00E40748 /* HETH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETH5ViewController.m; sourceTree = "<group>"; };
+		19BBA3442079B38800EA5AA5 /* humidi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = humidi.bundle; sourceTree = "<group>"; };
 		4B1A944B22262BCA40EFF390 /* Pods-ClifeOpenApp_Kit.enterprise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClifeOpenApp_Kit.enterprise.xcconfig"; path = "Pods/Target Support Files/Pods-ClifeOpenApp_Kit/Pods-ClifeOpenApp_Kit.enterprise.xcconfig"; sourceTree = "<group>"; };
 		5737E6EA9F6C642C88C4C5D4 /* Pods-ClifeOpenApp_Kit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClifeOpenApp_Kit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClifeOpenApp_Kit/Pods-ClifeOpenApp_Kit.debug.xcconfig"; sourceTree = "<group>"; };
 		77015388C5B7112104192A31 /* libPods-ClifeOpenApp_Kit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClifeOpenApp_Kit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A307B435FA198AC9F56B0F7C /* Pods-ClifeOpenApp_Kit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClifeOpenApp_Kit.release.xcconfig"; path = "Pods/Target Support Files/Pods-ClifeOpenApp_Kit/Pods-ClifeOpenApp_Kit.release.xcconfig"; sourceTree = "<group>"; };
+		C697DA192084B6E300B0C12A /* HETBLEDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETBLEDeviceH5ViewController.h; sourceTree = "<group>"; };
+		C697DA1A2084B6E300B0C12A /* HETBLEDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETBLEDeviceH5ViewController.m; sourceTree = "<group>"; };
+		C697DA1C2084B72200B0C12A /* h5_nav_back_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_black@2x.png"; sourceTree = "<group>"; };
+		C697DA1D2084B72200B0C12A /* h5_nav_back_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_black@3x.png"; sourceTree = "<group>"; };
+		C697DA1E2084B72200B0C12A /* h5_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more@2x.png"; sourceTree = "<group>"; };
+		C697DA1F2084B72200B0C12A /* h5_more@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more@3x.png"; sourceTree = "<group>"; };
+		C697DA202084B72200B0C12A /* h5_nav_back_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_white@3x.png"; sourceTree = "<group>"; };
+		C697DA212084B72200B0C12A /* h5_nav_back_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_white@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -380,6 +400,7 @@
 		0A0C35E51F4FBB480084F0F3 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				19BBA3442079B38800EA5AA5 /* humidi.bundle */,
 				1951D5B91FE227C700E821A0 /* web */,
 				0A931AFA1F8F374F00096313 /* bindHelp.bundle */,
 				0A77FDF01F59167500FE0CCF /* XiaoC_loading */,
@@ -404,7 +425,7 @@
 		0A0C35E81F4FBB480084F0F3 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
-				0ACCEC301F57AE5A00F9F41C /* MBProgressHUD */,
+				0A75881020843C4A0058DBC1 /* H5VC */,
 			);
 			path = Vendors;
 			sourceTree = "<group>";
@@ -506,6 +527,35 @@
 				0A688BA21F554E91009C5451 /* UIViewController+BNRAdditions.m */,
 			);
 			path = Category;
+			sourceTree = "<group>";
+		};
+		0A75881020843C4A0058DBC1 /* H5VC */ = {
+			isa = PBXGroup;
+			children = (
+				C697DA192084B6E300B0C12A /* HETBLEDeviceH5ViewController.h */,
+				C697DA1A2084B6E300B0C12A /* HETBLEDeviceH5ViewController.m */,
+				0A75881120843C4A0058DBC1 /* HETH5ContainBaseViewController.h */,
+				0A75881220843C4A0058DBC1 /* HETH5ContainBaseViewController.m */,
+				0A75881320843C4A0058DBC1 /* HETH5CustomNavigationBar */,
+				0A75881B20843C4A0058DBC1 /* HETWiFiDeviceH5ViewController.h */,
+				0A75881C20843C4A0058DBC1 /* HETWiFiDeviceH5ViewController.m */,
+			);
+			path = H5VC;
+			sourceTree = "<group>";
+		};
+		0A75881320843C4A0058DBC1 /* HETH5CustomNavigationBar */ = {
+			isa = PBXGroup;
+			children = (
+				C697DA1E2084B72200B0C12A /* h5_more@2x.png */,
+				C697DA1F2084B72200B0C12A /* h5_more@3x.png */,
+				C697DA1C2084B72200B0C12A /* h5_nav_back_black@2x.png */,
+				C697DA1D2084B72200B0C12A /* h5_nav_back_black@3x.png */,
+				C697DA212084B72200B0C12A /* h5_nav_back_white@2x.png */,
+				C697DA202084B72200B0C12A /* h5_nav_back_white@3x.png */,
+				0A75881420843C4A0058DBC1 /* HETH5CustomNavigationBar.h */,
+				0A75881520843C4A0058DBC1 /* HETH5CustomNavigationBar.m */,
+			);
+			path = HETH5CustomNavigationBar;
 			sourceTree = "<group>";
 		};
 		0A77FDF01F59167500FE0CCF /* XiaoC_loading */ = {
@@ -773,17 +823,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		0ACCEC301F57AE5A00F9F41C /* MBProgressHUD */ = {
-			isa = PBXGroup;
-			children = (
-				0ACCEC311F57AE5A00F9F41C /* LICENSE */,
-				0ACCEC321F57AE5A00F9F41C /* MBProgressHUD.h */,
-				0ACCEC331F57AE5A00F9F41C /* MBProgressHUD.m */,
-				0ACCEC341F57AE5A00F9F41C /* README.mdown */,
-			);
-			path = MBProgressHUD;
-			sourceTree = "<group>";
-		};
 		0ACCEC381F57AEF500F9F41C /* Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -935,6 +974,8 @@
 			children = (
 				191CF37A1F6FCEF100104975 /* DeviceCell.h */,
 				191CF37B1F6FCEF100104975 /* DeviceCell.m */,
+				0A862EB82003860C0039E7E0 /* HETChangNetWorkState.h */,
+				0A862EB92003860C0039E7E0 /* HETChangNetWorkState.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -959,7 +1000,6 @@
 		191CF3831F6FCFF800104975 /* Example */ = {
 			isa = PBXGroup;
 			children = (
-				19A2E19F1FB04F0D00E40748 /* H5ControlDevice */,
 				191CF3841F6FCFF800104975 /* BleDevice */,
 				191CF3851F6FCFF800104975 /* WifiDevice */,
 			);
@@ -1056,23 +1096,6 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		19A2E19F1FB04F0D00E40748 /* H5ControlDevice */ = {
-			isa = PBXGroup;
-			children = (
-				19A2E1A01FB04F0D00E40748 /* ViewController */,
-			);
-			path = H5ControlDevice;
-			sourceTree = "<group>";
-		};
-		19A2E1A01FB04F0D00E40748 /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				19A2E1A11FB04F0D00E40748 /* HETH5ViewController.h */,
-				19A2E1A21FB04F0D00E40748 /* HETH5ViewController.m */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
 		B3758DEB37D8B09D32726DC4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -1158,19 +1181,19 @@
 		0A0C35A21F4FB9CB0084F0F3 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = het;
 				TargetAttributes = {
 					0A0C35A91F4FB9CB0084F0F3 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = WU2WFZ2B66;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 0;
 							};
 							com.apple.Push = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
@@ -1214,15 +1237,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ACCEC351F57AE5A00F9F41C /* LICENSE in Resources */,
+				C697DA262084B72200B0C12A /* h5_nav_back_white@3x.png in Resources */,
 				0A77FDF41F59167500FE0CCF /* XiaoC_loading@3x.gif in Resources */,
 				0A0B17BE1F54044200FD878C /* Localizable.strings in Resources */,
 				0A931AFB1F8F374F00096313 /* bindHelp.bundle in Resources */,
 				0A0C35BD1F4FB9CB0084F0F3 /* LaunchScreen.storyboard in Resources */,
+				C697DA272084B72200B0C12A /* h5_nav_back_white@2x.png in Resources */,
+				19BBA3452079B38800EA5AA5 /* humidi.bundle in Resources */,
 				1951D5BA1FE227C700E821A0 /* web in Resources */,
+				C697DA232084B72200B0C12A /* h5_nav_back_black@3x.png in Resources */,
 				197C45481FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard in Resources */,
+				C697DA222084B72200B0C12A /* h5_nav_back_black@2x.png in Resources */,
 				0A77FDF31F59167500FE0CCF /* XiaoC_loading@2x.gif in Resources */,
+				C697DA252084B72200B0C12A /* h5_more@3x.png in Resources */,
 				0A0B17B81F54035B00FD878C /* InfoPlist.strings in Resources */,
+				C697DA242084B72200B0C12A /* h5_more@2x.png in Resources */,
 				0A0C35EA1F4FBB480084F0F3 /* Assets.xcassets in Resources */,
 				0A0C35B81F4FB9CB0084F0F3 /* Main.storyboard in Resources */,
 			);
@@ -1256,14 +1285,13 @@
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 				"${PODS_ROOT}/SGQRCode/SGQRCode/SGQRCode.bundle",
 				"${PODS_ROOT}/WeiboSDK/libWeiboSDK/WeiboSDK.bundle",
-				"${PODS_ROOT}/ZBarSDK/iphone/res/zbar-back.png",
-				"${PODS_ROOT}/ZBarSDK/iphone/res/zbar-help.html",
-				"${PODS_ROOT}/ZBarSDK/iphone/res/zbar-helpicons.png",
-				"${PODS_ROOT}/ZBarSDK/iphone/res/zbar-samples.png",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/HETOpenSDK.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SGQRCode.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/WeiboSDK.bundle",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1285,7 +1313,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		AF1CF3E5BC0FCA2B7E266FF1 /* [CP] Embed Pods Frameworks */ = {
@@ -1298,24 +1326,14 @@
 				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_COOEE/HETPublicSDK_WiFiModule_COOEE.framework",
 				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_ESP8266/HETPublicSDK_WiFiModule_ESP8266.framework",
 				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_HF_LPT100_V3/HETPublicSDK_WiFiModule_HF_LPT100_V3.framework",
-				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_MTK7681/HETPublicSDK_WiFiModule_MTK7681.framework",
-				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_MTK7687/HETPublicSDK_WiFiModule_MTK7687.framework",
 				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_Marvell_MW300_V2/HETPublicSDK_WiFiModule_Marvell_MW300_V2.framework",
-				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_NL6621/HETPublicSDK_WiFiModule_NL6621.framework",
-				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_Realtek8711AF/HETPublicSDK_WiFiModule_Realtek8711AF.framework",
-				"${PODS_ROOT}/HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_TI_CC3200R2/HETPublicSDK_WiFiModule_TI_CC3200R2.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_COOEE.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_ESP8266.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_HF_LPT100_V3.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_MTK7681.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_MTK7687.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_Marvell_MW300_V2.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_NL6621.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_Realtek8711AF.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HETPublicSDK_WiFiModule_TI_CC3200R2.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1333,6 +1351,7 @@
 				0A4AE0041F7218D2003D5848 /* HETChangeAPWifiVC.m in Sources */,
 				0A7FBA3B1F6FEB6000E82808 /* AddDevcieCell.m in Sources */,
 				191CF3A01F6FCFF800104975 /* ModeSelectView.m in Sources */,
+				C697DA1B2084B6E300B0C12A /* HETBLEDeviceH5ViewController.m in Sources */,
 				0A7FBA3F1F6FEB6000E82808 /* HETAddDeviceVC.m in Sources */,
 				0AFF58C41F7DF6E700F9437A /* HETShareDevcieVC.m in Sources */,
 				0A4AE0011F72187D003D5848 /* HETBindAPDeviceVC.m in Sources */,
@@ -1341,6 +1360,7 @@
 				0A0600B41F7F8BF200B508EC /* HETMessageTypeModel.m in Sources */,
 				0A7FBA4B1F6FEB6000E82808 /* HETinstructionsPageView.m in Sources */,
 				0A7FBA4D1F6FEB6000E82808 /* HETSetPassWordVC.m in Sources */,
+				0A862EBA2003860C0039E7E0 /* HETChangNetWorkState.m in Sources */,
 				0A0C35AF1F4FB9CB0084F0F3 /* main.m in Sources */,
 				0A7E4FF81F70C4A9009DF8BF /* BleTableViewCell.m in Sources */,
 				0A2EA0251F8B78E8006D8F60 /* UIImage+DiplomatResize.m in Sources */,
@@ -1360,20 +1380,21 @@
 				0A688BA31F554E91009C5451 /* NSDate+SSToolkitAdditions.m in Sources */,
 				199F842F1F70ADFB00A88CBA /* HETBleControllerViewController.m in Sources */,
 				0AA91EC91F5D43FC00825132 /* HETNotificationMacro.m in Sources */,
+				0A75899D20843C4B0058DBC1 /* HETWiFiDeviceH5ViewController.m in Sources */,
 				197C45461FA84EF600AEAD6F /* HETCloudAuthViewController.m in Sources */,
+				0A75899A20843C4B0058DBC1 /* HETH5CustomNavigationBar.m in Sources */,
 				191CF39D1F6FCFF800104975 /* BNRSelectView.m in Sources */,
 				0A088B512016E612005D2D12 /* HETSQRCodeScanningVC.m in Sources */,
 				0A132EA41F8B0E8800686B39 /* SystemMessageCell.m in Sources */,
+				0A75899920843C4B0058DBC1 /* HETH5ContainBaseViewController.m in Sources */,
 				0AD3447B2019CA8A009D6F04 /* UIButton+EXtern.m in Sources */,
 				0A848C8B200DA36500E2D519 /* AirPuriflerBindView.m in Sources */,
 				191CF3801F6FCEF100104975 /* HETDeviceListVC.m in Sources */,
 				0AFF58C71F7DFF8500F9437A /* HETShareCodeVC.m in Sources */,
-				19A2E1A31FB04F0D00E40748 /* HETH5ViewController.m in Sources */,
 				191CF3A31F6FCFF800104975 /* LEDDeviceVC.m in Sources */,
 				0A0600B11F7F813400B508EC /* MessageTypeCell.m in Sources */,
 				0A688BA61F554E91009C5451 /* UIViewController+BNRAdditions.m in Sources */,
 				0A688BA51F554E91009C5451 /* UIImage+BNRAdditions.m in Sources */,
-				0ACCEC361F57AE5A00F9F41C /* MBProgressHUD.m in Sources */,
 				0A7FBA4C1F6FEB6000E82808 /* HETChangeWIFIVC.m in Sources */,
 				0ACCEC3B1F57AEF500F9F41C /* HETCommonHelp.m in Sources */,
 				0A7FBA421F6FEB6000E82808 /* HETDeviceSubTypeListVC.m in Sources */,
@@ -1475,7 +1496,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1483,7 +1506,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1525,7 +1552,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1533,7 +1562,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1564,10 +1597,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = ClifeOpenApp_Kit/ClifeOpenApp_Kit.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WU2WFZ2B66;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1585,8 +1617,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.het.ClifeOpenApp-Kit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a21770c6-5dc7-4de4-9168-4655c53c133f";
-				PROVISIONING_PROFILE_SPECIFIER = ClifeOpenAppKit_Dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1597,10 +1629,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = ClifeOpenApp_Kit/ClifeOpenApp_Kit.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WU2WFZ2B66;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1618,8 +1649,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.het.ClifeOpenApp-Kit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a21770c6-5dc7-4de4-9168-4655c53c133f";
-				PROVISIONING_PROFILE_SPECIFIER = ClifeOpenAppKit_Dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1685,7 +1716,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1693,7 +1726,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -1724,10 +1761,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_ENTITLEMENTS = ClifeOpenApp_Kit/ClifeOpenApp_Kit.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = WU2WFZ2B66;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1749,8 +1785,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.het.ClifeOpenApp-Kit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "a21770c6-5dc7-4de4-9168-4655c53c133f";
-				PROVISIONING_PROFILE_SPECIFIER = ClifeOpenAppKit_Dev;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Enterprise;

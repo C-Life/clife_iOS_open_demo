@@ -43,10 +43,12 @@
 #define ShareFriendNavTitle NSLocalizedString(@"ShareFriendNavTitle",nil)
 #define ShareNoFriendAlert NSLocalizedString(@"ShareNoFriendAlert",nil)
 #define ShareFunctionAlertTips NSLocalizedString(@"ShareFunctionAlertTips",nil)
+#define ShareFunctionTimeTips NSLocalizedString(@"ShareFunctionTimeTips",nil)
+#define ShareFunctionScanTips NSLocalizedString(@"ShareFunctionScanTips",nil)
 // Appdelegate
 
 #define GetDeviceControlAuthSuccess NSLocalizedString(@"GetDeviceControlAuthSuccess",nil)
-
+#define LoginThemeTitle NSLocalizedString(@"LoginThemeTitle",nil)
 #define PuLLDownRefresh NSLocalizedString(@"PuLLDownRefresh",nil)
 #define HomeVCTitle NSLocalizedString(@"HomeVCTitle",nil)
 // 设备列表界面
@@ -64,6 +66,7 @@
 #define DeviceControlViewOndevelopment NSLocalizedString(@"DeviceControlViewOndevelopment",nil)
 
 #define DeviceOffLineState NSLocalizedString(@"DeviceOffLineState",nil)
+#define CloudAuth NSLocalizedString(@"CloudAuth",nil)
 // 蓝牙设备绑定
 #define BindBleBindFaile NSLocalizedString(@"BindBleBindFaile",nil)
 #define BLEOpenAlert NSLocalizedString(@"BLEOpenAlert",nil)
@@ -136,6 +139,7 @@
 #define ScanQRCodeFailedAlertMessage NSLocalizedString(@"ScanQRCodeFailedAlertMessage",nil)
 #define ScanQRCodeGetDeiceInfoLoading NSLocalizedString(@"ScanQRCodeGetDeiceInfoLoading",nil)
 #define ScanQRCodeGetMessageFailed  NSLocalizedString(@"ScanQRCodeGetMessageFailed",nil)
+#define PhotoLibrary NSLocalizedString(@"PhotoLibrary",nil)
 
 // 扫描设备
 #define ScanDeiveLoading NSLocalizedString(@"ScanDeiveLoading",nil)
@@ -149,5 +153,27 @@
 #define LEDDevieBleTitle NSLocalizedString(@"LEDDevieBleTitle",nil)
 #define LEDDeviceUpgradeTitle NSLocalizedString(@"LEDDeviceUpgradeTitle",nil)
 #define LEDDeviceReadModeAlert NSLocalizedString(@"LEDDeviceReadModeAlert",nil)
+
+// 设备分享
+#define DeviceWeiXinShareTitle NSLocalizedString(@"DeviceWeiXinShareTitle",nil)
+#define DeviceWeiXinShareContent NSLocalizedString(@"DeviceWeiXinShareContent",nil)
+
+
+// H5VC
+
+#define SQRCodeTestBtnTitle NSLocalizedString(@"SQRCodeTestBtnTitle",nil)
+
+// 设置密码
+#define SettingPasswordTitle NSLocalizedString(@"SettingPasswordTitle",nil)
+
+// HETDeviceSubTypeListVC
+#define ScanningBleDevice NSLocalizedString(@"ScanningBleDevice",nil)
+#define BleScanFail NSLocalizedString(@"BleScanFail",nil)
+#define BindingBleDevice NSLocalizedString(@"BindingBleDevice",nil)
+#define BindBleDeviceSuccess NSLocalizedString(@"BindBleDeviceSuccess",nil)
+#define BindBleDeviceFail NSLocalizedString(@"BindBleDeviceFail",nil)
+
+// 授权登录
+#define SafeLoginTitle NSLocalizedString(@"SafeLoginTitle",nil)
 
 #endif /* ChineseMacro_h */

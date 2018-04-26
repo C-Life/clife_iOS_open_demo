@@ -3,7 +3,7 @@ target 'ClifeOpenApp_Kit' do
 source 'https://github.com/C-Life/HETSDKSpecs.git'
 source 'https://github.com/CocoaPods/Specs.git'
 
-##支持真机调试和模拟器调试
+#支持真机调试和模拟器调试
 # 汉枫-WiFi模组
 pod 'HETPublicSDK_WiFiModule/HF_LPT100_V3','1.0.0'
 # 乐鑫-WiFi模组
@@ -14,24 +14,25 @@ pod 'HETPublicSDK_WiFiModule/COOEE','1.0.0'
 pod 'HETPublicSDK_WiFiModule/Marvell_MW300_V2','1.0.0'
 
 
-##支持真机调试
+#支持真机调试
 # TI-WiFi模组
-pod 'HETPublicSDK_WiFiModule/TI_CC3200R2',     '1.0.0'
-# 科中龙-WiFi模组
-pod 'HETPublicSDK_WiFiModule/Realtek8711AF',     '1.0.0'
-# 信驰达-WiFi模组
-pod 'HETPublicSDK_WiFiModule/MTK7681',     '1.0.0'
-# 信驰达-WiFi模组
-pod 'HETPublicSDK_WiFiModule/MTK7687',     '1.0.0'
-# 新力维-WiFi模组
-pod 'HETPublicSDK_WiFiModule/NL6621',     '1.0.0'
+#pod 'HETPublicSDK_WiFiModule/TI_CC3200R2',     '1.0.0'
+## 科中龙-WiFi模组
+#pod 'HETPublicSDK_WiFiModule/Realtek8711AF',     '1.0.0'
+## 信驰达-WiFi模组
+#pod 'HETPublicSDK_WiFiModule/MTK7681',     '1.0.0'
+## 信驰达-WiFi模组
+##pod 'HETPublicSDK_WiFiModule/MTK7687',     '1.0.0'
+## 新力维-WiFi模组
+#pod 'HETPublicSDK_WiFiModule/NL6621',     '1.0.0'
 
 
-pod 'HETOpenSDK','2.0.4'
-pod 'HETOpenSDK/HETMattressDeviceSDK'
 
-pod 'FMDB','2.5'
-pod 'Masonry','1.0.2'
+pod 'HETOpenSDK','2.0.8'
+#pod 'HETOpenSDK/HETMattressDeviceSDK'
+
+pod 'FMDB','2.5' 
+pod 'Masonry','1.1.0'
 pod 'DZNEmptyDataSet','1.8.1'
 pod 'SDWebImage','4.0.0'
 pod 'MJExtension','3.0.13'
@@ -45,7 +46,8 @@ pod 'Bugly', '2.4.8'
 pod 'SGQRCode', '2.1.8'
 ## H5下载解包的时候需要
 pod  'SSZipArchive','1.1'
-
+pod 'Popover.OC'
 pod 'JPush', '3.0.6'
+pod 'MBProgressHUD'
 end
 inhibit_all_warnings!

@@ -1,1 +1,0 @@
-../../../../HETPublicSDK_WiFiModule/SDK/HETPublicSDK_WiFiModule_MTK7681/HETPublicSDK_WiFiModule_MTK7681.framework/Headers/XCDBroadcast_SSID_Password.h

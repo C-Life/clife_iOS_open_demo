@@ -48,7 +48,7 @@ static ShareAction *lhShare = nil;
 //                      nil];
         self.items = [[NSMutableArray alloc] initWithObjects:
                       ShareFunctionWeiXin,
-                      ShareFunctionQQ,
+                      nil,
                       nil];
 
         self.backgroundColor = [UIColor clearColor];
@@ -174,11 +174,8 @@ static ShareAction *lhShare = nil;
     }];
 }
 - (void)reloadData {
-
     NSArray *images = @[
-                        @"icon_share_wx",
-                        @"icon_share_qq",
-                        @"icon_share_sina"];
+                        @"icon_share_wx" ];
 
     self.shareView.frame = CGRectMake(Space, 0, CGRectGetWidth(self.contentView.frame)-2*Space, rowHeight*(self.items.count>3?2:1)+rowSpace);
     self.cancleBtn.frame = CGRectMake(Space, CGRectGetMaxY(shareView.frame) + 10, CGRectGetWidth(self.contentView.frame) - Space*2, 44);
@@ -278,19 +275,28 @@ static ShareAction *lhShare = nil;
 
         // 图片
         //创建分享内容对象
-        WXMediaMessage *message = [WXMediaMessage message];
-        [message setThumbImage:[self.codeImage resizedImage:CGSizeMake(120, 120) interpolationQuality:kCGInterpolationMedium]];
+        WXMediaMessage *urlMessage = [WXMediaMessage message];
+        urlMessage.title = DeviceWeiXinShareTitle;
+        urlMessage.description = DeviceWeiXinShareContent;
+   
+        NSData *thumbData = UIImageJPEGRepresentation(self.codeImage, 0.25);
+        [urlMessage setThumbData:thumbData];
+        
+//        [urlMessage setThumbImage:[self.codeImage resizedImage:CGSizeMake(30, 30) interpolationQuality:kCGInterpolationMedium]];
 
-        WXImageObject * imageObject = [WXImageObject object];
-        imageObject.imageData = UIImageJPEGRepresentation([self.codeImage resizedImage:CGSizeMake(120, 120) interpolationQuality:kCGInterpolationMedium], 0.65);
-        message.mediaObject = imageObject;
+//        WXImageObject * imageObject = [WXImageObject object];
+//        imageObject.imageData = UIImageJPEGRepresentation([self.codeImage resizedImage:CGSizeMake(120, 120) interpolationQuality:kCGInterpolationMedium], 0.65);
+//        message.mediaObject = imageObject;
 
+        WXWebpageObject *webObj = [WXWebpageObject object];
+        webObj.webpageUrl = self.webpageUrl;
+        urlMessage.mediaObject = webObj;
         //创建发送对象实例
         SendMessageToWXReq *sendReq = [[SendMessageToWXReq alloc] init];
         sendReq.bText = NO;//不使用文本信息
 
         //完成发送对象实例
-        sendReq.message = message;
+        sendReq.message = urlMessage;
 
         // 微信分享场景的选择：朋友圈（WXSceneTimeline）、好友（WXSceneSession）、收藏（WXSceneFavorite）
         sendReq.scene = WXSceneSession;
@@ -310,24 +316,25 @@ static ShareAction *lhShare = nil;
 
 
     // 新闻分享:
-    //    NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"test.gif"];
-    //    NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
-    //    QQApiImageObject *imgObj = [QQApiImageObject objectWithData:imgData
-    //                                               previewImageData:imgData
-    //                                                          title:@"QQ互联测试"
-    //                                                    description:@"QQ互联测试分享"];
-    //    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imgObj];
-    //    //将内容分享到qq
-    //    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+       // NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"test.gif"];
+        //NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
+        NSData *imgData =  UIImagePNGRepresentation(self.codeImage);
+        QQApiImageObject *imgObj = [QQApiImageObject objectWithData:imgData
+                                                   previewImageData:imgData
+                                                              title:@"智能设备共享"
+                                                        description:@"您的好友邀请您体验他的智能设备"];
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imgObj];
+        //将内容分享到qq
+        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
 
     // 纯图片分享:
-    QQApiImageObject *imgObj = [QQApiImageObject objectWithData:UIImageJPEGRepresentation([self.codeImage resizedImage:CGSizeMake(300, 300) interpolationQuality:kCGInterpolationMedium], 0.65)
-                                               previewImageData:UIImageJPEGRepresentation([self.codeImage resizedImage:CGSizeMake(300, 300) interpolationQuality:kCGInterpolationMedium], 0.65)
-                                                          title:@"QQ互联测试"
-                                                    description:@"QQ互联测试分享"];
-    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imgObj];
-    //将内容分享到qq
-    QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+//    QQApiImageObject *imgObj = [QQApiImageObject objectWithData:UIImageJPEGRepresentation([self.codeImage resizedImage:CGSizeMake(300, 300) interpolationQuality:kCGInterpolationMedium], 0.65)
+//                                               previewImageData:UIImageJPEGRepresentation([self.codeImage resizedImage:CGSizeMake(300, 300) interpolationQuality:kCGInterpolationMedium], 0.65)
+//                                                          title:@"QQ互联测试"
+//                                                    description:@"QQ互联测试分享"];
+//    SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:imgObj];
+//    //将内容分享到qq
+ // QQApiSendResultCode sent = [QQApiInterface sendReq:req];
 
     // 纯文本分享:
     //    QQApiTextObject *txtObj = [QQApiTextObject objectWithText:self.webpageUrl];
@@ -368,5 +375,8 @@ static ShareAction *lhShare = nil;
     [WeiboSDK sendRequest:request];
     
 }
+
+
+
 @end
 

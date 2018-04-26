@@ -40,10 +40,12 @@
 "ShareFriendNavTitle" = "Friend permission management";
 "ShareNoFriendAlert" = "You didn't share your device with your friends";
 "ShareFunctionAlertTips" = "You will have the permissions of device from ohters,don‘t share it to strangers";
+"ShareFunctionTimeTips"= "QR code will fail in 15 minutes";
+"ShareFunctionScanTips"= "Please use APP to scan QR code";
 
 // Appdelegate
 "GetDeviceControlAuthSuccess" = "Get the permissions of device successfully!";
-
+"LoginThemeTitle" = "Secure login";
 "PuLLDownRefresh" = "Pull to refresh";
 
 // 设备列表界面
@@ -61,6 +63,7 @@
 "DeviceControlViewOndevelopment" = "In development, pay attention!";
 
 "DeviceOffLineState" = "Device offline";
+"CloudAuth" = "Cloud auth";
 // 蓝牙设备绑定
 "BindBleBindFaile" = "Failed binding device";
 "BLEOpenAlert" = "Bluetooth is not turned on, and bluetooth is opened in Settings";
@@ -133,6 +136,7 @@
 "ScanQRCodeFailedAlertMessage" = "Please check the qr code for c-life products, and you can also try manual binding";
 "ScanQRCodeGetDeiceInfoLoading" = "For device information, please wait a moment";
 "ScanQRCodeGetMessageFailed " = "Failed to obtain device information, please scan again";
+"PhotoLibrary" = "Album";
 
 // 扫描设备
 "ScanDeiveLoading" = "Scanning device...";
@@ -147,3 +151,24 @@
 "LEDDeviceUpgradeTitle" = "Upgrade";
 "LEDDeviceReadModeAlert" = "The color of reading mode cannot be adjusted.";
 
+
+//设备分享
+"DeviceWeiXinShareTitle" = "Intelligent device sharing.";
+"DeviceWeiXinShareContent" = "Your friend invites you to experience his smart devices.";
+
+// H5VC
+
+"SQRCodeTestBtnTitle" = "SQRCodeTest";
+
+// 设置密码
+"SettingPasswordTitle" = "SettingPassword";
+
+// HETDeviceSubTypeListVC
+"ScanningBleDevice" = "Scanning the Ble device";
+"BleScanFail" = "Ble scan failure";
+"BindingBleDevice" = "Binding ble device";
+"BindBleDeviceSuccess" = "Ble binding success";
+"BindBleDeviceFail" = "Bind ble device fail";
+
+// 授权登录
+"SafeLoginTitle" = "Safelogin";

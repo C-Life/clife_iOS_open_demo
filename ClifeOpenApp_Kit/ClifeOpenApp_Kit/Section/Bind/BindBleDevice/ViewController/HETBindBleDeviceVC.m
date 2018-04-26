@@ -25,8 +25,6 @@
 @property(nonatomic,assign) int                         progress;
 /** 是否搜索到设备 **/
 @property(nonatomic,assign) BOOL                        scanDevice;
-
-
 @end
 
 @implementation HETBindBleDeviceVC
@@ -277,7 +275,6 @@
 
     [self presentViewController:alert animated:YES completion:nil];
 }
-
 
 #pragma mark -应用进入前台
 - (void)appDidEnterPlayground

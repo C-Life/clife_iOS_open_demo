@@ -9,7 +9,6 @@
 #import "HETSQRCodeScanningVC.h"
 #import "HETSetPassWordVC.h"
 #import "HETBindBleDeviceVC.h"
-#import "HETH5ViewController.h"
 #import "HETBindGPRSDeviceVC.h"
 #import "SGQRCode.h"
 
@@ -55,14 +54,21 @@
 }
 
 - (void)createNavViews {
-    self.navigationItem.title = @"扫一扫";
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"相册" style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
+    self.navigationItem.title = ScanQRCodeTitle;
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:PhotoLibrary style:(UIBarButtonItemStyleDone) target:self action:@selector(rightBarButtonItenAction)];
 }
 
 - (void)createSubView
 {
     [self.view addSubview:self.scanningView];
     [self.view addSubview:self.promptLabel];
+    CGFloat promptLabelY = 0.73 * self.view.frame.size.height;
+    [self.promptLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.view).offset(promptLabelY);
+        make.left.right.equalTo(self.view);
+    }];
     [self.view addSubview:self.bottomView];
 }
 
@@ -84,6 +90,7 @@
         [self getScanResult:[obj stringValue]];
     } else {
         OPLog(@"暂未识别出扫描的二维码");
+        [self scanError];
     }
 }
 
@@ -298,6 +305,8 @@
         gprsVC.imei = imeiStr;
         gprsVC.productId = [NSString stringWithFormat:@"%@",productId];
         [self.navigationController pushViewController:gprsVC animated:YES];
+    }else{
+        [self scanError];
     }
 }
 
@@ -348,9 +357,6 @@
 - (SGQRCodeScanningView *)scanningView {
     if (!_scanningView) {
         _scanningView = [[SGQRCodeScanningView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 0.9 * self.view.frame.size.height)];
-        //        _scanningView.scanningImageName = @"SGQRCode.bundle/QRCodeScanningLineGrid";
-        //        _scanningView.scanningAnimationStyle = ScanningAnimationStyleGrid;
-        //        _scanningView.cornerColor = [UIColor orangeColor];
     }
     return _scanningView;
 }
@@ -359,15 +365,11 @@
     if (!_promptLabel) {
         _promptLabel = [[UILabel alloc] init];
         _promptLabel.backgroundColor = [UIColor clearColor];
-        CGFloat promptLabelX = 0;
-        CGFloat promptLabelY = 0.73 * self.view.frame.size.height;
-        CGFloat promptLabelW = self.view.frame.size.width;
-        CGFloat promptLabelH = 25;
-        _promptLabel.frame = CGRectMake(promptLabelX, promptLabelY, promptLabelW, promptLabelH);
         _promptLabel.textAlignment = NSTextAlignmentCenter;
+        _promptLabel.numberOfLines = 0;
         _promptLabel.font = [UIFont boldSystemFontOfSize:13.0];
         _promptLabel.textColor = [[UIColor whiteColor] colorWithAlphaComponent:0.6];
-        _promptLabel.text = @"将二维码/条码放入框内, 即可自动扫描";
+        _promptLabel.text = ScanQRCodeHelpInfo;
     }
     return _promptLabel;
 }

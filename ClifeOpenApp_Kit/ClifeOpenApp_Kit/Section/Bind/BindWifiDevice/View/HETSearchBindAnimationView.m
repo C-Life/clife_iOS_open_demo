@@ -108,7 +108,7 @@
     self.CicleImageView=[[UIImageView alloc]init];
     self.CicleImageView.backgroundColor=[UIColor whiteColor];
     self.CicleImageView.image = [UIImage imageNamed:@"blueCircle"];
-    self.CicleImageView.layer.cornerRadius=(self.CicleImageView.image.size.height)/2.0;
+    self.CicleImageView.layer.cornerRadius= (self.CicleImageView.image.size.height)/2.0;
     [self.bindingView addSubview:self.CicleImageView];
     [self.CicleImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self);
@@ -116,17 +116,17 @@
     }];
 
     self.productNameLable = [[UILabel alloc]init];
-    self.productNameLable.backgroundColor = [UIColor whiteColor];
+    self.productNameLable.backgroundColor = [UIColor clearColor];
     self.productNameLable.textColor = UIColorFromRGB(0x3285ff);
     self.productNameLable.text = @"";
     self.productNameLable.textAlignment = NSTextAlignmentCenter;
     self.productNameLable.font = [UIFont systemFontOfSize:24];
+    self.productNameLable.numberOfLines = 0;
     [self.CicleImageView addSubview:self.productNameLable];
     [self.productNameLable mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerY.equalTo(self.CicleImageView).offset(-12);
-        make.centerX.equalTo(self.CicleImageView);
-        make.left.equalTo(self.CicleImageView).offset(5);
-        make.right.equalTo(self.CicleImageView).offset(-5);
+        make.centerY.equalTo(self.CicleImageView.mas_centerY).offset(-12);
+        make.centerX.equalTo(self.CicleImageView.mas_centerX);
+        make.width.equalTo(@(self.CicleImageView.image.size.width-10));
     }];
 
     self.productCodeLable = [[UILabel alloc]init];
@@ -138,7 +138,7 @@
     [self.CicleImageView addSubview:self.productCodeLable];
     [self.productCodeLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.CicleImageView);
-        make.centerY.equalTo(self.CicleImageView).offset(12);
+        make.top.equalTo(self.productNameLable.mas_bottom).offset(12);
     }];
 
     self.bindingLable = [[UILabel alloc]init];

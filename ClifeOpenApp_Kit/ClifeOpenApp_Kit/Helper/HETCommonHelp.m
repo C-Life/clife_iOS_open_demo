@@ -14,9 +14,8 @@
 
 #pragma mark -----loading框方法集
 +(MBProgressHUD *)showCustomHudtitle:(NSString *)title {
-
-    MBProgressHUD *hud=[[MBProgressHUD alloc] initWithView:[UIApplication sharedApplication].windows.lastObject] ;
-    [[UIApplication sharedApplication].windows.lastObject addSubview:hud];
+    MBProgressHUD *hud=[[MBProgressHUD alloc] initWithView:[UIApplication sharedApplication].keyWindow] ;
+    [[UIApplication sharedApplication].keyWindow addSubview:hud];
     hud.dimBackground = NO;
     [hud setDetailsLabelText:title];
     [hud show:YES];
@@ -25,10 +24,10 @@
 
 +(void)showAutoDissmissWithMessage:(NSString *)message
 {
-    MBProgressHUD *hud=[[MBProgressHUD alloc] initWithView:[UIApplication sharedApplication].windows.lastObject] ;
+    MBProgressHUD *hud=[[MBProgressHUD alloc] initWithView:[UIApplication sharedApplication].keyWindow] ;
     hud.mode=MBProgressHUDModeText;
     hud.dimBackground = NO;
-    [[UIApplication sharedApplication].windows.lastObject addSubview:hud];
+    [[UIApplication sharedApplication].keyWindow addSubview:hud];
     [hud setDetailsLabelText:message];
     [hud show:YES];
     [hud hide:YES afterDelay:1];
@@ -115,7 +114,7 @@
 
 +(void)HidHud
 {
-    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].windows.lastObject animated:YES];
+    [MBProgressHUD hideAllHUDsForView:[UIApplication sharedApplication].keyWindow animated:YES];
 }
 
 + (void)hideHudFromView:(UIView *)view

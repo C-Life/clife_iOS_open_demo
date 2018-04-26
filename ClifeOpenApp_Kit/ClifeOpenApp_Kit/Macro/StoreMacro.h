@@ -54,6 +54,13 @@
 #define ScaleWidth (ScreenWidth/375)
 #define ScaleHeight (ScreenHeight/667)
 
+//常用高度-leoo
+#define IPX_STATUSBAROFFSETHEIGHT   ((kDevice_Is_iPhoneX) ? 24.0 : 0.0)
+#define IPX_HOMEINDICATORHEIGHT     ((kDevice_Is_iPhoneX) ? 34.0 : 0.0)
+
+#define IPX_HOMEINDICATOR_BOTTOMBAROFFSESTHEIGHT     ((kDevice_Is_iPhoneX) ? 12.0 : 0.0)
+#define kDevice_Is_iPhoneX ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(1125, 2436), [[UIScreen mainScreen] currentMode].size) : NO)
+
 //导航栏背景颜色
 #define NavBarColor [UIColor colorFromHexRGB:@"3285ff"]
 //#define NavBarColor [UIColor colorFromHexRGB:@"f4f4f4"]

@@ -14,9 +14,11 @@
 #import "HETBleControllerViewController.h"
 #import "DeviceCell.h"
 #import "UIScrollView+EmptyDataSet.h"
-#import "HETH5ViewController.h"
-
-
+#import "HETH5ContainBaseViewController.h"
+#import "PopoverView.h"
+#import "HETWiFiDeviceH5ViewController.h"
+#import "HETBLEDeviceH5ViewController.h"
+#import "HETShareDevcieVC.h"
 #define cellH  72.0f
 
 @interface HETDeviceListVC ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate,UINavigationControllerDelegate>
@@ -137,10 +139,22 @@
     // 2.添加设备按妞
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_my"] style:UIBarButtonItemStylePlain target:self action:@selector(myInfoAction)];
 
-    UIBarButtonItem *addDevice = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_addDevcie"] style:UIBarButtonItemStylePlain target:self action:@selector(addDeviceAction)];
-    UIBarButtonItem *cloudAtuh = [[UIBarButtonItem alloc] initWithTitle:@"云授权" style:UIBarButtonItemStylePlain target:self action:@selector(toCloudAuth)];
-    self.navigationItem.rightBarButtonItems = @[addDevice,cloudAtuh];
+    UIBarButtonItem *addDevice = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_addDevcie"] style:UIBarButtonItemStylePlain target:self action:@selector(leftBarItemAction:)];
+    self.navigationItem.rightBarButtonItems = @[addDevice];
+}
 
+- (void)leftBarItemAction:(UIBarButtonItem *)sender {
+    PopoverAction *action1 = [PopoverAction actionWithImage:[UIImage imageNamed:@"contacts_add_newmessage"] title:AddDeviceVCTitle handler:^(PopoverAction *action) {
+        [self addDeviceAction];
+    }];
+    PopoverAction *action2 = [PopoverAction actionWithImage:[UIImage imageNamed:@"contacts_add_friend"] title:CloudAuth handler:^(PopoverAction *action) {
+        [self toCloudAuth];
+    }];
+    
+    PopoverView *popoverView = [PopoverView popoverView];
+    popoverView.style = PopoverViewStyleDefault;
+    // 在没有系统控件的情况下调用可以使用显示在指定的点坐标的方法弹出菜单控件.
+    [popoverView showToPoint:CGPointMake(ScreenWidth - 20 , 64 + IPX_STATUSBAROFFSETHEIGHT) withActions:@[action1, action2]];
 }
 
 - (void)getDeviceList
@@ -199,23 +213,25 @@
 
     if (self.deviceArr.count > indexPath.row) {
         HETDevice *device = self.deviceArr[indexPath.row];
-        //    if ([device.productId integerValue] == 63) {
-        //        LEDDeviceVC *ledVc = [LEDDeviceVC new];
-        //        ledVc.device = device;
-        //        [self.navigationController pushViewController:ledVc animated:YES];
-        //    }else
+          //  LED原生控制器的写法
+        if ([device.productId integerValue] == 63) {
+                LEDDeviceVC *ledVc = [LEDDeviceVC new];
+                ledVc.device = device;
+                [self.navigationController pushViewController:ledVc animated:YES];
+        }else
+        //   蓝牙控制器原生的写法
         if([device.productId integerValue] == 2275){
             HETBleControllerViewController *ledVC = [HETBleControllerViewController new];
             ledVC.device = device;
             [self.navigationController pushViewController:ledVC animated:true];
         }
-        else if([device.productId integerValue] == 1755 || [device.productId integerValue] == 1533 || [device.productId integerValue] == 63 )
-        {
-            [self PushTpH5Device:device];
+        //3A协议蓝牙设备H5通用容器
+        else if(device.moduleType.integerValue==2){
+             [self PushToBLEH5Container:device];
         }
+        //5A协议WIFI设备H5通用容器
         else{
-            //  [HETCommonHelp showHudAutoHidenWithMessage:DeviceControlViewOndevelopment];
-            [self PushTpH5Device:device];
+            [self PushToWIFIH5Device:device];
         }
     }
 
@@ -252,14 +268,24 @@
 }
 
 #pragma mark - H5设备
-- (void)PushTpH5Device:(HETDevice *)deviceModel
+- (void)PushToWIFIH5Device:(HETDevice *)deviceModel
 {
-    HETH5ViewController *h5vc = [[HETH5ViewController alloc]init];
+    HETWiFiDeviceH5ViewController *h5vc = [[HETWiFiDeviceH5ViewController alloc]init];
     h5vc.deviceModel=deviceModel;
-
-
+    @weakify(h5vc)
+    h5vc.onClickLeftButton = ^(NSUInteger index, NSString *title) {
+        //vc.navigationController.navigationBar.hidden = NO;
+        @strongify(h5vc)
+        [h5vc.navigationController popToViewController:self animated:YES];
+    };
+    h5vc.onClickRightButton = ^(NSUInteger index, NSString *title) {
+        @strongify(h5vc);
+        HETShareDevcieVC *shareVC =  [HETShareDevcieVC new];
+        shareVC.deviceModel = deviceModel;
+        [h5vc.navigationController pushViewController:shareVC animated:true];
+    };
+    
     WEAKSELF
-    //[HETCommonHelp showCustomHudtitle:@"正在加载"];
     [[HETH5Manager shareInstance] getH5Path:^(NSString *h5Path,BOOL needRefresh,NSError *error) {
         OPLog(@"needRefresh == %@",@(needRefresh));
         OPLog(@"h5PagePath--->:%@",h5Path);
@@ -270,17 +296,43 @@
         }else{
             NSString *desPath  = [NSString stringWithFormat:@"%@/index.html",h5Path];
             h5vc.h5Path = desPath;
-            if(needRefresh == YES){
-                [h5vc.wkWebView reload];
-            }else{
-                [h5vc reload];
-            }
+            [h5vc loadRequest];
         }
-
     } productId:deviceModel.productId.stringValue];
-
-    [weakSelf.navigationController pushViewController:h5vc animated:YES];
+   [weakSelf.navigationController pushViewController:h5vc animated:YES];
 }
+
+
+//*************************************************//
+- (void)PushToBLEH5Container:(HETDevice *)deviceModel
+{
+    HETBLEDeviceH5ViewController *vc=[[HETBLEDeviceH5ViewController alloc]init];
+    vc.navigationController.navigationBar.hidden = YES;
+    vc.deviceModel=deviceModel;
+    @weakify(vc);
+    vc.onClickLeftButton = ^(NSUInteger index, NSString *title) {
+        @strongify(vc);
+        [vc.navigationController popToViewController:self animated:YES];
+    };
+    vc.onClickRightButton = ^(NSUInteger index, NSString *title) {
+        @strongify(vc);
+        HETShareDevcieVC *shareVC =  [HETShareDevcieVC new];
+        shareVC.deviceModel = deviceModel;
+        [vc.navigationController pushViewController:shareVC animated:true];
+    };
+
+    
+    [[HETH5Manager shareInstance]getH5Path:^(NSString *h5Path, BOOL needRefresh,NSError *error) {
+        NSLog(@"%@..%@",h5Path,@(needRefresh));
+        NSLog(@"h5PagePath--->:%@",h5Path);
+        NSString *desPath  = [NSString stringWithFormat:@"%@/index.html",h5Path];
+
+        vc.h5Path = desPath;
+        [vc loadRequest];
+    } productId:[NSString stringWithFormat:@"%@", deviceModel.productId]];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
 
 #pragma mark - DZNEmptyDataSetSource
 //无数据占位
@@ -460,6 +512,7 @@
     }else{
         self.deviceListTableView.hidden = YES;
         [self.deviceArr removeAllObjects];
+        [self.deviceListTableView reloadData];
 
         self.unLoginLabel.hidden = NO;
         self.unLoginIcon.hidden = NO;
@@ -540,8 +593,6 @@
     return _loginBtn;
 }
 
-
-
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -552,5 +603,7 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 @end
 

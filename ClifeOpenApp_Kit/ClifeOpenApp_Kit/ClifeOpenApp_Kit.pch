@@ -30,5 +30,6 @@
 #import "UIImage+GIF.h"
 #import "MJExtension.h"
 #import "HETNotificationMacro.h"
+//#import "MBProgressHUD.h"
 #endif
 #endif /* HETOpenPlatformSDKDemo_pch */

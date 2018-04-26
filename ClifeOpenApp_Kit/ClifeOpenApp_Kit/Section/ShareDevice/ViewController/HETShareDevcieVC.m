@@ -14,6 +14,9 @@
 
 #define cellH  72.0f
 @interface HETShareDevcieVC ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate>
+
+@property (nonatomic,strong) NSString            *deviceId;
+
 /** 分享用户列表 **/
 @property (nonatomic,strong) UITableView                                           *shareUserTableView;
 
@@ -189,11 +192,18 @@
         [HETDeviceShareBusiness getShareCodeWithDeviceId:self.deviceId shareType:HETDeviceShareType_ThirthShare success:^(id responseObject) {
             OPLog(@"responseObject == %@",responseObject);
             NSString *h5Url = [responseObject valueForKey:@"h5Url"];
-
-            UIImage *shareCodeImage = [weakSelf setupGenerateQRCode:h5Url];
+            
+           // UIImage *shareCodeImage = [weakSelf setupGenerateQRCode:h5Url];
 
             ShareAction *shareAction = [[ShareAction alloc] init];
-            shareAction.codeImage = shareCodeImage;
+            
+            UIImage *codeImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.deviceModel.productIcon]]];
+            CGSize imageSize = codeImage.size;
+            if (imageSize.width > 310 || imageSize.height > 310) {
+                codeImage = [self scaleToSize:codeImage size:CGSizeMake(300, 300)];
+            }
+            
+            shareAction.codeImage = codeImage;
             shareAction.webpageUrl = h5Url;
             [shareAction show];
 
@@ -293,6 +303,27 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (void)setDeviceModel:(HETDevice *)deviceModel
+{
+    if (_deviceModel != deviceModel) {
+        _deviceModel = deviceModel;
+        _deviceId = deviceModel.deviceId;
+    }
+}
+
+- (UIImage *)scaleToSize:(UIImage *)img size:(CGSize)size{
+    // 创建一个bitmap的context
+    // 并把它设置成为当前正在使用的context
+    UIGraphicsBeginImageContext(size);
+    // 绘制改变大小的图片
+    [img drawInRect:CGRectMake(0, 0, size.width, size.height)];
+    // 从当前context中创建一个改变大小后的图片
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    // 使当前的context出堆栈
+    UIGraphicsEndImageContext();
+    // 返回新的改变大小后的图片
+    return scaledImage;
+}
 /*
  #pragma mark - Navigation
 

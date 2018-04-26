@@ -16,6 +16,12 @@
 /** 分享文字 **/
 @property (nonatomic,strong) UILabel                                               *shareTipLabel;
 
+/** 分享时效提示 **/
+@property (nonatomic,strong) UILabel                                               *shareTimeLabel;
+
+/** 分享二维码扫描帮助 **/
+@property (nonatomic,strong) UILabel                                               *shareScanLabel;
+
 @end
 
 @implementation HETShareCodeVC
@@ -47,20 +53,36 @@
 
 - (void)createSubView
 {
+    [self.view addSubview:self.shareTimeLabel];
+    [self.shareTimeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.equalTo(self.view).offset(100);
+        make.height.mas_equalTo(16);
+    }];
+    
     [self.view addSubview:self.codeImageView];
     [self.codeImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.view).offset(100);
-        make.size.mas_equalTo(CGSizeMake(300, 300));
+        make.top.mas_equalTo(self.shareTimeLabel.mas_bottom).offset(16);
+        make.size.mas_equalTo(CGSizeMake(200, 200));
     }];
 
+    [self.view addSubview:self.shareScanLabel];
+    [self.shareScanLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.top.mas_equalTo(self.codeImageView.mas_bottom).offset(24);
+        make.height.mas_equalTo(16);
+    }];
+    
     [self.view addSubview:self.shareTipLabel];
     [self.shareTipLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.view);
-        make.top.equalTo(self.codeImageView.mas_bottom).offset(60);
+        make.top.equalTo(self.shareScanLabel.mas_bottom).offset(30);
         make.left.equalTo(self.view).offset(32);
         make.right.equalTo(self.view).offset(-32);
     }];
+    
+    
 }
 
 - (void)getShareCode{
@@ -107,6 +129,28 @@
     return _shareTipLabel;
 }
 
+- (UILabel *)shareTimeLabel
+{
+    if (!_shareTimeLabel) {
+        _shareTimeLabel = [UILabel new];
+        _shareTimeLabel.text = ShareFunctionTimeTips;
+        _shareTimeLabel.numberOfLines = 0;
+        _shareTimeLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _shareTimeLabel;
+}
+
+- (UILabel *)shareScanLabel
+{
+    if (!_shareScanLabel) {
+        _shareScanLabel = [UILabel new];
+        NSString *content = ShareFunctionScanTips;
+        _shareScanLabel.text = content;
+        _shareScanLabel.numberOfLines = 0;
+        _shareScanLabel.textAlignment = NSTextAlignmentCenter;
+    }
+    return _shareScanLabel;
+}
 
 - (void)dealloc
 {

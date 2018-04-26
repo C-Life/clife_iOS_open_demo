@@ -48,10 +48,19 @@
 {
     [super viewWillAppear:animated];
 
+    if (self.device.radiocastName && self.device.radiocastName.length > 0) {
+        NSString *SSIDStr = [NSString stringWithFormat:@"%@%04x%02x_xxxx",self.device.radiocastName,self.device.deviceTypeId.intValue,self.device.deviceSubtypeId.intValue];
+        self.assignSSIDLabel.text = SSIDStr;
+    }else if (self.device.ssid && self.device.ssid.length > 0) {
+        self.assignSSIDLabel.text = self.device.ssid;
+    }else{
+        [HETCommonHelp showAutoDissmissWithMessage:@"设备广播名或者设备ssid不存在!"];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popToRootViewControllerAnimated:true];
+        });
+        return;
+    }
     [self updateCurrentWiFiState];
-
-    NSString *SSIDStr = [NSString stringWithFormat:@"%@%04x%02x_xxxx",self.device.radiocastName,self.device.deviceTypeId.intValue,self.device.deviceSubtypeId.intValue];
-    self.assignSSIDLabel.text = SSIDStr;
     self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
@@ -134,49 +143,75 @@
 {
     dispatch_async(dispatch_get_main_queue(), ^{
 
-        // 获取当前WiFi名称
-        if ([[self fetchNetInfo] valueForKey:@"SSID"] && ![[[self fetchNetInfo] valueForKey:@"SSID"] isKindOfClass:[NSNull class]])
-        {
-            [self.currentLinkWiFiStateBtn setTitle:[NSString stringWithFormat:@"%@ :%@",BindInstructionCurrentWifl,[[self fetchNetInfo] valueForKey:@"SSID"]] forState:UIControlStateNormal];
-        }
-
-
+        // 获取当前WiFi名字，提示用户当前连上的WiFi名称
         NSString *currentSsid =[[self fetchNetInfo] objectForKey:@"SSID"];
-        if(self.device.radiocastName.length!=0 &&[[currentSsid uppercaseString] rangeOfString:[self.device.radiocastName uppercaseString]].length==0)
-        {
-            [self.currentLinkWiFiStateBtn setImage:[UIImage imageNamed:@"wronglink"] forState:UIControlStateNormal];
-            self.isNext =NO;
-            [self performSelector:@selector(updateCurrentWiFiState) withObject:nil afterDelay:1.0f];
-        }
-        else
-        {
-            NSString* srcSSID = [[self fetchNetInfo] valueForKey:@"SSID"];
-            if([srcSSID rangeOfString:[self.device.radiocastName uppercaseString]].length)
-            {
-                NSArray *separateSrcSSID = [srcSSID componentsSeparatedByString:@"_"];
-                NSInteger srcDeviceTypeId = [self  hexStrToInt:[[separateSrcSSID objectAtIndex:1] substringWithRange:NSMakeRange(0, 4)]];
-                NSInteger srcDeviceSubTypeId = [self  hexStrToInt:[[separateSrcSSID objectAtIndex:1] substringWithRange:NSMakeRange(4, 2)]];
+        if (currentSsid && ![currentSsid isKindOfClass:[NSNull class]]) {
+            NSString *currentWIFIName = [NSString stringWithFormat:@"%@ :%@",BindInstructionCurrentWifl,currentSsid];
+            [self.currentLinkWiFiStateBtn setTitle:currentWIFIName forState:UIControlStateNormal];
 
-                if(([self.device.deviceTypeId integerValue] == srcDeviceTypeId)&&([self.device.deviceSubtypeId integerValue] == srcDeviceSubTypeId))
-                {
-                    // 这里才算搜到整取的设备
-                    [self.currentLinkWiFiStateBtn setImage:[UIImage imageNamed:@"rightlink"] forState:UIControlStateNormal];
-                    [self.nextBtn setTitle:NextBindButtonTitle forState:UIControlStateNormal];
-                    self.nextBtn.enabled = NO;
-                    [self.nextBtn setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:0.3]];
-                    [self performSelector:@selector(allowToNext) withObject:nil afterDelay:1.5f];
+            // 设备广播名不为空
+            if (self.device.radiocastName.length > 0) {
+                // 如果当前的WIFI名字包含了设备广播名
+                if ([[currentSsid uppercaseString] rangeOfString:[self.device.radiocastName uppercaseString]].location != NSNotFound) {
+                    // 匹配ssid 中的大类和小类是不是跟设备信息中大类和小类一致
+                    [self compareDeviceInfo:currentSsid prefixStr:self.device.radiocastName];
                 }
                 else
                 {
-                    [self performSelector:@selector(updateCurrentWiFiState) withObject:nil afterDelay:1.0f];
+                    [self connectAPWifiError];
+                }
+            }
+            // 广播名为空的情况
+            else if (self.device.ssid.length > 0)
+            {
+                if ([[currentSsid uppercaseString] rangeOfString:[self.device.ssid uppercaseString]].location != NSNotFound) {
+                    // 匹配ssid 中的大类和小类是不是跟设备信息中大类和小类一致
+                    [self compareDeviceInfo:currentSsid prefixStr:self.device.ssid];
+                }
+                else
+                {
+                    
+                    [self connectAPWifiError];
                 }
             }
             else
             {
-                [self performSelector:@selector(updateCurrentWiFiState) withObject:nil afterDelay:1.0f];
+                [self connectAPWifiError];
             }
         }
+        else
+        {
+            [self connectAPWifiError];
+        }
     });
+}
+
+- (void)compareDeviceInfo:(NSString *)currentSsid prefixStr:(NSString *)prefixStr
+{
+    NSString *SSIDStr = [NSString stringWithFormat:@"%@%04x%02x",prefixStr,self.device.deviceTypeId.intValue,self.device.deviceSubtypeId.intValue];
+
+    SSIDStr = [SSIDStr uppercaseString];
+    // 匹配ssid 中的大类和小类是不是跟设备信息中大类和小类一致
+    if([currentSsid containsString:SSIDStr])
+    {
+        // 这里才算搜到整取的设备
+        [self.currentLinkWiFiStateBtn setImage:[UIImage imageNamed:@"rightlink"] forState:UIControlStateNormal];
+        [self.nextBtn setTitle:NextBindButtonTitle forState:UIControlStateNormal];
+        self.nextBtn.enabled = NO;
+        [self.nextBtn setBackgroundColor:[[UIColor grayColor] colorWithAlphaComponent:0.3]];
+        [self performSelector:@selector(allowToNext) withObject:nil afterDelay:1.5f];
+    }
+    // 不一致，则继续轮询
+    else
+    {
+        [self connectAPWifiError];
+    }
+}
+
+- (void)connectAPWifiError{
+    [self.currentLinkWiFiStateBtn setImage:[UIImage imageNamed:@"wronglink"] forState:UIControlStateNormal];
+    self.isNext =NO;
+    [self performSelector:@selector(updateCurrentWiFiState) withObject:nil afterDelay:1.0f];
 }
 
 - (void)allowToNext
@@ -187,7 +222,7 @@
 }
 
 //10进制转16进制
-+(NSString *)ToHex:(long long int)tmpid
++ (NSString *)ToHex:(long long int)tmpid
 {
     NSString *nLetterValue;
     NSString *str =@"";
@@ -359,13 +394,13 @@
 }
 
 /*
-#pragma mark - Navigation
+ #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end
