@@ -45,7 +45,9 @@
     webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     webView.navigationDelegate = self;
     [self.view addSubview:webView];
-   
+    if(@available(iOS 11.0, *)){
+        webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
     //[self.h5CustomNavigationBar bringSubviewToFront:self.view];
     //webView.UIDelegate=self;
     webView.navigationDelegate=self;
