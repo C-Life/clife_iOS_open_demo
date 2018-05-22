@@ -101,7 +101,7 @@
             STRONGSELF;
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
-             [strongSelf.jsBridge webViewConfigDataRepaint:responseObject];
+             [strongSelf.jsBridge webViewUpdataControlData:responseObject];
             }
         } deviceErrorData:^(id responseObject) {
             STRONGSELF;

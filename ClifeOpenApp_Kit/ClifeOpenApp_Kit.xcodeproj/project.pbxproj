@@ -79,7 +79,6 @@
 		191CF3A11F6FCFF800104975 /* SleepBoxWithSliderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 191CF3931F6FCFF800104975 /* SleepBoxWithSliderCell.m */; };
 		191CF3A21F6FCFF800104975 /* LEDBleDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 191CF3961F6FCFF800104975 /* LEDBleDeviceVC.m */; };
 		191CF3A31F6FCFF800104975 /* LEDDeviceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 191CF3981F6FCFF800104975 /* LEDDeviceVC.m */; };
-		1951D5BA1FE227C700E821A0 /* web in Resources */ = {isa = PBXBuildFile; fileRef = 1951D5B91FE227C700E821A0 /* web */; };
 		197C45461FA84EF600AEAD6F /* HETCloudAuthViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 197C45451FA84EF600AEAD6F /* HETCloudAuthViewController.m */; };
 		197C45481FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 197C45471FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard */; };
 		199F842F1F70ADFB00A88CBA /* HETBleControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199F842E1F70ADFB00A88CBA /* HETBleControllerViewController.m */; };
@@ -259,7 +258,6 @@
 		191CF3961F6FCFF800104975 /* LEDBleDeviceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEDBleDeviceVC.m; sourceTree = "<group>"; };
 		191CF3971F6FCFF800104975 /* LEDDeviceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEDDeviceVC.h; sourceTree = "<group>"; };
 		191CF3981F6FCFF800104975 /* LEDDeviceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEDDeviceVC.m; sourceTree = "<group>"; };
-		1951D5B91FE227C700E821A0 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
 		197C45441FA84EF600AEAD6F /* HETCloudAuthViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HETCloudAuthViewController.h; sourceTree = "<group>"; };
 		197C45451FA84EF600AEAD6F /* HETCloudAuthViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HETCloudAuthViewController.m; sourceTree = "<group>"; };
 		197C45471FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = HETCloudAuthStoryboard.storyboard; sourceTree = "<group>"; };
@@ -401,7 +399,6 @@
 			isa = PBXGroup;
 			children = (
 				19BBA3442079B38800EA5AA5 /* humidi.bundle */,
-				1951D5B91FE227C700E821A0 /* web */,
 				0A931AFA1F8F374F00096313 /* bindHelp.bundle */,
 				0A77FDF01F59167500FE0CCF /* XiaoC_loading */,
 				0A0C35E61F4FBB480084F0F3 /* Assets.xcassets */,
@@ -1244,7 +1241,6 @@
 				0A0C35BD1F4FB9CB0084F0F3 /* LaunchScreen.storyboard in Resources */,
 				C697DA272084B72200B0C12A /* h5_nav_back_white@2x.png in Resources */,
 				19BBA3452079B38800EA5AA5 /* humidi.bundle in Resources */,
-				1951D5BA1FE227C700E821A0 /* web in Resources */,
 				C697DA232084B72200B0C12A /* h5_nav_back_black@3x.png in Resources */,
 				197C45481FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard in Resources */,
 				C697DA222084B72200B0C12A /* h5_nav_back_black@2x.png in Resources */,
@@ -1313,7 +1309,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		AF1CF3E5BC0FCA2B7E266FF1 /* [CP] Embed Pods Frameworks */ = {
