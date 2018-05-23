@@ -69,6 +69,9 @@
 		0AFF58C41F7DF6E700F9437A /* HETShareDevcieVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF58C31F7DF6E700F9437A /* HETShareDevcieVC.m */; };
 		0AFF58C71F7DFF8500F9437A /* HETShareCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF58C61F7DFF8500F9437A /* HETShareCodeVC.m */; };
 		0AFF58CA1F7E2DE100F9437A /* ShareAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AFF58C91F7E2DE100F9437A /* ShareAction.m */; };
+		1902E01220B532B400633601 /* DeviceDetailCellModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 1902E00B20B532B300633601 /* DeviceDetailCellModel.m */; };
+		1902E01320B532B400633601 /* DeviceDetailsCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1902E00E20B532B300633601 /* DeviceDetailsCell.m */; };
+		1902E01420B532B400633601 /* DeviceDetailsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 1902E01120B532B300633601 /* DeviceDetailsVC.m */; };
 		191CF37F1F6FCEF100104975 /* DeviceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 191CF37B1F6FCEF100104975 /* DeviceCell.m */; };
 		191CF3801F6FCEF100104975 /* HETDeviceListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 191CF37E1F6FCEF100104975 /* HETDeviceListVC.m */; };
 		191CF39C1F6FCFF800104975 /* LEDDeviceModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 191CF3881F6FCFF800104975 /* LEDDeviceModel.m */; };
@@ -238,6 +241,12 @@
 		0AFF58C61F7DFF8500F9437A /* HETShareCodeVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETShareCodeVC.m; sourceTree = "<group>"; };
 		0AFF58C81F7E2DE100F9437A /* ShareAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShareAction.h; sourceTree = "<group>"; };
 		0AFF58C91F7E2DE100F9437A /* ShareAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShareAction.m; sourceTree = "<group>"; };
+		1902E00A20B532B300633601 /* DeviceDetailCellModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceDetailCellModel.h; sourceTree = "<group>"; };
+		1902E00B20B532B300633601 /* DeviceDetailCellModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceDetailCellModel.m; sourceTree = "<group>"; };
+		1902E00D20B532B300633601 /* DeviceDetailsCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceDetailsCell.h; sourceTree = "<group>"; };
+		1902E00E20B532B300633601 /* DeviceDetailsCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceDetailsCell.m; sourceTree = "<group>"; };
+		1902E01020B532B300633601 /* DeviceDetailsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceDetailsVC.h; sourceTree = "<group>"; };
+		1902E01120B532B300633601 /* DeviceDetailsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceDetailsVC.m; sourceTree = "<group>"; };
 		191CF37A1F6FCEF100104975 /* DeviceCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeviceCell.h; sourceTree = "<group>"; };
 		191CF37B1F6FCEF100104975 /* DeviceCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeviceCell.m; sourceTree = "<group>"; };
 		191CF37D1F6FCEF100104975 /* HETDeviceListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETDeviceListVC.h; sourceTree = "<group>"; };
@@ -940,9 +949,48 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
+		1902E00820B532B300633601 /* DeviceDetails */ = {
+			isa = PBXGroup;
+			children = (
+				1902E00920B532B300633601 /* Model */,
+				1902E00C20B532B300633601 /* View */,
+				1902E00F20B532B300633601 /* ViewController */,
+			);
+			name = DeviceDetails;
+			path = Main/DeviceDetails;
+			sourceTree = "<group>";
+		};
+		1902E00920B532B300633601 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1902E00A20B532B300633601 /* DeviceDetailCellModel.h */,
+				1902E00B20B532B300633601 /* DeviceDetailCellModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1902E00C20B532B300633601 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1902E00D20B532B300633601 /* DeviceDetailsCell.h */,
+				1902E00E20B532B300633601 /* DeviceDetailsCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1902E00F20B532B300633601 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				1902E01020B532B300633601 /* DeviceDetailsVC.h */,
+				1902E01120B532B300633601 /* DeviceDetailsVC.m */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
 		191CF3761F6FCEE100104975 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				1902E00820B532B300633601 /* DeviceDetails */,
 				191CF3771F6FCEF100104975 /* DeviceList */,
 			);
 			name = Main;
@@ -1349,6 +1397,7 @@
 				191CF3A01F6FCFF800104975 /* ModeSelectView.m in Sources */,
 				C697DA1B2084B6E300B0C12A /* HETBLEDeviceH5ViewController.m in Sources */,
 				0A7FBA3F1F6FEB6000E82808 /* HETAddDeviceVC.m in Sources */,
+				1902E01420B532B400633601 /* DeviceDetailsVC.m in Sources */,
 				0AFF58C41F7DF6E700F9437A /* HETShareDevcieVC.m in Sources */,
 				0A4AE0011F72187D003D5848 /* HETBindAPDeviceVC.m in Sources */,
 				191CF3A21F6FCFF800104975 /* LEDBleDeviceVC.m in Sources */,
@@ -1387,6 +1436,7 @@
 				0A848C8B200DA36500E2D519 /* AirPuriflerBindView.m in Sources */,
 				191CF3801F6FCEF100104975 /* HETDeviceListVC.m in Sources */,
 				0AFF58C71F7DFF8500F9437A /* HETShareCodeVC.m in Sources */,
+				1902E01220B532B400633601 /* DeviceDetailCellModel.m in Sources */,
 				191CF3A31F6FCFF800104975 /* LEDDeviceVC.m in Sources */,
 				0A0600B11F7F813400B508EC /* MessageTypeCell.m in Sources */,
 				0A688BA61F554E91009C5451 /* UIViewController+BNRAdditions.m in Sources */,
@@ -1396,6 +1446,7 @@
 				0A7FBA421F6FEB6000E82808 /* HETDeviceSubTypeListVC.m in Sources */,
 				191CF37F1F6FCEF100104975 /* DeviceCell.m in Sources */,
 				0A7FBA591F6FF24C00E82808 /* HETWaterView.m in Sources */,
+				1902E01320B532B400633601 /* DeviceDetailsCell.m in Sources */,
 				0A848C88200DA24700E2D519 /* HETBindGPRSDeviceVC.m in Sources */,
 				0A2EA0241F8B78E8006D8F60 /* UIButton+EnlargeEdge.m in Sources */,
 				0A7FBA491F6FEB6000E82808 /* CLWifiPasswordInfo.m in Sources */,

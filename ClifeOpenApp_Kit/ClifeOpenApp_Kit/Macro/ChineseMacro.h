@@ -132,6 +132,7 @@
 #define ChangeWifiAlertInfo NSLocalizedString(@"ChangeWifiAlertInfo",nil)
 
 // 扫一扫
+#define ScanQRCodeCellName NSLocalizedString(@"ScanQRCodeCellName",nil)
 #define ScanQRCodeTitle NSLocalizedString(@"ScanQRCodeTitle",nil)
 #define ScanQRCodeHelpInfo NSLocalizedString(@"ScanQRCodeHelpInfo",nil)
 #define ScanQRCodeLightOn NSLocalizedString(@"ScanQRCodeLightOn",nil)
@@ -176,4 +177,6 @@
 // 授权登录
 #define SafeLoginTitle NSLocalizedString(@"SafeLoginTitle",nil)
 
+// 设备详情
+#define DeviceDetailTitle NSLocalizedString(@"DeviceDetailTitle",nil)
 #endif /* ChineseMacro_h */

@@ -34,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     // 修复 Push到下一级右上角可恶的黑条
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor redColor];
     //self.navigationController.navigationBar.hidden = YES;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -45,9 +45,11 @@
     webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     webView.navigationDelegate = self;
     [self.view addSubview:webView];
+    
     if(@available(iOS 11.0, *)){
         webView.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     }
+    
     //[self.h5CustomNavigationBar bringSubviewToFront:self.view];
     //webView.UIDelegate=self;
     webView.navigationDelegate=self;
@@ -59,6 +61,7 @@
     _jsBridge = [HETWKWebViewJavascriptBridge bridgeForWebView:webView];
     _jsBridge.delegate=self;
     [_jsBridge setNavigationDelegate:self];
+    
     
     [self.view addSubview:self.h5CustomNavigationBar];
     self.h5CustomNavigationBar.barBackgroundColor=self.navigationController.navigationBar.barTintColor;
@@ -107,14 +110,14 @@
     //清除webView的缓存
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     if (self.h5Path&&self.h5Path.length>0) {
-        NSLog(@"H5路径:%@",self.h5Path);
+        OPLog(@"H5路径:%@",self.h5Path);
         if ([self.h5Path hasPrefix:@"http"]) {
             
             [_wkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.h5Path]]];
         }else{
             NSRange webRange = [_h5Path rangeOfString:@"web"];
             NSRange locationRange = [_h5Path rangeOfString:@"household"];
-             NSString *directory=self.h5fileDirectory;
+            NSString *directory=self.h5fileDirectory;
             if (webRange.length>0) {
                 directory = [_h5Path substringWithRange:NSMakeRange(0, webRange.length+webRange.location+1)];
             }
@@ -130,7 +133,7 @@
 #pragma clang diagnostic pop
                     
                 } @catch (NSException *exception) {
-                    NSLog(@"%@",exception);
+                    OPLog(@"%@",exception);
                 } @finally {
                     
                 }
@@ -152,7 +155,7 @@
                      ofObject:(id)object
                        change:(NSDictionary<NSKeyValueChangeKey,id> *)change
                       context:(void *)context{
-    //NSLog(@"父类KVO:%@,%@,%@,%@----%f",keyPath,object,change,context,_wkWebView.estimatedProgress);
+    //OPLog(@"父类KVO:%@,%@,%@,%@----%f",keyPath,object,change,context,_wkWebView.estimatedProgress);
     if ([keyPath isEqualToString:NSStringFromSelector(@selector(estimatedProgress))]
         && object == _wkWebView) {
         _progressView.progressTintColor =self.h5CustomNavigationBar.barBackgroundColor;
@@ -253,7 +256,7 @@
  */
 -(void)relProxyHttp:(id)url data:(id)data httpType:(id) type sucCallbackId:(id) sucCallbackId errCallbackId:(id) errCallbackId needSign:(id) needSign
 {
- 
+    
     BOOL bneedSign=NO;
     if([needSign rangeOfString:@"1"].location!=NSNotFound)
     {
@@ -276,12 +279,12 @@
         NSDictionary *result = responseObject;
         NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
         NSDictionary *data = [result objectForKey:@"data"];
-        NSLog(@"%@,%ld",data,code);
+        OPLog(@"%@,%ld",data,code);
         [_jsBridge webViewHttpResponseSuccessResponse:data successCallBlock:sucCallbackId];
     } failure:^(NSError *error) {
-       
+        
         NSString *errorMsg=error.userInfo[@"msg"];
-       [_jsBridge webViewHttpResponseErrorResponse:@{@"code":@(error.code),@"msg":errorMsg.length? errorMsg:error.description} errorCallBlock:errCallbackId];
+        [_jsBridge webViewHttpResponseErrorResponse:@{@"code":@(error.code),@"msg":errorMsg.length? errorMsg:error.description} errorCallBlock:errCallbackId];
     }];
 }
 
@@ -394,13 +397,13 @@
 -(void)h5GetAPPLanguage
 {
     NSString *currentLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
-    NSLog(@"currentlanguage = %@",currentLanguage);
+    OPLog(@"currentlanguage = %@",currentLanguage);
     NSString *appLanguage=@"zh_CN";
     if ([currentLanguage containsString:@"zh-Hans"]) {//简体
-        NSLog(@"zh-Hans");
+        OPLog(@"zh-Hans");
     }
     else if ([currentLanguage containsString:@"zh-Hant"]||[currentLanguage containsString:@"zh-HK"]||[currentLanguage containsString:@"zh-TW"]) {
-        NSLog(@"zh-Hant");
+        OPLog(@"zh-Hant");
         appLanguage=@"zh_TW";
     }
     else
@@ -625,9 +628,10 @@
     id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     if([object isKindOfClass:[NSArray class]])
     {
-        NSDictionary *dic=object[0];
-        if(dic.count)
+        NSArray *array=object;
+        if(array.count)
         {
+            NSDictionary *dic=object[0];
             UIColor *tintColor=[self colorWithHexString:dic[@"tintColor"]];
             UIColor *backBroundColor=[self colorWithHexString:dic[@"backgroundColor"]];
             [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[self imageWithImagePath:dic[@"image"]] highlighted:[self imageWithImagePath:dic[@"image"]] title:dic[@"title"] titleColor:tintColor backBroundColor:backBroundColor];
@@ -652,9 +656,10 @@
     id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
     if([object isKindOfClass:[NSArray class]])
     {
-        NSDictionary *dic=object[0];
-        if(dic.count)
+        NSArray *array=object;
+        if(array.count)
         {
+            NSDictionary *dic=object[0];
             UIColor *tintColor=[self colorWithHexString:dic[@"tintColor"]];
             UIColor *backBroundColor=[self colorWithHexString:dic[@"backgroundColor"]];
             [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[self imageWithImagePath:dic[@"image"]] highlighted:[self imageWithImagePath:dic[@"image"]] title:dic[@"title"] titleColor:tintColor backBroundColor:backBroundColor];
@@ -685,7 +690,7 @@
  */
 -(void)setNavigationBarMenuItem:(id)itemList  backgroundColor:(id)backgroundColor  successCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId  completeCallbackId:(id)completeCallbackId
 {
-    NSLog(@"setNavigationBarMenuItem未实现!!!!!!!!!!");
+    OPLog(@"setNavigationBarMenuItem未实现!!!!!!!!!!");
 }
 
 /**
@@ -705,7 +710,7 @@
     }
     NSDictionary *dic=@{@"data":@{@"isConnected":isConnected,@"networkType":netconnType}};
     [_jsBridge webViewCurrentNetworkTypeResponse:dic callBackId:successCallbackId];
-        
+    
 }
 - (NSString *)getNetconnType{
     
@@ -738,16 +743,16 @@
                 
                 netconnType = @"GPRS";
             }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyEdge"]) {
-                 netconnType = @"2G";
+                netconnType = @"2G";
                 //netconnType = @"2.75G EDGE";
             }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyWCDMA"]){
                 
                 netconnType = @"3G";
             }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyHSDPA"]){
-                 netconnType = @"3G";
+                netconnType = @"3G";
                 //netconnType = @"3.5G HSDPA";
             }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyHSUPA"]){
-                 netconnType = @"3G";
+                netconnType = @"3G";
                 //netconnType = @"3.5G HSUPA";
             }else if ([currentStatus isEqualToString:@"CTRadioAccessTechnologyCDMA1x"]){
                 
@@ -787,16 +792,16 @@
  */
 -(void)onNetworkStatusChangeWithSuccessCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId
 {
-   
+    
     if(!self.ablity)
     {
-      self.ablity = [HETReachability reachabilityForInternetConnection];//[HETReachability reachabilityWithHostName:@"www.apple.com"];
+        self.ablity = [HETReachability reachabilityForInternetConnection];//[HETReachability reachabilityWithHostName:@"www.apple.com"];
     }
     [self.ablity startNotifier];
     __weak typeof(self) weakSelf = self;
     self.ablity.unreachableBlock = ^(HETReachability *reachability) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-         NSString *netconnType =[strongSelf getNetconnType];
+        NSString *netconnType =[strongSelf getNetconnType];
         NSDictionary *dic=@{@"data":@{@"isConnected":@"0",@"networkType":netconnType}};
         [strongSelf.jsBridge webViewOnNetworkStatusChangeResponse:dic callBackId:successCallbackId];
     };
@@ -821,16 +826,16 @@
 -(void)getDeviceInfoWithSuccessCallbackId:(id)successCallbackId failCallbackId:(id)failCallbackId
 {
     [HETDeviceRequestBusiness fetchDeviceInfoWithDeviceId:self.deviceModel.deviceId success:^(id responseObject) {
-        NSLog(@"获取设备基本信息:%@",responseObject);
+        OPLog(@"获取设备基本信息:%@",responseObject);
         [_jsBridge webViewGetDeviceInfoResponse:responseObject[@"data"] callBackId:successCallbackId];
     } failure:^(NSError *error) {
-        NSLog(@"获取设备基本信息失败:%@",error);
+        OPLog(@"获取设备基本信息失败:%@",error);
         NSString *errorMsg=error.userInfo[@"msg"];
         
         
         [_jsBridge webViewGetDeviceInfoResponse:@{@"code":@(error.code),@"msg":errorMsg.length? errorMsg:error.description} callBackId:successCallbackId];
     }];
- 
+    
 }
 
 
@@ -865,14 +870,14 @@
     
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 #pragma mark-==========WKNavigationDelegate================
 
 
@@ -904,8 +909,8 @@
     
     if ([error code] == NSURLErrorCancelled) {
         
-//        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:self.h5Path]]];
-//        // [self loadRequestWithURL:[NSURL URLWithString:_h5path]];
+        //        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:self.h5Path]]];
+        //        // [self loadRequestWithURL:[NSURL URLWithString:_h5path]];
     }
     else  if(self.hetDeviceControlWKWebviewDelegate && [self.hetDeviceControlWKWebviewDelegate respondsToSelector:@selector(webView:didFailLoadWithError:)])
     {
@@ -916,7 +921,7 @@
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     // 类似 UIWebView 的 -webView: shouldStartLoadWithRequest: navigationType:
     NSString *requestString =[[navigationAction.request URL]absoluteString];
-    //NSLog(@"requestString:%@",requestString);
+    //OPLog(@"requestString:%@",requestString);
     if([requestString hasPrefix:@"http"]||[requestString hasPrefix:@"file://"])
     {
         decisionHandler(WKNavigationActionPolicyAllow);
@@ -951,11 +956,11 @@
 {
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         if ([challenge.protectionSpace.host isEqualToString:self.requestURL.host]) {
-            //NSLog(@"trusting connection to host %@", challenge.protectionSpace.host);
+            //OPLog(@"trusting connection to host %@", challenge.protectionSpace.host);
             [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
         } else
         {
-            //NSLog(@"Not trusting connection to host %@", challenge.protectionSpace.host);
+            //OPLog(@"Not trusting connection to host %@", challenge.protectionSpace.host);
         }
     }
     else {
@@ -987,7 +992,7 @@
 //                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
 //                                                         error:&error];
 //    if (! jsonData) {
-//        NSLog(@"Got an error: %@", error);
+//        OPLog(@"Got an error: %@", error);
 //    } else {
 //        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
 //    }
@@ -1008,7 +1013,7 @@
     if([self.h5Path hasPrefix:@"http"])
     {
         NSString *filePath=[[self.h5Path stringByDeletingLastPathComponent] stringByAppendingString:path];
-        NSLog(@"图片路径:%@",filePath);
+        OPLog(@"图片路径:%@",filePath);
         //        filePath=@"https://fileserver1.clife.net:8080/group1/M00/04/03/Cvtlp1i9Rc6AFRAKAAAILDVKT8U984.png";
         //        NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:filePath]];
         //        image = [UIImage imageWithData:data];
@@ -1017,9 +1022,9 @@
     else
     {
         NSString *filePath=[[[self.h5Path stringByDeletingLastPathComponent]stringByDeletingLastPathComponent] stringByAppendingString:path];
-        NSLog(@"图片原路径:%@",filePath);
+        OPLog(@"图片原路径:%@",filePath);
         NSArray *filePathArray=[filePath componentsSeparatedByString:@"?v="];
-        NSLog(@"图片处理后路径:%@",filePathArray[0]);
+        OPLog(@"图片处理后路径:%@",filePathArray[0]);
         image= [UIImage imageWithContentsOfFile:filePathArray[0]];
         imageView.image=image;
         
@@ -1033,7 +1038,7 @@
     if([self.h5Path hasPrefix:@"http"])
     {
         NSString *filePath=[[self.h5Path stringByDeletingLastPathComponent] stringByAppendingString:path];
-        NSLog(@"图片路径:%@",filePath);
+        OPLog(@"图片路径:%@",filePath);
         //        filePath=@"https://fileserver1.clife.net:8080/group1/M00/04/03/Cvtlp1i9Rc6AFRAKAAAILDVKT8U984.png";
         NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:filePath]];
         image = [UIImage imageWithData:data];
@@ -1042,9 +1047,9 @@
     else
     {
         NSString *filePath=[[[self.h5Path stringByDeletingLastPathComponent]stringByDeletingLastPathComponent] stringByAppendingString:path];
-        NSLog(@"图片原路径:%@",filePath);
+        OPLog(@"图片原路径:%@",filePath);
         NSArray *filePathArray=[filePath componentsSeparatedByString:@"?v="];
-        NSLog(@"图片处理后路径:%@",filePathArray[0]);
+        OPLog(@"图片处理后路径:%@",filePathArray[0]);
         image= [UIImage imageWithContentsOfFile:filePathArray[0]];
         // filePath=@"https://fileserver1.clife.net:8080/group1/M00/04/03/Cvtlp1i9Rc6AFRAKAAAILDVKT8U984.png";
         //        NSData * data = [NSData dataWithContentsOfURL:[NSURL URLWithString:filePath]];

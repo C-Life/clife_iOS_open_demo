@@ -19,6 +19,7 @@
 #import "HETWiFiDeviceH5ViewController.h"
 #import "HETBLEDeviceH5ViewController.h"
 #import "HETShareDevcieVC.h"
+#import "DeviceDetailsVC.h"
 #define cellH  72.0f
 
 @interface HETDeviceListVC ()<UITableViewDataSource,UITableViewDelegate,DZNEmptyDataSetSource,DZNEmptyDataSetDelegate,UINavigationControllerDelegate>
@@ -280,9 +281,13 @@
     };
     h5vc.onClickRightButton = ^(NSUInteger index, NSString *title) {
         @strongify(h5vc);
-        HETShareDevcieVC *shareVC =  [HETShareDevcieVC new];
-        shareVC.deviceModel = deviceModel;
-        [h5vc.navigationController pushViewController:shareVC animated:true];
+        DeviceDetailsVC *detailVC = [DeviceDetailsVC new];
+        detailVC.deviceModel = deviceModel;
+        detailVC.scanDebug = ^(NSString *h5path) {
+            h5vc.h5Path = h5path;
+            [h5vc loadRequest];
+        };
+        [h5vc.navigationController pushViewController:detailVC animated:YES];
     };
     
     WEAKSELF
@@ -316,9 +321,13 @@
     };
     vc.onClickRightButton = ^(NSUInteger index, NSString *title) {
         @strongify(vc);
-        HETShareDevcieVC *shareVC =  [HETShareDevcieVC new];
-        shareVC.deviceModel = deviceModel;
-        [vc.navigationController pushViewController:shareVC animated:true];
+        DeviceDetailsVC *detailVC = [DeviceDetailsVC new];
+        detailVC.deviceModel = deviceModel;
+        detailVC.scanDebug = ^(NSString *h5path) {
+            vc.h5Path = h5path;
+            [vc loadRequest];
+        };
+        [vc.navigationController pushViewController:detailVC animated:YES];
     };
 
     

@@ -129,6 +129,7 @@
 "ChangeWifiAlertInfo" = "请到WiFi设置页面进行连接设置";
 
 // 扫一扫
+"ScanQRCodeCellName" = "扫描C-Life自助接入";
 "ScanQRCodeTitle" = "扫一扫";
 "ScanQRCodeHelpInfo" = "将二维码对准方框，即可自动扫描";
 "ScanQRCodeLightOn" = "照明";
@@ -170,3 +171,7 @@
 
 // 授权登录
 "SafeLoginTitle" = "安全登录";
+
+// 设备详情
+"DeviceDetailTitle" = "设备详情";
+

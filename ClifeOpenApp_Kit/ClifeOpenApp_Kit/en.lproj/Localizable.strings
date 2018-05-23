@@ -129,6 +129,7 @@
 "ChangeWifiAlertInfo" = "Please connect Settings to the WiFi Settings page";
 
 // 扫一扫
+"ScanQRCodeCellName" = "Scan from Open C-life";
 "ScanQRCodeTitle" = "Scan";
 "ScanQRCodeHelpInfo" = "Align the qr code to the box and scan automatically";
 "ScanQRCodeLightOn" = "lighting";
@@ -172,3 +173,6 @@
 
 // 授权登录
 "SafeLoginTitle" = "Safelogin";
+
+// 设备详情
+"DeviceDetailTitle" = "DeviceDetail";

@@ -9,6 +9,9 @@
 #import "HETWiFiDeviceH5ViewController.h"
 
 @interface HETWiFiDeviceH5ViewController ()
+{
+    HETWiFiDeviceState _currentDeviceState;
+}
 
 @end
 
@@ -52,6 +55,9 @@
     {
         [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceCfgData];
     }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.jsBridge webViewUpdataOnOffState:[NSString stringWithFormat:@"%ld",2-(long)_currentDeviceState]];
+    });
 }
 
 -(void)config:(id)data
@@ -111,6 +117,7 @@
             }
         } deviceState:^(HETWiFiDeviceState state) {
             STRONGSELF;
+            _currentDeviceState=state;
             [strongSelf.jsBridge webViewUpdataOnOffState:[NSString stringWithFormat:@"%ld",2-(long)state]];
             
         } failBlock:^(NSError *error) {
