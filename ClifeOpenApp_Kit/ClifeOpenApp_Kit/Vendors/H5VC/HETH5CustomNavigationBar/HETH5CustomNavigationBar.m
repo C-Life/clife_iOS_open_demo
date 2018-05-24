@@ -15,7 +15,9 @@
 #define kWRScreenWidth [UIScreen mainScreen].bounds.size.width
 
 @interface HETH5CustomNavigationBar ()
-
+@property (nonatomic, strong) UILabel     *titleLable;
+@property (nonatomic, strong) UIButton    *leftButton;
+@property (nonatomic, strong) UIButton    *rightButton;
 @property (nonatomic, strong) UIView      *bottomLine;
 
 
@@ -23,12 +25,12 @@
 @implementation HETH5CustomNavigationBar
 
 /*
- // Only override drawRect: if you perform custom drawing.
- // An empty implementation adversely affects performance during animation.
- - (void)drawRect:(CGRect)rect {
- // Drawing code
- }
- */
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
 + (instancetype)CustomNavigationBar {
     HETH5CustomNavigationBar *navigationBar = [[self alloc] initWithFrame:CGRectMake(0, 0, kWRScreenWidth, [HETH5CustomNavigationBar navBarBottom])];
     return navigationBar;
@@ -52,7 +54,7 @@
     [self addSubview:self.leftButton];
     [self addSubview:self.titleLable];
     [self addSubview:self.rightButton];
-    //[self addSubview:self.bottomLine];
+    [self addSubview:self.bottomLine];
     [self updateFrame];
     self.backgroundColor = [UIColor clearColor];
     self.backgroundView.backgroundColor = kWRDefaultBackgroundColor;
@@ -61,60 +63,73 @@
     NSInteger top = ([HETH5CustomNavigationBar isIphoneX]) ? 44 : 20;
     NSInteger margin = 0;
     NSInteger buttonHeight = 44;
-    NSInteger buttonWidth = 44;
+    NSInteger buttonWidth = 70;
     NSInteger titleLabelHeight = 44;
     NSInteger titleLabelWidth = 180;
     
-    //    self.backgroundView.frame = self.bounds;
-    //    self.backgroundImageView.frame = self.bounds;
-    //    self.leftButton.frame = CGRectMake(margin, top, buttonWidth, buttonHeight);
-    //    self.rightButton.frame = CGRectMake(kWRScreenWidth - buttonWidth - margin, top, buttonWidth, buttonHeight);
-    //    self.titleLable.frame = CGRectMake((kWRScreenWidth - titleLabelWidth) / 2, top, titleLabelWidth, titleLabelHeight);
-    //    self.bottomLine.frame = CGRectMake(0, (CGFloat)(self.bounds.size.height-0.5), kWRScreenWidth, 0.5);
+    self.backgroundView.frame = self.bounds;
+    //self.backgroundImageView.frame = self.bounds;
+//    self.leftButton.frame = CGRectMake(margin, top, buttonWidth, buttonHeight);
+//    self.rightButton.frame = CGRectMake(kWRScreenWidth - buttonWidth - margin, top, buttonWidth, buttonHeight);
+//    self.titleLable.frame = CGRectMake((kWRScreenWidth - titleLabelWidth) / 2, top, titleLabelWidth, titleLabelHeight);
+//    self.bottomLine.frame = CGRectMake(0, (CGFloat)(self.bounds.size.height-0.5), kWRScreenWidth, 0.5);
     
-    [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.mas_top);
-        make.left.equalTo(self.mas_left);
-        make.right.equalTo(self.mas_right);
-        make.bottom.equalTo(self.mas_bottom);
-    }];
+   /* [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.mas_safeAreaLayoutGuideTop);
+            make.bottom.equalTo(self.mas_safeAreaLayoutGuideBottom);
+            make.left.equalTo(self.mas_safeAreaLayoutGuideLeft);
+            make.right.equalTo(self.mas_safeAreaLayoutGuideRight);
+        } else {
+            make.top.equalTo(self.mas_top);
+            make.left.equalTo(self.mas_left);
+            make.right.equalTo(self.mas_right);
+            make.bottom.equalTo(self.mas_bottom);
+        }
+    }];*/
     [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        
-        make.top.equalTo(self.backgroundView.mas_top);
-        make.left.equalTo(self.backgroundView.mas_left);
-        make.right.equalTo(self.backgroundView.mas_right);
-        make.bottom.equalTo(self.backgroundView.mas_bottom);
+       
+            make.top.equalTo(self.backgroundView.mas_top);
+            make.left.equalTo(self.backgroundView.mas_left);
+            make.right.equalTo(self.backgroundView.mas_right);
+            make.bottom.equalTo(self.backgroundView.mas_bottom);
     }];
     [self.leftButton mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        //        if (@available(iOS 11.0, *)) {
-        //            make.top.equalTo(self.backgroundView.mas_safeAreaLayoutGuideTop).with.offset(top);;
-        //            make.left.equalTo(self.backgroundView.mas_safeAreaLayoutGuideLeft).with.offset(margin);
-        //            make.width.equalTo(@(buttonWidth));
-        //            make.height.equalTo(@(buttonHeight));
-        //        } else {
-        make.top.equalTo(self.backgroundView.mas_top).with.offset(top);
-        make.left.equalTo(self.backgroundView.mas_left).with.offset(margin);
-        make.width.equalTo(@(buttonWidth));
-        make.height.equalTo(@(buttonHeight));
-        // }
-        
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.backgroundView.mas_safeAreaLayoutGuideTop);
+            make.left.equalTo(self.backgroundView.mas_safeAreaLayoutGuideLeft).with.offset(margin);
+            make.width.equalTo(@(buttonWidth));
+            make.height.equalTo(@(buttonHeight));
+        } else {
+            make.top.equalTo(self.backgroundView.mas_top);
+            make.left.equalTo(self.backgroundView.mas_left).with.offset(margin);
+            make.width.equalTo(@(buttonWidth));
+            make.height.equalTo(@(buttonHeight));
+        }
+        //        make.top.equalTo(self.backgroundView.mas_top).with.offset(top);
+        //        make.left.equalTo(self.backgroundView.mas_left).with.offset(margin);
+        //        make.width.equalTo(@(buttonWidth));
+        //        make.height.equalTo(@(buttonHeight));
         
     }];
     [self.rightButton mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        //        if (@available(iOS 11.0, *)) {
-        //            make.top.equalTo(self.backgroundView.mas_safeAreaLayoutGuideTop).with.offset(top);
-        //            make.right.equalTo(self.backgroundView.mas_safeAreaLayoutGuideRight).with.offset(-margin);
-        //            make.width.equalTo(@(buttonWidth));
-        //            make.height.equalTo(@(buttonHeight));
-        //        } else {
-        make.top.equalTo(self.backgroundView.mas_top).with.offset(top);
-        make.right.equalTo(self.backgroundView.mas_right).with.offset(-margin);
-        make.width.equalTo(@(buttonWidth));
-        make.height.equalTo(@(buttonHeight));
-        //}
-        
+        if (@available(iOS 11.0, *)) {
+            make.top.equalTo(self.backgroundView.mas_safeAreaLayoutGuideTop);
+            make.right.equalTo(self.backgroundView.mas_safeAreaLayoutGuideRight).with.offset(-margin);
+            make.width.equalTo(@(buttonWidth));
+            make.height.equalTo(@(buttonHeight));
+        } else {
+            make.top.equalTo(self.backgroundView.mas_top);
+            make.right.equalTo(self.backgroundView.mas_right).with.offset(-margin);
+            make.width.equalTo(@(buttonWidth));
+            make.height.equalTo(@(buttonHeight));
+        }
+        //        make.top.equalTo(self.backgroundView.mas_top).with.offset(top);
+        //        make.right.equalTo(self.backgroundView.mas_right).with.offset(-margin);
+        //        make.width.equalTo(@(buttonWidth));
+        //        make.height.equalTo(@(buttonHeight));
         
     }];
     
@@ -126,15 +141,16 @@
         make.height.equalTo(@(titleLabelHeight));
         
     }];
-    //    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
-    //
-    //        make.top.equalTo(self.backgroundView.mas_bottom).with.offset(-0.5);
-    //        make.left.equalTo(self.backgroundView.mas_left);
-    //        make.right.equalTo(self.backgroundView.mas_right);
-    //        make.height.equalTo(@(0.5));
-    //
-    //    }];
-    
+    [self.bottomLine mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.top.equalTo(self.backgroundView.mas_top).with.offset(0.5);
+        make.left.equalTo(self.backgroundView.mas_left);
+        make.right.equalTo(self.backgroundView.mas_right);
+        make.height.equalTo(@(0.5));
+        
+    }];
+
+ 
     
 }
 
@@ -171,7 +187,7 @@
     self.leftButton.hidden = NO;
     
     [self.leftButton setImage:normal forState:UIControlStateNormal];
-    
+   
     [self.leftButton setImage:highlighted forState:UIControlStateHighlighted];
     
     [self.leftButton setTitle:title forState:UIControlStateNormal];
@@ -194,9 +210,9 @@
 - (void)wr_setRightButtonWithNormal:(UIImage *)normal highlighted:(UIImage *)highlighted title:(NSString *)title titleColor:(UIColor *)titleColor backBroundColor:(UIColor *)backgroundColor
 {
     self.rightButton.hidden = NO;
-    
+  
     [self.rightButton setImage:normal forState:UIControlStateNormal];
-    
+
     [self.rightButton setImage:highlighted forState:UIControlStateHighlighted];
     [self.rightButton setTitle:title forState:UIControlStateNormal];
     [self.rightButton setTitleColor:titleColor forState:UIControlStateNormal];
@@ -248,9 +264,9 @@
     if (!_leftButton) {
         _leftButton = [[UIButton alloc] init];
         [_leftButton addTarget:self action:@selector(clickBack:) forControlEvents:UIControlEventTouchUpInside];
-        _leftButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _leftButton.imageView.contentMode = UIViewContentModeCenter;
         _leftButton.hidden = YES;
-        //_leftButton.titleLabel.adjustsFontSizeToFitWidth=YES;
+        _leftButton.titleLabel.adjustsFontSizeToFitWidth=YES;
     }
     return _leftButton;
 }
@@ -258,9 +274,9 @@
     if (!_rightButton) {
         _rightButton = [[UIButton alloc] init];
         [_rightButton addTarget:self action:@selector(clickRight:) forControlEvents:UIControlEventTouchUpInside];
-        _rightButton.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        _rightButton.imageView.contentMode = UIViewContentModeCenter;
         _rightButton.hidden = YES;
-        //_rightButton.titleLabel.adjustsFontSizeToFitWidth=YES;
+         _rightButton.titleLabel.adjustsFontSizeToFitWidth=YES;
     }
     return _rightButton;
 }
