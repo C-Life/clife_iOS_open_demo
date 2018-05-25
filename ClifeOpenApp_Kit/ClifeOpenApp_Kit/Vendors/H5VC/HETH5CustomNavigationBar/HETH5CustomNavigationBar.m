@@ -15,9 +15,7 @@
 #define kWRScreenWidth [UIScreen mainScreen].bounds.size.width
 
 @interface HETH5CustomNavigationBar ()
-@property (nonatomic, strong) UILabel     *titleLable;
-@property (nonatomic, strong) UIButton    *leftButton;
-@property (nonatomic, strong) UIButton    *rightButton;
+
 @property (nonatomic, strong) UIView      *bottomLine;
 
 
