@@ -9,9 +9,61 @@
 
 #import <UIKit/UIKit.h>
 #import <WebKit/WebKit.h>
-#import "HETWKWebViewJavascriptBridge.h"
-//#import "MBProgressHUD.h"
-#import "HETDevice.h"
+//#import "HETWKWebViewJavascriptBridge.h"
+#import "MBProgressHUD.h"
+//#import "HETDevice.h"
+
+#pragma mark wek str 宏
+
+#ifndef weakify
+#if __has_feature(objc_arc)
+
+#define weakify( x ) \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Wshadow\"") \
+autoreleasepool{} __weak __typeof__(x) __weak_##x##__ = x; \
+_Pragma("clang diagnostic pop")
+
+#else
+
+#define weakify( x ) \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Wshadow\"") \
+autoreleasepool{} __block __typeof__(x) __block_##x##__ = x; \
+_Pragma("clang diagnostic pop")
+
+#endif
+#endif
+
+#ifndef strongify
+#if __has_feature(objc_arc)
+
+#define strongify( x ) \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Wshadow\"") \
+try{} @finally{} __typeof__(x) x = __weak_##x##__; \
+_Pragma("clang diagnostic pop")
+
+#else
+
+#define strongify( x ) \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Wshadow\"") \
+try{} @finally{} __typeof__(x) x = __block_##x##__; \
+_Pragma("clang diagnostic pop")
+
+#endif
+#endif
+
+#define SuppressPerformSelectorLeakWarning(Stuff) \
+do { \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+Stuff; \
+_Pragma("clang diagnostic pop") \
+} while (0)
+
+
 @protocol HETDeviceControlWKWebviewDelegate;
 @interface HETH5ContainBaseViewController : UIViewController<WKNavigationDelegate,HETWKWebViewJavascriptBridgeDelegate>
 @property(nonatomic, strong) WKWebView *wkWebView;
@@ -31,6 +83,9 @@
 //@property(nonatomic,copy) NSString *macAddress;
 //@property(nonatomic,assign)NSUInteger deviceType;
 //@property(nonatomic,assign)NSUInteger deviceSubType;
+
+//重新load h5Path 内容
+- (void)loadRequest;
 @end
 
 @protocol HETDeviceControlWKWebviewDelegate <NSObject>

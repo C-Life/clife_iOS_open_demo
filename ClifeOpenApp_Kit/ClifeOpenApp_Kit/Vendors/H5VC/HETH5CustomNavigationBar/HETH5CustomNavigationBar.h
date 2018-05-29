@@ -18,6 +18,9 @@
 @property (nonatomic, strong) UIColor  *barBackgroundColor;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) UIImage  *barBackgroundImage;
+@property (nonatomic, strong) UILabel     *titleLable;
+@property (nonatomic, strong) UIButton    *leftButton;
+@property (nonatomic, strong) UIButton    *rightButton;
 @property (nonatomic, copy) void(^onClickLeftButton)(NSUInteger index,NSString *title);
 @property (nonatomic, copy) void(^onClickRightButton)(NSUInteger index,NSString *title);
 
