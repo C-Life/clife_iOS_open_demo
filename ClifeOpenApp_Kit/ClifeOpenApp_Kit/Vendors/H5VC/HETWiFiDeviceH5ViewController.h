@@ -7,8 +7,11 @@
 //
 
 #import "HETH5ContainBaseViewController.h"
-//#import "HETDeviceControlBusiness.h"
+#import "HETDeviceControlBusiness.h"
 @interface HETWiFiDeviceH5ViewController : HETH5ContainBaseViewController
+/** 小循环控制的key **/
+@property(nonatomic, strong) NSString             *deviceKey;
 
-@property(nonatomic, strong)HETDeviceControlBusiness *wifiBusiness;
+/** 业务控制模型 **/
+@property(nonatomic, strong) HETDeviceControlBusiness *wifiBusiness;
 @end
