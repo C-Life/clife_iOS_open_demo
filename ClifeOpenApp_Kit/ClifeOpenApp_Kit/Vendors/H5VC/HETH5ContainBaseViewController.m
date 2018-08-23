@@ -15,12 +15,16 @@
 //#import "HETH5RelRequest.h"
 //#import "HETOpenSDK.h"
 #import <HETOpenSDK/HETReachability.h>"
+//#import "HETReachability.h"
 #import "HETH5CustomNavigationBar.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
-
+#import "HETLocationManager.h"
 
 @interface HETH5ContainBaseViewController ()<WKUIDelegate>
+{
+    HETLocationManager *locationManager;
+}
 @property(nonatomic, strong) NSURL *requestURL;
 @property(nonatomic, strong) NSURLCredential *credential;
 @property(nonatomic,strong) HETReachability *ablity;
@@ -34,7 +38,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     // 修复 Push到下一级右上角可恶的黑条
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor whiteColor];
     //self.navigationController.navigationBar.hidden = YES;
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -66,7 +70,7 @@
     [self.view addSubview:self.h5CustomNavigationBar];
     self.h5CustomNavigationBar.barBackgroundColor=self.navigationController.navigationBar.barTintColor;
     [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[UIImage imageNamed:@"h5_nav_back_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
-    [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[UIImage imageNamed:@"h5_more"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
+    [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[UIImage imageNamed:@"h5_more_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
     
     [self.view addSubview:self.progressView];
     self.progressView.frame=CGRectMake(0, self.h5CustomNavigationBar.frame.size.height, [UIScreen mainScreen].bounds.size.width,5);
@@ -89,6 +93,7 @@
 }
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     //self.navigationController.navigationBar.hidden=YES;
     _jsBridge.delegate=self;
@@ -96,6 +101,7 @@
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
+    [super viewWillDisappear:animated];
     //self.navigationController.navigationBar.hidden=NO;
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     _jsBridge.delegate=nil;
@@ -108,7 +114,7 @@
 - (void)loadRequest
 {
     //清除webView的缓存
-    [[NSURLCache sharedURLCache] removeAllCachedResponses];
+    //[[NSURLCache sharedURLCache] removeAllCachedResponses];
     if (self.h5Path&&self.h5Path.length>0) {
         OPLog(@"H5路径:%@",self.h5Path);
         if ([self.h5Path hasPrefix:@"http"]) {
@@ -129,7 +135,7 @@
                 @try {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                    [_wkWebView loadFileURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",[self.h5Path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]] allowingReadAccessToURL:[NSURL fileURLWithPath:directory]];
+                    [_wkWebView loadFileURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",self.h5Path]] allowingReadAccessToURL:[NSURL fileURLWithPath:directory]];
 #pragma clang diagnostic pop
                     
                 } @catch (NSException *exception) {
@@ -142,7 +148,7 @@
             }else{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
-                [_wkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",[self.h5Path  stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]]]]];
+                [_wkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"file://%@",self.h5Path ]]]];
 #pragma clang diagnostic pop
             }
         }
@@ -256,15 +262,18 @@
  */
 -(void)relProxyHttp:(id)url data:(id)data httpType:(id) type sucCallbackId:(id) sucCallbackId errCallbackId:(id) errCallbackId needSign:(id) needSign
 {
-    
+    NSLog(@"yy: %@",url);
     BOOL bneedSign=NO;
     if([needSign rangeOfString:@"1"].location!=NSNotFound)
     {
         bneedSign=YES;
     }
-    NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    
+    NSData *jsonData;
+    NSDictionary *dic;
+     if (data && ![data isEqualToString:@" "]) {
+       jsonData= [data dataUsingEncoding:NSUTF8StringEncoding];
+         dic=[NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+     }
     HETRequestMethod httpMethod=HETRequestMethodGet;
     if([type rangeOfString:@"GET"].location!=NSNotFound)
     {
@@ -276,11 +285,11 @@
     }
     [HETDeviceRequestBusiness startRequestWithHTTPMethod:httpMethod withRequestUrl:url processParams:dic needSign:bneedSign BlockWithSuccess:^(id responseObject) {
         
-        NSDictionary *result = responseObject;
-        NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
-        NSDictionary *data = [result objectForKey:@"data"];
-        OPLog(@"%@,%ld",data,code);
-        [_jsBridge webViewHttpResponseSuccessResponse:data successCallBlock:sucCallbackId];
+//        NSDictionary *result = responseObject;
+//        NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
+//        NSDictionary *data = [result objectForKey:@"data"];
+//        OPLog(@"%@,%ld",data,code);
+        [_jsBridge webViewHttpResponseSuccessResponse:responseObject successCallBlock:sucCallbackId];
     } failure:^(NSError *error) {
         
         NSString *errorMsg=error.userInfo[@"msg"];
@@ -299,9 +308,12 @@
  */
 -(void)absProxyHttp:(id)url data:(id)data httpType:(id) type sucCallbackId:(id) sucCallbackId errCallbackId:(id) errCallbackId
 {
-    NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    
+    NSData *jsonData;
+    NSDictionary *dic;
+    if (data && ![data isEqualToString:@" "]) {
+        jsonData= [data dataUsingEncoding:NSUTF8StringEncoding];
+        dic=[NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    }
     HETRequestMethod httpMethod=HETRequestMethodGet;
     if([type rangeOfString:@"GET"].location!=NSNotFound)
     {
@@ -313,10 +325,10 @@
     }
     
     [HETDeviceRequestBusiness startRequestWithHTTPMethod:httpMethod withRequestUrl:url processParams:dic needSign:NO BlockWithSuccess:^(id responseObject) {
-        NSDictionary *result = responseObject;
-        NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
-        NSDictionary *data = [result objectForKey:@"data"];
-        [_jsBridge webViewHttpResponseSuccessResponse:data?:responseObject successCallBlock:sucCallbackId];
+        //NSDictionary *result = responseObject;
+//        NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
+//        NSDictionary *data = [result objectForKey:@"data"];
+        [_jsBridge webViewHttpResponseSuccessResponse:responseObject successCallBlock:sucCallbackId];
     } failure:^(NSError *error) {
         
         NSString *errorMsg=error.userInfo[@"msg"];
@@ -547,6 +559,7 @@
  */
 -(void)showActionSheetWithTitle:(id)title itemList:(id)itemList itemColor:(id) itemColor successCallbackId:(id) successCallbackId failCallbackId:(id) failCallbackId completeCallbackId:(id) completeCallbackId
 {
+       if (itemList && ![itemList isEqualToString:@" "]) {
     NSString *titleStr=title;
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:!titleStr.length?nil:titleStr message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     // [alertController.view setNeedsLayout]; // 去掉这行log上会打印错误
@@ -576,6 +589,7 @@
     [alertController addAction:cancelAction];
     
     [self presentViewController:alertController animated:YES completion:nil];
+       }
 }
 
 
@@ -612,6 +626,37 @@
     
 }
 
+/**
+ *  H5设置APP导航栏左右按钮的样式颜色，右边按钮的隐藏
+ 
+ *  @param colorStyle 设置导航栏左右按钮的样式颜色，APP默认支持黑白两套图片，0代表白色样式，1代表黑色样式
+ *  @param rightButtonHide 导航栏右边按钮是否隐藏，0代表不隐藏，1代表隐藏
+ *  @param successCallbackId  接口调用成功的回调函数
+ *  @param failCallbackId     接口调用失败的回调函数
+ *  @param completeCallbackId 接口调用结束的回调函数（调用成功、失败都会执行）
+ */
+-(void)setNavigationBarButtonWithColorStyle:(id)colorStyle rightButtonHide:(id)rightButtonHide successCallbackId:(id)successCallbackId failCallbackId:(id)failCallbackId completeCallbackId:(id)completeCallbackId
+{
+    if([colorStyle rangeOfString:@"1"].location!=NSNotFound)//黑色样式
+    {
+        [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[UIImage imageNamed:@"h5_nav_back_black"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
+        [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[UIImage imageNamed:@"h5_more_black"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
+    }
+    else//白色样式
+    {
+        [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[UIImage imageNamed:@"h5_nav_back_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
+        [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[UIImage imageNamed:@"h5_more_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
+    }
+    if([rightButtonHide rangeOfString:@"1"].location!=NSNotFound)//隐藏
+    {
+        self.h5CustomNavigationBar.rightButton.hidden=YES;
+    }
+    else
+    {
+        self.h5CustomNavigationBar.rightButton.hidden=NO;
+    }
+    
+}
 
 /**
  *  设置导航栏左边按钮
@@ -623,6 +668,7 @@
  */
 -(void)setNavigationBarLeftBarButtonItems:(id)itemList  successCallbackId:(id) successCallbackId  failCallbackId:(id)failCallbackId
 {
+      if (itemList && ![itemList isEqualToString:@" "]) {
     NSError *error;
     NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
     id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
@@ -636,7 +682,7 @@
             UIColor *backBroundColor=[self colorWithHexString:dic[@"backgroundColor"]];
             [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[self imageWithImagePath:dic[@"image"]] highlighted:[self imageWithImagePath:dic[@"image"]] title:dic[@"title"] titleColor:tintColor backBroundColor:backBroundColor];
         }
-        
+    }
     }
 }
 
@@ -651,6 +697,7 @@
  */
 -(void)setNavigationBarRightBarButtonItems:(id)itemList  successCallbackId:(id) successCallbackId  failCallbackId:(id)failCallbackId
 {
+      if (itemList && ![itemList isEqualToString:@" "]) {
     NSError *error;
     NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
     id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
@@ -674,6 +721,12 @@
     {
         self.h5CustomNavigationBar.rightButton.hidden=YES;
     }
+      }
+    
+      else
+      {
+          self.h5CustomNavigationBar.rightButton.hidden=YES;
+      }
 }
 
 
@@ -869,6 +922,37 @@
 {
     
 }
+
+/**
+ *  H5获取APP当前的地理位置信息接口
+ *
+ *  @param type    默认为 wgs84 返回 GPS 坐标；gcj02 返回国测局坐标
+ *  @param altitude    传入 true 会返回高度信息，由于获取高度需要较高精确度，会减慢接口返回速度
+ *  @param successCallbackId   接口调用成功的回调函数
+ *  @param failCallbackId    接口调用失败的回调函数
+ *  @param completeCallbackId    接口调用结束的回调函数（调用成功、失败)
+ 
+ */
+
+-(void)userLocationWithType:(id)type altitude:(id)altitude successCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId  completeCallbackId:(id) completeCallbackId
+{
+    
+//    locationManager=[[HETLocationManager alloc]init];
+//    __weak typeof(self) weakSelf = self;
+//    [locationManager getUserLocationWithGPSType:type withAltitude:altitude completeBlock:^(NSDictionary *location, NSError *error) {
+//        __strong typeof(weakSelf) strongSelf = weakSelf;
+//        if(error)
+//        {
+//            [strongSelf->_jsBridge webViewUserLocationResponse:error.userInfo callBackId:failCallbackId];
+//        }
+//        else
+//        {
+//            NSDictionary *dic=@{@"data":location};
+//            NSLog(@"当前定位信息:%@",location);
+//            [strongSelf->_jsBridge webViewUserLocationResponse:dic callBackId:successCallbackId];
+//        }
+//    }];
+}
 /*
  #pragma mark - Navigation
  
@@ -903,7 +987,7 @@
 }
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error{
     
-    
+     NSLog(@"webView加载失败了:%@",error);
     /* 停止加载页面*/
     [webView stopLoading];
     
@@ -1034,6 +1118,10 @@
 
 -(UIImage *)imageWithImagePath:(NSString *)path
 {
+    if(!path.length)
+    {
+        return nil;
+    }
     UIImage *image;
     if([self.h5Path hasPrefix:@"http"])
     {

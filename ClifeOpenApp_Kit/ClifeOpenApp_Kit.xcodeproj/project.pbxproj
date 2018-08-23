@@ -83,16 +83,22 @@
 		197C45481FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 197C45471FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard */; };
 		199F842F1F70ADFB00A88CBA /* HETBleControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 199F842E1F70ADFB00A88CBA /* HETBleControllerViewController.m */; };
 		19BBA3452079B38800EA5AA5 /* humidi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 19BBA3442079B38800EA5AA5 /* humidi.bundle */; };
-		19DC08A620BD04BB005998A7 /* HETBLEDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC089520BD04BB005998A7 /* HETBLEDeviceH5ViewController.m */; };
-		19DC08A720BD04BB005998A7 /* HETH5ContainBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC089720BD04BB005998A7 /* HETH5ContainBaseViewController.m */; };
-		19DC08A820BD04BB005998A7 /* h5_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DC089920BD04BB005998A7 /* h5_more@2x.png */; };
-		19DC08A920BD04BB005998A7 /* h5_more@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DC089A20BD04BB005998A7 /* h5_more@3x.png */; };
-		19DC08AA20BD04BB005998A7 /* h5_nav_back_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DC089B20BD04BB005998A7 /* h5_nav_back_black@2x.png */; };
-		19DC08AB20BD04BB005998A7 /* h5_nav_back_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DC089C20BD04BB005998A7 /* h5_nav_back_black@3x.png */; };
-		19DC08AC20BD04BB005998A7 /* h5_nav_back_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DC089D20BD04BB005998A7 /* h5_nav_back_white@2x.png */; };
-		19DC08AD20BD04BB005998A7 /* h5_nav_back_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 19DC089E20BD04BB005998A7 /* h5_nav_back_white@3x.png */; };
-		19DC08AE20BD04BB005998A7 /* HETH5CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC08A020BD04BB005998A7 /* HETH5CustomNavigationBar.m */; };
-		19DC08B020BD04BB005998A7 /* HETWiFiDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 19DC08A520BD04BB005998A7 /* HETWiFiDeviceH5ViewController.m */; };
+		1B74C129212ECCD800ADD2FB /* HETBLEDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C10D212ECCD800ADD2FB /* HETBLEDeviceH5ViewController.m */; };
+		1B74C12A212ECCD800ADD2FB /* HETH5ContainBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C10F212ECCD800ADD2FB /* HETH5ContainBaseViewController.m */; };
+		1B74C12B212ECCD800ADD2FB /* h5_more_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C111212ECCD800ADD2FB /* h5_more_black@2x.png */; };
+		1B74C12C212ECCD800ADD2FB /* h5_more_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C112212ECCD800ADD2FB /* h5_more_black@3x.png */; };
+		1B74C12D212ECCD800ADD2FB /* h5_more_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C113212ECCD800ADD2FB /* h5_more_white@2x.png */; };
+		1B74C12E212ECCD800ADD2FB /* h5_more_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C114212ECCD800ADD2FB /* h5_more_white@3x.png */; };
+		1B74C12F212ECCD800ADD2FB /* h5_nav_back_black@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C115212ECCD800ADD2FB /* h5_nav_back_black@2x.png */; };
+		1B74C130212ECCD800ADD2FB /* h5_nav_back_black@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C116212ECCD800ADD2FB /* h5_nav_back_black@3x.png */; };
+		1B74C131212ECCD800ADD2FB /* h5_nav_back_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C117212ECCD800ADD2FB /* h5_nav_back_white@2x.png */; };
+		1B74C132212ECCD800ADD2FB /* h5_nav_back_white@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B74C118212ECCD800ADD2FB /* h5_nav_back_white@3x.png */; };
+		1B74C133212ECCD800ADD2FB /* HETH5CustomNavigationBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C11A212ECCD800ADD2FB /* HETH5CustomNavigationBar.m */; };
+		1B74C134212ECCD800ADD2FB /* HETLocationConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C11D212ECCD800ADD2FB /* HETLocationConverter.m */; };
+		1B74C135212ECCD800ADD2FB /* HETLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C11F212ECCD800ADD2FB /* HETLocationManager.m */; };
+		1B74C138212ECCD800ADD2FB /* HETWiFiDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C126212ECCD800ADD2FB /* HETWiFiDeviceH5ViewController.m */; };
+		1B74C139212ECCD800ADD2FB /* HETZigbeeDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C128212ECCD800ADD2FB /* HETZigbeeDeviceH5ViewController.m */; };
+		1B74C13C212ED01C00ADD2FB /* HETNBIoTDeviceH5ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B74C13B212ED01C00ADD2FB /* HETNBIoTDeviceH5ViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -267,20 +273,30 @@
 		199F842D1F70ADFB00A88CBA /* HETBleControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETBleControllerViewController.h; sourceTree = "<group>"; };
 		199F842E1F70ADFB00A88CBA /* HETBleControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETBleControllerViewController.m; sourceTree = "<group>"; };
 		19BBA3442079B38800EA5AA5 /* humidi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = humidi.bundle; sourceTree = "<group>"; };
-		19DC089420BD04BB005998A7 /* HETBLEDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETBLEDeviceH5ViewController.h; sourceTree = "<group>"; };
-		19DC089520BD04BB005998A7 /* HETBLEDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETBLEDeviceH5ViewController.m; sourceTree = "<group>"; };
-		19DC089620BD04BB005998A7 /* HETH5ContainBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETH5ContainBaseViewController.h; sourceTree = "<group>"; };
-		19DC089720BD04BB005998A7 /* HETH5ContainBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETH5ContainBaseViewController.m; sourceTree = "<group>"; };
-		19DC089920BD04BB005998A7 /* h5_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more@2x.png"; sourceTree = "<group>"; };
-		19DC089A20BD04BB005998A7 /* h5_more@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more@3x.png"; sourceTree = "<group>"; };
-		19DC089B20BD04BB005998A7 /* h5_nav_back_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_black@2x.png"; sourceTree = "<group>"; };
-		19DC089C20BD04BB005998A7 /* h5_nav_back_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_black@3x.png"; sourceTree = "<group>"; };
-		19DC089D20BD04BB005998A7 /* h5_nav_back_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_white@2x.png"; sourceTree = "<group>"; };
-		19DC089E20BD04BB005998A7 /* h5_nav_back_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_white@3x.png"; sourceTree = "<group>"; };
-		19DC089F20BD04BB005998A7 /* HETH5CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETH5CustomNavigationBar.h; sourceTree = "<group>"; };
-		19DC08A020BD04BB005998A7 /* HETH5CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETH5CustomNavigationBar.m; sourceTree = "<group>"; };
-		19DC08A420BD04BB005998A7 /* HETWiFiDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETWiFiDeviceH5ViewController.h; sourceTree = "<group>"; };
-		19DC08A520BD04BB005998A7 /* HETWiFiDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETWiFiDeviceH5ViewController.m; sourceTree = "<group>"; };
+		1B74C10C212ECCD800ADD2FB /* HETBLEDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETBLEDeviceH5ViewController.h; sourceTree = "<group>"; };
+		1B74C10D212ECCD800ADD2FB /* HETBLEDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETBLEDeviceH5ViewController.m; sourceTree = "<group>"; };
+		1B74C10E212ECCD800ADD2FB /* HETH5ContainBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETH5ContainBaseViewController.h; sourceTree = "<group>"; };
+		1B74C10F212ECCD800ADD2FB /* HETH5ContainBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETH5ContainBaseViewController.m; sourceTree = "<group>"; };
+		1B74C111212ECCD800ADD2FB /* h5_more_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more_black@2x.png"; sourceTree = "<group>"; };
+		1B74C112212ECCD800ADD2FB /* h5_more_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more_black@3x.png"; sourceTree = "<group>"; };
+		1B74C113212ECCD800ADD2FB /* h5_more_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more_white@2x.png"; sourceTree = "<group>"; };
+		1B74C114212ECCD800ADD2FB /* h5_more_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_more_white@3x.png"; sourceTree = "<group>"; };
+		1B74C115212ECCD800ADD2FB /* h5_nav_back_black@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_black@2x.png"; sourceTree = "<group>"; };
+		1B74C116212ECCD800ADD2FB /* h5_nav_back_black@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_black@3x.png"; sourceTree = "<group>"; };
+		1B74C117212ECCD800ADD2FB /* h5_nav_back_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_white@2x.png"; sourceTree = "<group>"; };
+		1B74C118212ECCD800ADD2FB /* h5_nav_back_white@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "h5_nav_back_white@3x.png"; sourceTree = "<group>"; };
+		1B74C119212ECCD800ADD2FB /* HETH5CustomNavigationBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETH5CustomNavigationBar.h; sourceTree = "<group>"; };
+		1B74C11A212ECCD800ADD2FB /* HETH5CustomNavigationBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETH5CustomNavigationBar.m; sourceTree = "<group>"; };
+		1B74C11C212ECCD800ADD2FB /* HETLocationConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETLocationConverter.h; sourceTree = "<group>"; };
+		1B74C11D212ECCD800ADD2FB /* HETLocationConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETLocationConverter.m; sourceTree = "<group>"; };
+		1B74C11E212ECCD800ADD2FB /* HETLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETLocationManager.h; sourceTree = "<group>"; };
+		1B74C11F212ECCD800ADD2FB /* HETLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETLocationManager.m; sourceTree = "<group>"; };
+		1B74C125212ECCD800ADD2FB /* HETWiFiDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETWiFiDeviceH5ViewController.h; sourceTree = "<group>"; };
+		1B74C126212ECCD800ADD2FB /* HETWiFiDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETWiFiDeviceH5ViewController.m; sourceTree = "<group>"; };
+		1B74C127212ECCD800ADD2FB /* HETZigbeeDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETZigbeeDeviceH5ViewController.h; sourceTree = "<group>"; };
+		1B74C128212ECCD800ADD2FB /* HETZigbeeDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETZigbeeDeviceH5ViewController.m; sourceTree = "<group>"; };
+		1B74C13A212ED01C00ADD2FB /* HETNBIoTDeviceH5ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HETNBIoTDeviceH5ViewController.h; sourceTree = "<group>"; };
+		1B74C13B212ED01C00ADD2FB /* HETNBIoTDeviceH5ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HETNBIoTDeviceH5ViewController.m; sourceTree = "<group>"; };
 		4B1A944B22262BCA40EFF390 /* Pods-ClifeOpenApp_Kit.enterprise.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClifeOpenApp_Kit.enterprise.xcconfig"; path = "Pods/Target Support Files/Pods-ClifeOpenApp_Kit/Pods-ClifeOpenApp_Kit.enterprise.xcconfig"; sourceTree = "<group>"; };
 		5737E6EA9F6C642C88C4C5D4 /* Pods-ClifeOpenApp_Kit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ClifeOpenApp_Kit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ClifeOpenApp_Kit/Pods-ClifeOpenApp_Kit.debug.xcconfig"; sourceTree = "<group>"; };
 		77015388C5B7112104192A31 /* libPods-ClifeOpenApp_Kit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ClifeOpenApp_Kit.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -431,7 +447,7 @@
 		0A0C35E81F4FBB480084F0F3 /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
-				19DC089320BD04BB005998A7 /* H5VC */,
+				1B74C10B212ECCD800ADD2FB /* H5VC */,
 			);
 			path = Vendors;
 			sourceTree = "<group>";
@@ -1112,33 +1128,51 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		19DC089320BD04BB005998A7 /* H5VC */ = {
+		1B74C10B212ECCD800ADD2FB /* H5VC */ = {
 			isa = PBXGroup;
 			children = (
-				19DC089420BD04BB005998A7 /* HETBLEDeviceH5ViewController.h */,
-				19DC089520BD04BB005998A7 /* HETBLEDeviceH5ViewController.m */,
-				19DC089620BD04BB005998A7 /* HETH5ContainBaseViewController.h */,
-				19DC089720BD04BB005998A7 /* HETH5ContainBaseViewController.m */,
-				19DC089820BD04BB005998A7 /* HETH5CustomNavigationBar */,
-				19DC08A420BD04BB005998A7 /* HETWiFiDeviceH5ViewController.h */,
-				19DC08A520BD04BB005998A7 /* HETWiFiDeviceH5ViewController.m */,
+				1B74C13A212ED01C00ADD2FB /* HETNBIoTDeviceH5ViewController.h */,
+				1B74C13B212ED01C00ADD2FB /* HETNBIoTDeviceH5ViewController.m */,
+				1B74C10C212ECCD800ADD2FB /* HETBLEDeviceH5ViewController.h */,
+				1B74C10D212ECCD800ADD2FB /* HETBLEDeviceH5ViewController.m */,
+				1B74C10E212ECCD800ADD2FB /* HETH5ContainBaseViewController.h */,
+				1B74C10F212ECCD800ADD2FB /* HETH5ContainBaseViewController.m */,
+				1B74C110212ECCD800ADD2FB /* HETH5CustomNavigationBar */,
+				1B74C11B212ECCD800ADD2FB /* HETLocationConverter */,
+				1B74C11E212ECCD800ADD2FB /* HETLocationManager.h */,
+				1B74C11F212ECCD800ADD2FB /* HETLocationManager.m */,
+				1B74C125212ECCD800ADD2FB /* HETWiFiDeviceH5ViewController.h */,
+				1B74C126212ECCD800ADD2FB /* HETWiFiDeviceH5ViewController.m */,
+				1B74C127212ECCD800ADD2FB /* HETZigbeeDeviceH5ViewController.h */,
+				1B74C128212ECCD800ADD2FB /* HETZigbeeDeviceH5ViewController.m */,
 			);
 			path = H5VC;
 			sourceTree = "<group>";
 		};
-		19DC089820BD04BB005998A7 /* HETH5CustomNavigationBar */ = {
+		1B74C110212ECCD800ADD2FB /* HETH5CustomNavigationBar */ = {
 			isa = PBXGroup;
 			children = (
-				19DC089920BD04BB005998A7 /* h5_more@2x.png */,
-				19DC089A20BD04BB005998A7 /* h5_more@3x.png */,
-				19DC089B20BD04BB005998A7 /* h5_nav_back_black@2x.png */,
-				19DC089C20BD04BB005998A7 /* h5_nav_back_black@3x.png */,
-				19DC089D20BD04BB005998A7 /* h5_nav_back_white@2x.png */,
-				19DC089E20BD04BB005998A7 /* h5_nav_back_white@3x.png */,
-				19DC089F20BD04BB005998A7 /* HETH5CustomNavigationBar.h */,
-				19DC08A020BD04BB005998A7 /* HETH5CustomNavigationBar.m */,
+				1B74C111212ECCD800ADD2FB /* h5_more_black@2x.png */,
+				1B74C112212ECCD800ADD2FB /* h5_more_black@3x.png */,
+				1B74C113212ECCD800ADD2FB /* h5_more_white@2x.png */,
+				1B74C114212ECCD800ADD2FB /* h5_more_white@3x.png */,
+				1B74C115212ECCD800ADD2FB /* h5_nav_back_black@2x.png */,
+				1B74C116212ECCD800ADD2FB /* h5_nav_back_black@3x.png */,
+				1B74C117212ECCD800ADD2FB /* h5_nav_back_white@2x.png */,
+				1B74C118212ECCD800ADD2FB /* h5_nav_back_white@3x.png */,
+				1B74C119212ECCD800ADD2FB /* HETH5CustomNavigationBar.h */,
+				1B74C11A212ECCD800ADD2FB /* HETH5CustomNavigationBar.m */,
 			);
 			path = HETH5CustomNavigationBar;
+			sourceTree = "<group>";
+		};
+		1B74C11B212ECCD800ADD2FB /* HETLocationConverter */ = {
+			isa = PBXGroup;
+			children = (
+				1B74C11C212ECCD800ADD2FB /* HETLocationConverter.h */,
+				1B74C11D212ECCD800ADD2FB /* HETLocationConverter.m */,
+			);
+			path = HETLocationConverter;
 			sourceTree = "<group>";
 		};
 		B3758DEB37D8B09D32726DC4 /* Frameworks */ = {
@@ -1282,21 +1316,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B74C12B212ECCD800ADD2FB /* h5_more_black@2x.png in Resources */,
 				0A77FDF41F59167500FE0CCF /* XiaoC_loading@3x.gif in Resources */,
+				1B74C12D212ECCD800ADD2FB /* h5_more_white@2x.png in Resources */,
+				1B74C130212ECCD800ADD2FB /* h5_nav_back_black@3x.png in Resources */,
 				0A0B17BE1F54044200FD878C /* Localizable.strings in Resources */,
 				0A931AFB1F8F374F00096313 /* bindHelp.bundle in Resources */,
-				19DC08AC20BD04BB005998A7 /* h5_nav_back_white@2x.png in Resources */,
+				1B74C12E212ECCD800ADD2FB /* h5_more_white@3x.png in Resources */,
 				0A0C35BD1F4FB9CB0084F0F3 /* LaunchScreen.storyboard in Resources */,
 				19BBA3452079B38800EA5AA5 /* humidi.bundle in Resources */,
+				1B74C131212ECCD800ADD2FB /* h5_nav_back_white@2x.png in Resources */,
 				197C45481FA8589D00AEAD6F /* HETCloudAuthStoryboard.storyboard in Resources */,
-				19DC08AD20BD04BB005998A7 /* h5_nav_back_white@3x.png in Resources */,
 				0A77FDF31F59167500FE0CCF /* XiaoC_loading@2x.gif in Resources */,
-				19DC08AB20BD04BB005998A7 /* h5_nav_back_black@3x.png in Resources */,
-				19DC08A920BD04BB005998A7 /* h5_more@3x.png in Resources */,
-				19DC08AA20BD04BB005998A7 /* h5_nav_back_black@2x.png in Resources */,
 				0A0B17B81F54035B00FD878C /* InfoPlist.strings in Resources */,
+				1B74C12C212ECCD800ADD2FB /* h5_more_black@3x.png in Resources */,
 				0A0C35EA1F4FBB480084F0F3 /* Assets.xcassets in Resources */,
-				19DC08A820BD04BB005998A7 /* h5_more@2x.png in Resources */,
+				1B74C132212ECCD800ADD2FB /* h5_nav_back_white@3x.png in Resources */,
+				1B74C12F212ECCD800ADD2FB /* h5_nav_back_black@2x.png in Resources */,
 				0A0C35B81F4FB9CB0084F0F3 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1400,6 +1436,7 @@
 				0AFF58C41F7DF6E700F9437A /* HETShareDevcieVC.m in Sources */,
 				0A4AE0011F72187D003D5848 /* HETBindAPDeviceVC.m in Sources */,
 				191CF3A21F6FCFF800104975 /* LEDBleDeviceVC.m in Sources */,
+				1B74C13C212ED01C00ADD2FB /* HETNBIoTDeviceH5ViewController.m in Sources */,
 				0A1B66841F68C91B00799864 /* HETNavigationVC.m in Sources */,
 				0A0600B41F7F8BF200B508EC /* HETMessageTypeModel.m in Sources */,
 				0A7FBA4B1F6FEB6000E82808 /* HETinstructionsPageView.m in Sources */,
@@ -1416,7 +1453,6 @@
 				0A132EA11F8B0BF000686B39 /* HETSystemMessageVC.m in Sources */,
 				191CF3A11F6FCFF800104975 /* SleepBoxWithSliderCell.m in Sources */,
 				0AE1961B1F57EFC100A475F2 /* HETFeedbackOpinionVC.m in Sources */,
-				19DC08B020BD04BB005998A7 /* HETWiFiDeviceH5ViewController.m in Sources */,
 				0A688BA41F554E91009C5451 /* UIColor+BNRAdditions.m in Sources */,
 				0A7FBA5A1F6FF24C00E82808 /* HETBindWifiDeviceVC.m in Sources */,
 				191CF39E1F6FCFF800104975 /* BNRSlider.m in Sources */,
@@ -1439,25 +1475,29 @@
 				0A688BA61F554E91009C5451 /* UIViewController+BNRAdditions.m in Sources */,
 				0A688BA51F554E91009C5451 /* UIImage+BNRAdditions.m in Sources */,
 				0A7FBA4C1F6FEB6000E82808 /* HETChangeWIFIVC.m in Sources */,
+				1B74C138212ECCD800ADD2FB /* HETWiFiDeviceH5ViewController.m in Sources */,
 				0ACCEC3B1F57AEF500F9F41C /* HETCommonHelp.m in Sources */,
+				1B74C135212ECCD800ADD2FB /* HETLocationManager.m in Sources */,
 				0A7FBA421F6FEB6000E82808 /* HETDeviceSubTypeListVC.m in Sources */,
 				191CF37F1F6FCEF100104975 /* DeviceCell.m in Sources */,
 				0A7FBA591F6FF24C00E82808 /* HETWaterView.m in Sources */,
-				19DC08AE20BD04BB005998A7 /* HETH5CustomNavigationBar.m in Sources */,
+				1B74C133212ECCD800ADD2FB /* HETH5CustomNavigationBar.m in Sources */,
 				1902E01320B532B400633601 /* DeviceDetailsCell.m in Sources */,
 				0A848C88200DA24700E2D519 /* HETBindGPRSDeviceVC.m in Sources */,
 				0A2EA0241F8B78E8006D8F60 /* UIButton+EnlargeEdge.m in Sources */,
 				0A7FBA491F6FEB6000E82808 /* CLWifiPasswordInfo.m in Sources */,
 				0A7FBA3E1F6FEB6000E82808 /* HETAddDeviceTopView.m in Sources */,
 				0AE1961C1F57EFC100A475F2 /* CL_PlaceholderTextView.m in Sources */,
-				19DC08A620BD04BB005998A7 /* HETBLEDeviceH5ViewController.m in Sources */,
+				1B74C129212ECCD800ADD2FB /* HETBLEDeviceH5ViewController.m in Sources */,
 				0A7FBA411F6FEB6000E82808 /* HETBindInstructionVC.m in Sources */,
 				0A7FBA581F6FF24C00E82808 /* HETSearchBindAnimationView.m in Sources */,
 				0AE1961D1F57EFC100A475F2 /* HETUserVC.m in Sources */,
 				191CF39C1F6FCFF800104975 /* LEDDeviceModel.m in Sources */,
 				0A7FBA431F6FEB6000E82808 /* QRView.m in Sources */,
 				0A0C35E91F4FBB480084F0F3 /* AppDelegate.m in Sources */,
-				19DC08A720BD04BB005998A7 /* HETH5ContainBaseViewController.m in Sources */,
+				1B74C139212ECCD800ADD2FB /* HETZigbeeDeviceH5ViewController.m in Sources */,
+				1B74C134212ECCD800ADD2FB /* HETLocationConverter.m in Sources */,
+				1B74C12A212ECCD800ADD2FB /* HETH5ContainBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

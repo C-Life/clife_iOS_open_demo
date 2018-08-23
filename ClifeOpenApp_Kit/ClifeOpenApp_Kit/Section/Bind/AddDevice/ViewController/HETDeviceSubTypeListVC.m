@@ -170,11 +170,11 @@
     HETDevice *device = [HETDevice mj_objectWithKeyValues:dict];
     // 蓝牙绑定
     if ([device.moduleType integerValue] == 2) {
-        if([device.deviceTypeId integerValue]==6)
-        {
-            [self scanBleDeviceAction:[device.productId integerValue]];
-            return;
-        }
+//        if([device.deviceTypeId integerValue]==6)
+//        {
+//            [self scanBleDeviceAction:[device.productId integerValue]];
+//            return;
+//        }
         HETBindBleDeviceVC *bindBleDeviceVC = [HETBindBleDeviceVC new];
         bindBleDeviceVC.device = device;
         [self.navigationController pushViewController:bindBleDeviceVC animated:YES];

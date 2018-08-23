@@ -1,58 +1,55 @@
 //
-//  HETWiFiDeviceH5ViewController.m
-//  HETPublicSDK_HETH5DeviceControl
+//  HETZigbeeDeviceH5ViewController.m
+//  HETPublicSDK_H5ContainerVC
 //
-//  Created by mr.cao on 2018/3/30.
-//  Copyright © 2018年 HET. All rights reserved.
+//  Created by mr.cao on 2018/4/25.
+//  Copyright © 2018年 mr.cao. All rights reserved.
 //
 
-#import "HETWiFiDeviceH5ViewController.h"
+#import "HETZigbeeDeviceH5ViewController.h"
 
-@interface HETWiFiDeviceH5ViewController ()
+@interface HETZigbeeDeviceH5ViewController()
 {
-    HETWiFiDeviceState _currentDeviceState;
+ HETWiFiDeviceState _currentDeviceState;
     NSDictionary *_currentDeviceRunData;
     NSDictionary *_currentDeviceCfgData;
 }
-
 @end
 
-@implementation HETWiFiDeviceH5ViewController
+@implementation HETZigbeeDeviceH5ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     // Do any additional setup after loading the view.
+    
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     NSAssert(self.deviceModel.userKey, @"Parameter 'userKey' should not be nil");
     NSAssert(self.deviceModel.productId, @"Parameter 'productId' should not be nil");
-    NSAssert(self.deviceModel.deviceTypeId, @"Parameter 'deviceType' should not be nil");
-    NSAssert(self.deviceModel.deviceSubtypeId, @"Parameter 'deviceSubType' should not be nil");
+    NSAssert(self.deviceModel.deviceTypeId, @"Parameter 'deviceTypeId' should not be nil");
+    NSAssert(self.deviceModel.deviceSubtypeId, @"Parameter 'deviceSubtypeId' should not be nil");
     NSAssert(self.deviceModel.macAddress, @"Parameter 'macAddress' should not be nil");
     [self.wifiBusiness start];
     
 }
-
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_wifiBusiness stop];
     _wifiBusiness=nil;
+    
+    
 }
-
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
     [super webView:webView didFinishNavigation:navigation];
-// 注释
 //    if (self.wifiBusiness.deviceDefaultCfgData.count)
 //    {
 //        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
@@ -69,8 +66,9 @@
     {
     //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.jsBridge webViewUpdataOnOffState:[NSString stringWithFormat:@"%ld",2-(long)_currentDeviceState]];
-    //});
+   // });
     }
+ 
 }
 
 -(void)config:(id)data
@@ -78,17 +76,15 @@
     [super config:data];
 //    if (self.wifiBusiness.deviceDefaultCfgData.count)
 //    {
-//         [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
+//        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
 //    }
 }
 
 -(void)send:(id)data successCallback:(id)successCallback errorCallback:(id)errorCallback
 {
-    NSLog(@"web send -------");
-    if (data && ![data isEqualToString:@" "]) {
+     if (data && ![data isEqualToString:@" "]) {
     NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    
     NSError * err;
     NSData * tempjsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&err];
     NSString * json = [[NSString alloc] initWithData:tempjsonData encoding:NSUTF8StringEncoding];
@@ -100,52 +96,57 @@
         STRONGSELF;
         [strongSelf.jsBridge updateDataError:nil errorCallBlock:errorCallback];
     }];
-    }
-    else
-    {
-        [self.jsBridge updateDataError:nil errorCallBlock:errorCallback];
-    }
+     }
+     else
+     {
+         [self.jsBridge updateDataError:nil errorCallBlock:errorCallback];
+     }
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 -(HETDeviceControlBusiness *)wifiBusiness
 {
     if(!_wifiBusiness)
     {
-         WEAKSELF;
+        WEAKSELF;
         _wifiBusiness=[[HETDeviceControlBusiness alloc] initWithHetDeviceModel:self.deviceModel deviceRunData:^(id responseObject) {
             STRONGSELF;
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
-                NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:responseObject];
-                [dic removeObjectForKey:@"updateTime"];
-                [dic removeObjectForKey:@"userId"];
-                strongSelf->_currentDeviceRunData=dic;
-                [strongSelf.jsBridge webViewUpdataRunData:dic];
+                
+                strongSelf->_currentDeviceCfgData=responseObject;
+                if(strongSelf->_currentDeviceCfgData.count)
+                {
+                [strongSelf.jsBridge webViewUpdataControlData:responseObject];
+                }
             }
         } deviceCfgData:^(id responseObject) {
             STRONGSELF;
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
-                NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:responseObject];
-                [dic removeObjectForKey:@"updateTime"];
-                [dic removeObjectForKey:@"userId"];
-                strongSelf->_currentDeviceCfgData=dic;
-             [strongSelf.jsBridge webViewUpdataControlData:dic];
+                strongSelf->_currentDeviceCfgData=responseObject;
+                if(strongSelf->_currentDeviceCfgData.count)
+                {
+                    [strongSelf.jsBridge webViewUpdataControlData:responseObject];
+                }
             }
         } deviceErrorData:^(id responseObject) {
             STRONGSELF;
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
+                NSDictionary *dic=responseObject;
+                if(dic.count)
+                {
                 [strongSelf.jsBridge webViewUpdataErrorData:responseObject];
+                }
             }
         } deviceState:^(HETWiFiDeviceState state) {
             STRONGSELF;
@@ -158,4 +159,6 @@
     }
     return _wifiBusiness;
 }
+
+
 @end

@@ -49,7 +49,7 @@ static BOOL isProduction = FALSE;
 
     // 1.注册第三方应用
     [HETOpenSDK registerAppId:kTestAPPKEY appSecret:kTestAPPSECRET];
-    [HETOpenSDK setNetWorkConfig:HETNetWorkConfigType_PE];
+    [HETOpenSDK setNetWorkConfig:HETNetWorkConfigType_PRE];
     [HETOpenSDK openLog:true];
 
     // 第三方登录

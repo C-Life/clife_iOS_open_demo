@@ -61,13 +61,14 @@
     }];
     [_bleBusiness fetchDeviceInfoCompletionHandler:^(CBPeripheral *currentPeripheral, NSDictionary *dic) {
         OPLog(@"设备信息:%@",dic);
+        @strongify(self);
         if(dic[kHETBLE_BATTRY_LEVEL])
         {
             NSData *batteryData=dic[kHETBLE_BATTRY_LEVEL];
             int value = *(int*)([batteryData bytes]);
-            if(value!=lastBattery)
+            if(value!=self->lastBattery)
             {
-                lastBattery=value;
+                self->lastBattery=value;
                 OPLog(@"电池电量:%d",value);
                 [self.jsBridge webViewSendBLEPower:[NSString stringWithFormat:@"%d",value]];
             }
@@ -373,6 +374,7 @@
 }
 -(void)send:(id)data successCallback:(id)successCallback errorCallback:(id)errorCallback
 {
+    if (data && ![data isEqualToString:@" "]) {
     NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
     @weakify(self);
@@ -392,6 +394,11 @@
         }
         
     }];
+    }
+    else
+    {
+        [self.jsBridge updateDataError:nil errorCallBlock:errorCallback];
+    }
     
 }
 -(NSString *) nsdataToHexString: (NSData *) data {
