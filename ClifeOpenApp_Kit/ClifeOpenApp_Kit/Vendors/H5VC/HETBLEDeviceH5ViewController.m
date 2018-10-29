@@ -10,9 +10,9 @@
 
 @interface HETBLEDeviceH5ViewController ()
 {
-    int lastBattery;
+   
 }
-
+@property(nonatomic,assign) int lastBattery;
 @end
 
 @implementation HETBLEDeviceH5ViewController
@@ -26,6 +26,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -37,7 +39,7 @@
     NSAssert(self.deviceModel.deviceTypeId, @"Parameter 'deviceType' should not be nil");
     NSAssert(self.deviceModel.deviceSubtypeId, @"Parameter 'deviceSubType' should not be nil");
     
-    lastBattery=-1;
+    self.lastBattery=-1;
     
     [self.bleBusiness addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
                           context:nil];
@@ -66,9 +68,9 @@
         {
             NSData *batteryData=dic[kHETBLE_BATTRY_LEVEL];
             int value = *(int*)([batteryData bytes]);
-            if(value!=self->lastBattery)
+            if(value!=self.lastBattery)
             {
-                self->lastBattery=value;
+                self.lastBattery=value;
                 OPLog(@"电池电量:%d",value);
                 [self.jsBridge webViewSendBLEPower:[NSString stringWithFormat:@"%d",value]];
             }
@@ -98,7 +100,6 @@
     return nil;
 }
 
-
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSKeyValueChangeKey,id> *)change context:(void *)context {
     
     //OPLog(@"子类KVO:%@,%@,%@,%@",keyPath,object,change,context);
@@ -120,16 +121,16 @@
     }
 }
 
-//- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
-//
-//    [super webView:webView didFinishNavigation:navigation];
-//
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
+
+    [super webView:webView didFinishNavigation:navigation];
+ 
 //    if (self.bleBusiness.state)
 //    {
 //        [self.jsBridge webViewSendBLEStateType:[NSString stringWithFormat:@"%ld",(long)self.bleBusiness.state]];
 //    }
-//
-//}
+
+}
 
 #pragma mark
 
@@ -356,7 +357,7 @@
 -(void)setBLETimeDataWithSuccessCallbackId:(id)successCallbackId failCallbackId:(id)failCallbackId
 {
     @weakify(self);
-    [_bleBusiness setTimeWithPeripheral:self.blePeripheral macAddress:self.deviceModel.macAddress timeType:HETBLECSTTime completionHandler:^(CBPeripheral *currentPeripheral,NSData *data, NSError *error) {
+    [_bleBusiness setTimeWithPeripheral:self.blePeripheral macAddress:self.deviceModel.macAddress timeType:HETBLEGMTTime completionHandler:^(CBPeripheral *currentPeripheral,NSData *data, NSError *error) {
         @strongify(self);
         self.blePeripheral=currentPeripheral;
         OPLog(@"设置时间数据数据回调:%@,%@",data,error);
@@ -369,6 +370,7 @@
             [self.jsBridge webViewSetBLETimeDataResponse:@"1" callBackId:successCallbackId];
             
         }
+
         
     }];
 }

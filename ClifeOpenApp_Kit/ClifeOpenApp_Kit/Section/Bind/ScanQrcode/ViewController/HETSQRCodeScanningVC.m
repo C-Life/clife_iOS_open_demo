@@ -296,10 +296,11 @@
     NSNumber *productId = [responseJSONDict valueForKey:@"a"];
     NSNumber *mac = [responseJSONDict valueForKey:@"m"];
     NSNumber *imei = [responseJSONDict valueForKey:@"i"];
-
+    
     if (productId && (mac || imei)) {
-        NSString *imeiStr = [NSString stringWithFormat:@"%@",imei];
-        NSString *macStr = [NSString stringWithFormat:@"%@",mac];
+        
+        NSString *imeiStr = [NSString stringWithFormat:@"%@",imei?imei:@""];
+        NSString *macStr = [NSString stringWithFormat:@"%@",mac?mac:@""];
         HETBindGPRSDeviceVC *gprsVC = [HETBindGPRSDeviceVC new];
         gprsVC.mac = macStr;
         gprsVC.imei = imeiStr;
