@@ -24,6 +24,10 @@
 "CommonDeviceOnline" = "Online";
 "CommonDeviceOffline" = "Offline";
 
+"CommonAlert" = "提示";
+"CommonSaveFailed" = "保存失败";
+"CommonSaveSuccess" = "保存成功";
+
 // 设备分享
 "ShareFunctionWeiXin" = "WeChat";
 "ShareFunctionQQ" = "QQ";
@@ -42,6 +46,7 @@
 "ShareFunctionAlertTips" = "You will have the permissions of device from ohters,don‘t share it to strangers";
 "ShareFunctionTimeTips"= "QR code will fail in 15 minutes";
 "ShareFunctionScanTips"= "Please use APP to scan QR code";
+"DeviceH5ViewLoading"="Loading Device Controler Resources";
 
 // Appdelegate
 "GetDeviceControlAuthSuccess" = "Get the permissions of device successfully!";
@@ -171,8 +176,17 @@
 "BindBleDeviceSuccess" = "Ble binding success";
 "BindBleDeviceFail" = "Bind ble device fail";
 
+
 // 授权登录
 "SafeLoginTitle" = "Safelogin";
 
 // 设备详情
 "DeviceDetailTitle" = "DeviceDetail";
+"DeviceDetailTitleNickName" = "Nick Name";
+
+// 设备昵称
+"DeviceChangeNameTitle" = "Device nickname";
+"DeviceChangeNameTitleSave" = "Save";
+"DeviceChangeNameInputNickName" = "Pls Input NickName";
+"DeviceChangeNameNotSupportEmoji" = "Not Support Emoji";
+

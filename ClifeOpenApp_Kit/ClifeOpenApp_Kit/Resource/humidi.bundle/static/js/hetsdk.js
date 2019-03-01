@@ -32,6 +32,13 @@ window.het = (function() {
         var bleFuncList = []; // 接收到蓝牙状态更新后将执行的函数列表
         var blePowerFuncList = []; //接收到蓝牙设备电量变化后将执行的函数列表
         var repaintFuncList = []; // 响应repaint请求的函数列表
+
+        var updateRunDataFuncList       = []; //响应updateRunData请求的函数列表
+        var updateControlDataFuncList   = []; //响应updateControlData请求的函数列表
+        var updateErrorDataFuncList     = []; //响应updateErrorData请求的函数列表
+        var updateConfigDataFuncList    = []; //响应updateConfigData请求的函数列表
+        var updateOnOffStateFuncList    = []; //响应updateOnOffState请求的函数列表
+
         var nativeVersionFuncList = []; // 响应版本请求的函数列表
         var languageFuncList = []; // 响应语言请求的函数列表
         var bleStateDataFuncList = []; //接收到蓝牙设备状态数据变化后将执行的函数列表
@@ -252,6 +259,42 @@ window.het = (function() {
             repaintFuncList.push(register(callback, true));
         };
 
+         /**
+         * 登记接收APP方updataRunData推送数据的函数
+         * @param  {Function} callback 回调函数
+         */
+        $this.updateRunData = function(callback) {
+            updateRunDataFuncList.push(register(callback, true));
+        };
+        /**
+         * 登记接收APP方updataControlData推送数据的函数
+         * @param  {Function} callback 回调函数
+         */
+        $this.updateControlData = function(callback) {
+            updateControlDataFuncList.push(register(callback, true));
+        };
+        /**
+         * 登记接收APP方updataErrorData 推送数据的函数
+         * @param  {Function} callback 回调函数
+         */
+        $this.updateErrorData = function(callback) {
+            updateErrorDataFuncList.push(register(callback, true));
+        };
+        /**
+         * 登记接收APP方updataConfigData推送数据的函数
+         * @param  {Function} callback 回调函数
+         */
+        $this.updateConfigData = function(callback) {
+            updateConfigDataFuncList.push(register(callback, true));
+        };
+         /**
+         * 登记接收APP方updataOnOffState推送数据的函数
+         * @param  {Function} callback 回调函数
+         */
+        $this.updateOnOffState = function(callback) {
+            updateOnOffStateFuncList.push(register(callback, true));
+        };
+
         /**
          * 发送数据至app
          * @param  {json}     data        要提交给app的数据，json格式
@@ -260,12 +303,16 @@ window.het = (function() {
          * @return {Function}             返回值由app决定，该值为非必须值
          */
         $this.send = function(data, sucCallback, errCallback) {
+              console.log('发送数据至app原始数据:', typeof data === 'string' ? data : JSON.stringify(data));
+            
+            
             if (typeof appCommandData.updateFlag !== 'undefined') {
                 appCommandData.updateFlag = 0; // updateFlag清零以便重新计算
             }
             var sucCallbackId = register(sucCallback); // 登记成功时的回调
             var errCallbackId = register(errCallback); // 登记异常时的回调
             var dataString = JSON.stringify(commandData(data, true)); // 把运行数据替换为控制数据发送
+            console.log('发送数据至app转换后的数据:', typeof dataString === 'string' ? dataString : JSON.stringify(dataString));
             appCommandTime = +new Date(); // 重置控制数据计时器
             if (settings.debugMode == 'print') {
                 print('send:', dataString);
@@ -472,6 +519,21 @@ window.het = (function() {
         };
 
         /**
+         * 设置导航栏按钮
+         * @param    {string}     colorStyle          必填，左右导航栏的样式颜色，0代表白色样式，1代表黑色样式
+         * @param    {string}     rightButtonHide     必填，导航栏右边按钮是否隐藏，0代表不隐藏，1代表隐藏
+         * @param    {function}   sucCallback         选填，接口调用成功的回调函数
+         * @param    {function}   failCallback        选填，接口调用失败的回调函数
+         * @param    {function}   completeCallback    选填，接口调用结束的回调函数（调用成功、失败都会执行）
+         */
+        $this.setNavigationBarButton = function(colorStyle,rightButtonHide,sucCallback,failCallback,completeCallback) {
+            var sucCallbackId = register(sucCallback), // 登记成功时的回调
+                failCallbackId = register(failCallback),// 登记异常时的回调
+                completeCallbackId = register(completeCallback); // 登记完成时的回调
+            return typeof __AppInterface.setNavigationBarButton === 'function' && __AppInterface.setNavigationBarButton(colorStyle,rightButtonHide,sucCallbackId,failCallbackId,completeCallbackId);
+        };
+
+        /**
          * 设置导航栏左边按钮
          * @param    {array}      itemList            必填，按钮集合对象数组，最多两个按钮（按钮顺序是从左到右）,按钮元素参数{title: '按钮标题',image:'按钮图片路径',tintColor:'按钮字体颜色HexColor',backgroundColor:'按钮背景颜色HexColor'}
          * @param    {function}   sucCallback         选填，接口调用成功的回调函数
@@ -591,11 +653,31 @@ window.het = (function() {
         }
 
         /**
-         * 执行$this.ready方法登记的函数
+         * 执行$this.listenBLEState方法登记的函数
          */
         function execBLEStateFuncList(data) {
-            while (bleFuncList.length) {
-                execCallback(bleFuncList.shift(), [data]);
+            for (var i in bleFuncList) {
+                execCallback(bleFuncList[i], [data]);
+            }
+            return true;
+        }
+
+        /**
+         * 执行$this.listenBLEStateData方法登记的函数
+         */
+        function execBLEStatusDataFuncList(data) {
+            for (var i in bleStateDataFuncList) {
+                execCallback(bleStateDataFuncList[i], [data]);
+            }
+            return true;
+        }
+
+        /**
+         * 执行$this.listenBLEPower方法登记的函数
+         */
+        function execBLEPowerFuncList(data) {
+            for (var i in blePowerFuncList) {
+                execCallback(blePowerFuncList[i], [data]);
             }
             return true;
         }
@@ -616,6 +698,93 @@ window.het = (function() {
             }
             return true;
         }
+
+        /**
+         * 执行$this.updataRunData方法登记的函数
+         */
+        function execUpdataRunDataFuncList(data) {
+            data = filter(1, data); // 过滤数据
+            if(typeof data.type !== 'undefined'){
+                delete data.type; //去掉数据的类型
+            } 
+            if(isEmpty(data)){
+                return false;
+            } 
+            for (var i in updateRunDataFuncList) {
+                execCallback(updateRunDataFuncList[i], [data]);
+            }
+            return true;
+        }
+
+        /**
+         * 执行$this.updataRunData方法登记的函数
+         */
+        function execUpdataControlDataFuncList(data) {
+            data = filter(0, data); // 过滤数据
+            if(typeof data.type !== 'undefined'){
+                delete data.type; //去掉数据的类型
+            } 
+            if(isEmpty(data)){
+                return false;
+            } 
+            for (var i in updateControlDataFuncList) {
+                execCallback(updateControlDataFuncList[i], [data]);
+            }
+            return true;
+        }
+
+        /**
+         * 执行$this.updataErrorData方法登记的函数
+         */
+        function execUpdataErrorDataFuncList(data) {
+            data = filter(1, data); // 过滤数据
+            if(typeof data.type !== 'undefined'){
+                delete data.type; //去掉数据的类型
+            } 
+            if(isEmpty(data)){
+                return false;
+            } 
+            for (var i in updateErrorDataFuncList) {
+                execCallback(updateErrorDataFuncList[i], [data]);
+            }
+            return true;
+        }
+
+        /**
+         * 执行$this.updataConfigData方法登记的函数
+         */
+        function execUpdataConfigDataFuncList(data) {
+            data = filter(1, data); // 过滤数据
+            if(typeof data.type !== 'undefined'){
+                delete data.type; //去掉数据的类型
+            } 
+            if(isEmpty(data)){
+                return false;
+            } 
+            for (var i in updateConfigDataFuncList) {
+                execCallback(updateConfigDataFuncList[i], [data]);
+            }
+            return true;
+        }
+
+        /**
+         * 执行$this.updataOnOffStateData方法登记的函数
+         */
+        function execUpdataOnOffStateFuncList(data) {
+            data = filter(1, data); // 过滤数据
+            if(typeof data.type !== 'undefined'){
+                delete data.type; //去掉数据的类型
+            } 
+            if(isEmpty(data)){
+                return false;
+            } 
+            for (var i in updateOnOffStateFuncList) {
+                execCallback(updateOnOffStateFuncList[i], [data]);
+            }
+            return true;
+        }
+
+        
 
         /**
          * 删除登记过的临时回调函数
@@ -777,6 +946,7 @@ window.het = (function() {
             data = typeof data === 'string' ? JSON.parse(data) : data;
             data = webToAppData(data);
             var updateFlagMap = webToAppData(settings.updateFlagMap);
+            var deviceCommandData = {};
             for (var k in appCommandData) {
                 if (typeof data[k] !== 'undefined' && appCommandData[k] !== data[k]) {
                     if (k === 'updateFlag' && typeof data[k] !== 'string') {
@@ -784,6 +954,7 @@ window.het = (function() {
                     } else {
                         appCommandData[k] = data[k];
                     }
+                    deviceCommandData[k] = data[k];
                     if (calcUpdateFlag && updateFlagMap[k]) {
                         appCommandData.updateFlag = appCommandData.updateFlag || 0; // 强制添加updateFlag
                         appCommandData.updateFlag |= Math.pow(2, updateFlagMap[k] - 1);
@@ -794,7 +965,7 @@ window.het = (function() {
             if (settings.useUpdateFlag && typeof appCommandData.updateFlag === 'undefined') {
                 appCommandData.updateFlag = 0;
             }
-            return appCommandData;
+            return deviceCommandData;
         }
 
         /**
@@ -973,7 +1144,7 @@ window.het = (function() {
             httpResponseSuccess: commonExec,
             httpResponseError: commonExec,
             nativeResponse: commonExec,
-            repaint: function(data) {
+            repaint: function(data, defaultType) {
                 if (settings.debugMode == 'print') {
                     print('repaint:', typeof data === 'string' ? data : JSON.stringify(data));
                 }
@@ -984,34 +1155,51 @@ window.het = (function() {
                     print('%cWarning: torpid time', 'color:#5f3e05');
                     return false;
                 }
+                switch(defaultType){
+                    case 'run':
+                        execUpdataRunDataFuncList(detectData(data));
+                        break;
+                    case 'control':
+                        execUpdataControlDataFuncList(detectData(data));
+                        break;
+                    case 'error':
+                        execUpdataErrorDataFuncList(detectData(data));
+                        break;
+                    case 'config':
+                        execUpdataConfigDataFuncList(detectData(data));
+                        break;
+                    case 'onOffState':
+                        execUpdataOnOffStateFuncList(detectData(data));
+                        break;
+                }
+
                 return execRepaintFuncList(data.type, detectData(data));
             },
             updataRunData:function(data){
                 data = typeof data === 'string' ? JSON.parse(data) : data;
                 data.type = 1;
-                web.repaint(data);
+                web.repaint(data, 'run');
             },
             updataControlData:function(data){
                 data = typeof data === 'string' ? JSON.parse(data) : data;
                 data.type = 0;
-                web.repaint(data);
+                web.repaint(data, 'control');
             },
             updataErrorData:function(data){
                 data = typeof data === 'string' ? JSON.parse(data) : data;
                 data.type = 1;
-                web.repaint(data);
+                web.repaint(data, 'error');
             },
             updataConfigData:function(data){
                 data = typeof data === 'string' ? JSON.parse(data) : data;
                 data.type = 1;
-                web.repaint(data);
+                web.repaint(data, 'config');
             },
             updataOnOffState:function(data){
-                alert('设备在线状态：' + data);
                 var obj = {};
                 obj.type = 1;
                 obj.data = {onlineStatus : data};
-                web.repaint(obj);
+                web.repaint(obj, 'onOffState');
             },
             getDeviceInfoResponse: commonExec,
             getBLERealTimeDataResponse: commonExec,
@@ -1022,10 +1210,7 @@ window.het = (function() {
             },
             sendBLEPower:function(data){
                 data = typeof data === 'string' ? JSON.parse(data) : data;
-                while (blePowerFuncList.length) {
-                    execCallback(blePowerFuncList.shift(), [data]);
-                }
-                return true;
+                return execBLEPowerFuncList(data);
             },
             sendAPPJSBridgeVersion:function(data){
                 while (nativeVersionFuncList.length) {
@@ -1041,6 +1226,7 @@ window.het = (function() {
             showAlertViewResponse:commonExec,
             showActionSheetResponse:commonExec,
             setNavigationBarTitleResponse:commonExec,
+            setNavigationBarButtonResponse:commonExec,
             setNavigationBarLeftBarButtonItemsResponse:commonExec,
             setNavigationBarRightBarButtonItemsResponse:commonExec,
             setNavigationBarMenuItemResponse:commonExec,
@@ -1050,10 +1236,9 @@ window.het = (function() {
             setBLETimeDataResponse:commonExec,
             getDeviceMcuUpgradeResponse:commonExec,
             showShareActionSheetResponse:commonExec,
-            sendBLEStatusData:function(status,data){
-                while (bleStateDataFuncList.length) {
-                    execCallback(bleStateDataFuncList.shift(), [status,data]);
-                }
+            sendBLEStatusData:function(data){
+                data = typeof data === 'string' ? JSON.parse(data) : data;
+                return execBLEStatusDataFuncList(data);
             },
         };
         window[webInterfaceNS] = web; // 暴露web接口给app调用

@@ -11,32 +11,30 @@
 #import "HETDeviceListVC.h"
 #import "HETNavigationVC.h"
 #import <Bugly/Bugly.h>
-
 // 引入JPush功能所需头文件
 #import "JPUSHService.h"
+#import "HETAppUpgradeCheck.h"
 // iOS10注册APNs所需头文件
 #ifdef NSFoundationVersionNumber_iOS_9_x_Max
 #import <UserNotifications/UserNotifications.h>
 #endif
 
+#define WX_APP_KEY      @"wx49a17f4b9643f2e0"
+#define WX_APP_SECRET   @"121b5279ba5f3b009f968c987ec2ac1c"
+
+#define QQ_APP_ID       @"1106375657"
+#define QQ_APP_KEY      @"jbfVxPFXjhsrNLaO"
+
+NSString *const KHETJPushAppKey = @"3587ba92615f0c61bbf348c2";
+#define WB_APP_KEY      @"222699060"
+#define WB_APP_SECRET   @"850ff4a0546a4fa2a15d1a5b2c086857"
+#define WB_RedirectURL  @"http://www.clife.net"
+
 #define kTestAPPKEY @"30765"
 #define kTestAPPSECRET @"5f699a78c319444cb8a291296049572c"
 
-
-#define WX_APP_KEY      @"xxxxxxx"
-#define WX_APP_SECRET   @"xxxxxxx"
-
-#define QQ_APP_ID       @"xxxxxx"
-#define QQ_APP_KEY      @"xxxxxxx"
-
-NSString *const KHETJPushAppKey = @"xxxxxxx";
-#define WB_APP_KEY      @"xxxxxxx"
-#define WB_APP_SECRET   @"xxxxxxx"
-#define WB_RedirectURL  @"http://www.clife.net"
-
 static NSString *KHETJPushchannel = @"Publish channel";
 static BOOL isProduction = FALSE;
-
 
 @interface AppDelegate ()<JPUSHRegisterDelegate>
 
@@ -46,44 +44,48 @@ static BOOL isProduction = FALSE;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-
+    
+    
     // 1.注册第三方应用
     [HETOpenSDK registerAppId:kTestAPPKEY appSecret:kTestAPPSECRET];
-    [HETOpenSDK setNetWorkConfig:HETNetWorkConfigType_PRE];
+    [HETOpenSDK setNetWorkConfig:[self getUserNetWorkConfig]];
     [HETOpenSDK openLog:true];
-
+    
     // 第三方登录
-//    [HETOpenSDK setPlaform:HETAuthPlatformType_QQ appKey:QQ_APP_ID appSecret:nil redirectURL:nil];
-//    [HETOpenSDK setPlaform:HETAuthPlatformType_Weibo appKey:WB_APP_KEY appSecret:WB_APP_SECRET redirectURL:WB_RedirectURL];
-//    [HETOpenSDK setPlaform:HETAuthPlatformType_Wechat appKey:WX_APP_KEY appSecret:WX_APP_SECRET redirectURL:nil];
-
+    [HETOpenSDK setPlaform:HETAuthPlatformType_QQ appKey:QQ_APP_ID appSecret:nil redirectURL:nil];
+    [HETOpenSDK setPlaform:HETAuthPlatformType_Weibo appKey:WB_APP_KEY appSecret:WB_APP_SECRET redirectURL:WB_RedirectURL];
+    [HETOpenSDK setPlaform:HETAuthPlatformType_Wechat appKey:WX_APP_KEY appSecret:WX_APP_SECRET redirectURL:nil];
+    
     // 2.设置导航栏相关
     // 设置全局状态栏为白色、全局导航栏标题颜色,文字大小,背景颜色
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     [UINavigationBar appearance].titleTextAttributes = @{NSFontAttributeName:[UIFont boldSystemFontOfSize:18],NSForegroundColorAttributeName:NavTitleColor};
     [UINavigationBar appearance].barTintColor = NavBarColor;
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];
-
+    
     // 3.设置主页
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     HETDeviceListVC *homePageVC = [[HETDeviceListVC alloc] init];
     HETNavigationVC *navVC = [[HETNavigationVC alloc]initWithRootViewController:homePageVC];
     self.window.rootViewController = navVC;
     [self.window makeKeyAndVisible];
-
+    
     // 4.添加bugly检测
     //    AppID：
     //    1fc69c148a
     //    AppKey：
     //    4f64a319-71f5-49f3-a04c-a0edfd213e1a
     [Bugly startWithAppId:@"1fc69c148a"];
+    
 
     // 5.注册、开启极光推送
     [self jPushSetting:launchOptions];
-
+    
     // 6.H5设备公共包
     [HETH5Manager launch];
-
+    
+    // 7.检查APP升级
+    [HETAppUpgradeCheck AppUpgradeCheck:nil];
     return YES;
 }
 
@@ -100,11 +102,11 @@ static BOOL isProduction = FALSE;
                           channel:KHETJPushchannel
                  apsForProduction:isProduction
             advertisingIdentifier:nil];
-
+    
     [JPUSHService registrationIDCompletionHandler:^(int resCode, NSString *registrationID) {
         OPLog(@"%@",registrationID);
     }];
-
+    
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:0];
 }
 
@@ -120,7 +122,7 @@ static BOOL isProduction = FALSE;
             OPLog(@"responseObject == %@",responseObject);
             [HETCommonHelp showHudAutoHidenWithMessage:GetDeviceControlAuthSuccess];
             [[NSNotificationCenter defaultCenter] postNotificationName:kBindDeviceSuccess object:nil];
-
+            
         } failure:^(NSError *error) {
             OPLog(@"error == %@",error);
             [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
@@ -141,8 +143,7 @@ static BOOL isProduction = FALSE;
 #pragma -mark push
 - (void)application:(UIApplication *)application
 didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    HETAuthorize  *auth = [[HETAuthorize alloc]init];
-    if([auth isAuthenticated]){
+    if([[HETAuthorize shareManager] isAuthenticated]){
         [JPUSHService setTags:nil alias:@"abc" fetchCompletionHandle:^(int iResCode, NSSet *iTags, NSString *iAlias) {
             OPLog(@"iTags == %@ iAlias === %@",iTags, iAlias);
         }];
@@ -151,7 +152,17 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     dispatch_async(dispatch_get_main_queue(), ^{
         [JPUSHService registerDeviceToken:deviceToken];
     });
+}
 
+- (HETNetWorkConfigType)getUserNetWorkConfig
+{
+    //缓存用户默认配置，防止每次重启后都需要重新登录的问题。
+    id object =  [[NSUserDefaults standardUserDefaults]objectForKey:kUserDefaultNetWorkConfig] ;
+    if (object) {
+        NSNumber *networkType = (NSNumber *)object;
+        return  networkType.unsignedIntegerValue;
+    }
+    return HETNetWorkConfigType_PE;
 }
 
 - (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
@@ -182,14 +193,14 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
-
+    
     // Required, iOS 7 Support
     [JPUSHService handleRemoteNotification:userInfo];
     completionHandler(UIBackgroundFetchResultNewData);
 }
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
-
+    
     // Required,For systems with less than or equal to iOS6
     [JPUSHService handleRemoteNotification:userInfo];
 }

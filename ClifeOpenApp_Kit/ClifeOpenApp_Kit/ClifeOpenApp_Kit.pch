@@ -18,8 +18,11 @@
 #import "ChineseMacro.h"
 #import "BIPAMacro.h"
 #import "Masonry.h"
+#if __has_include(<HETOpenSDK/HETOpenSDK.h>)
 #import <HETOpenSDK/HETOpenSDK.h>
-//#import "HETOpenSDK.h"
+#else
+#import "HETOpenSDK.h"
+#endif
 #import "NSDate+SSToolkitAdditions.h"
 #import "UIImage+BNRAdditions.h"
 #import "UIViewController+BNRAdditions.h"
@@ -30,6 +33,8 @@
 #import "UIImage+GIF.h"
 #import "MJExtension.h"
 #import "HETNotificationMacro.h"
+#import <Lottie/Lottie.h>
+#import "HETComRefreshHeader.h"
 //#import "MBProgressHUD.h"
 #endif
 #endif /* HETOpenPlatformSDKDemo_pch */

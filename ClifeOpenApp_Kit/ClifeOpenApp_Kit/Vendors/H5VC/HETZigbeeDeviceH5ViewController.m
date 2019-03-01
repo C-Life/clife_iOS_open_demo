@@ -10,10 +10,11 @@
 
 @interface HETZigbeeDeviceH5ViewController()
 {
- HETWiFiDeviceState _currentDeviceState;
-    NSDictionary *_currentDeviceRunData;
-    NSDictionary *_currentDeviceCfgData;
+
 }
+@property(nonatomic,assign) HETWiFiDeviceState currentDeviceState;
+@property(nonatomic,strong) NSDictionary *currentDeviceRunData;
+@property(nonatomic,strong) NSDictionary *currentDeviceCfgData;
 @end
 
 @implementation HETZigbeeDeviceH5ViewController
@@ -50,10 +51,10 @@
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
     [super webView:webView didFinishNavigation:navigation];
-//    if (self.wifiBusiness.deviceDefaultCfgData.count)
-//    {
-//        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
-//    }
+    if (self.wifiBusiness.deviceDefaultCfgData.count)
+    {
+        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
+    }
     if (_currentDeviceCfgData.count)
     {
         [self.jsBridge webViewUpdataControlData:_currentDeviceCfgData];
@@ -64,43 +65,43 @@
     }
     if(_currentDeviceState)
     {
-    //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.jsBridge webViewUpdataOnOffState:[NSString stringWithFormat:@"%ld",2-(long)_currentDeviceState]];
-   // });
+        // });
     }
- 
+    
 }
 
 -(void)config:(id)data
 {
     [super config:data];
-//    if (self.wifiBusiness.deviceDefaultCfgData.count)
-//    {
-//        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
-//    }
+    if (self.wifiBusiness.deviceDefaultCfgData.count)
+    {
+        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
+    }
 }
 
 -(void)send:(id)data successCallback:(id)successCallback errorCallback:(id)errorCallback
 {
-     if (data && ![data isEqualToString:@" "]) {
-    NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-    NSError * err;
-    NSData * tempjsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&err];
-    NSString * json = [[NSString alloc] initWithData:tempjsonData encoding:NSUTF8StringEncoding];
-    WEAKSELF;
-    [_wifiBusiness deviceControlRequestWithJson:json withSuccessBlock:^(id responseObject) {
-        STRONGSELF;
-        [strongSelf.jsBridge updateDataSuccess:nil successCallBlock:successCallback];
-    } withFailBlock:^(NSError *error) {
-        STRONGSELF;
-        [strongSelf.jsBridge updateDataError:nil errorCallBlock:errorCallback];
-    }];
-     }
-     else
-     {
-         [self.jsBridge updateDataError:nil errorCallBlock:errorCallback];
-     }
+    if (data && ![data isEqualToString:@" "]) {
+        NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+        NSError * err;
+        NSData * tempjsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&err];
+        NSString * json = [[NSString alloc] initWithData:tempjsonData encoding:NSUTF8StringEncoding];
+        WEAKSELF;
+        [_wifiBusiness deviceControlRequestWithJson:json successBlock:^(id responseObject) {
+            STRONGSELF;
+            [strongSelf.jsBridge updateDataSuccess:nil successCallBlock:successCallback];
+        } failureBlock:^(NSError *error) {
+            STRONGSELF;
+            [strongSelf.jsBridge updateDataError:nil errorCallBlock:errorCallback];
+        }];
+    }
+    else
+    {
+        [self.jsBridge updateDataError:nil errorCallBlock:errorCallback];
+    }
 }
 
 /*
@@ -122,18 +123,18 @@
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
                 
-                strongSelf->_currentDeviceCfgData=responseObject;
-                if(strongSelf->_currentDeviceCfgData.count)
+                strongSelf.currentDeviceCfgData=responseObject;
+                if(strongSelf.currentDeviceCfgData.count)
                 {
-                [strongSelf.jsBridge webViewUpdataControlData:responseObject];
+                    [strongSelf.jsBridge webViewUpdataControlData:responseObject];
                 }
             }
         } deviceCfgData:^(id responseObject) {
             STRONGSELF;
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
-                strongSelf->_currentDeviceCfgData=responseObject;
-                if(strongSelf->_currentDeviceCfgData.count)
+                strongSelf.currentDeviceCfgData=responseObject;
+                if(strongSelf.currentDeviceCfgData.count)
                 {
                     [strongSelf.jsBridge webViewUpdataControlData:responseObject];
                 }
@@ -145,12 +146,12 @@
                 NSDictionary *dic=responseObject;
                 if(dic.count)
                 {
-                [strongSelf.jsBridge webViewUpdataErrorData:responseObject];
+                    [strongSelf.jsBridge webViewUpdataErrorData:responseObject];
                 }
             }
         } deviceState:^(HETWiFiDeviceState state) {
             STRONGSELF;
-            strongSelf->_currentDeviceState=state;
+            strongSelf.currentDeviceState=state;
             [strongSelf.jsBridge webViewUpdataOnOffState:[NSString stringWithFormat:@"%ld",2-(long)state]];
             
         } failBlock:^(NSError *error) {

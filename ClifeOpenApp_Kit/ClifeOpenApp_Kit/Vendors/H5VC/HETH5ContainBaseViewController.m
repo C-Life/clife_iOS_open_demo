@@ -7,15 +7,12 @@
 //
 
 #import "HETH5ContainBaseViewController.h"
-//#import "NSString+SAMAdditions.h"
-//#import <HETSDK.h>
-//#import "HETUserDefaultsPreference.h"
-//#import "HETXMLReader.h"
-//#import "HETH5Request.h"
-//#import "HETH5RelRequest.h"
-//#import "HETOpenSDK.h"
-#import <HETOpenSDK/HETReachability.h>"
-//#import "HETReachability.h"
+#if __has_include(<HETOpenSDK/HETOpenSDK.h>)
+#import <HETOpenSDK/HETReachability.h>
+#else
+#import "HETReachability.h"
+#endif
+
 #import "HETH5CustomNavigationBar.h"
 #import <CoreTelephony/CTCarrier.h>
 #import <CoreTelephony/CTTelephonyNetworkInfo.h>
@@ -27,8 +24,8 @@
 }
 @property(nonatomic, strong) NSURL *requestURL;
 @property(nonatomic, strong) NSURLCredential *credential;
-@property(nonatomic,strong) HETReachability *ablity;
-@property(nonatomic,strong) HETH5CustomNavigationBar *h5CustomNavigationBar;
+@property(nonatomic, strong) HETReachability *ablity;
+@property(nonatomic, strong) HETH5CustomNavigationBar *h5CustomNavigationBar;
 @property(nonatomic, strong) UIProgressView *progressView;//设置加载进度条
 @end
 
@@ -68,7 +65,8 @@
     
     
     [self.view addSubview:self.h5CustomNavigationBar];
-    self.h5CustomNavigationBar.barBackgroundColor=self.navigationController.navigationBar.barTintColor;
+//    self.h5CustomNavigationBar.barBackgroundColor=self.navigationController.navigationBar.barTintColor;
+    self.h5CustomNavigationBar.barBackgroundColor= [UIColor clearColor];
     [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[UIImage imageNamed:@"h5_nav_back_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
     [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[UIImage imageNamed:@"h5_more_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
     
@@ -98,6 +96,7 @@
     //self.navigationController.navigationBar.hidden=YES;
     _jsBridge.delegate=self;
     [_jsBridge setNavigationDelegate:self];
+    [_jsBridge viewAppear];
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -105,6 +104,7 @@
     //self.navigationController.navigationBar.hidden=NO;
     [self.navigationController setNavigationBarHidden:NO animated:animated];
     _jsBridge.delegate=nil;
+    [_jsBridge viewDisAppear];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -201,6 +201,9 @@
 -(void)config:(id)data
 {
     [_jsBridge webViewReady:nil];
+    
+    //webview加载完成后，掉一次视图显示
+//    [_jsBridge viewAppear];
 }
 
 
@@ -250,6 +253,7 @@
 //
 //}
 
+
 /**
  *  相对网络请求
  *
@@ -275,11 +279,11 @@
          dic=[NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
      }
     HETRequestMethod httpMethod=HETRequestMethodGet;
-    if([type rangeOfString:@"GET"].location!=NSNotFound)
+    if([[type uppercaseString] rangeOfString:@"GET"].location!=NSNotFound)
     {
         httpMethod=HETRequestMethodGet;
     }
-    else if([type rangeOfString:@"POST"].location!=NSNotFound)
+     if([[type uppercaseString] rangeOfString:@"POST"].location!=NSNotFound)
     {
         httpMethod=HETRequestMethodPost;
     }
@@ -509,14 +513,18 @@
     }];
     [okAction setValue:[self colorWithHexString:confirmColor] forKey:@"_titleTextColor"];
     
-    if(cancelText)
+    NSString *showCancelStr=showCancel;
+    if([showCancelStr isEqualToString:@"true"])
     {
-        cancelAction = [UIAlertAction actionWithTitle:cancelText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [_jsBridge webViewShowAlertViewResponse:@{@"data":@{@"cancel":@"1"}} callBackId:completeCallbackId];
-        }];
-        /*取消按钮的颜色*/
-        [cancelAction setValue:[self colorWithHexString:cancelColor] forKey:@"_titleTextColor"];
-        
+        if(cancelText)
+        {
+            cancelAction = [UIAlertAction actionWithTitle:cancelText style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                [self->_jsBridge webViewShowAlertViewResponse:@{@"data":@{@"cancel":@"1"}} callBackId:completeCallbackId];
+            }];
+            /*取消按钮的颜色*/
+            [cancelAction setValue:[self colorWithHexString:cancelColor] forKey:@"_titleTextColor"];
+            
+        }
     }
     if(cancelAction)
     {
@@ -607,9 +615,15 @@
  */
 -(void) setNavigationBarTitle:(id )title  frontColor:(id) frontColor  backgroundColor:(id) backgroundColor  image:(id) image  successCallbackId:(id) successCallbackId  failCallbackId:(id) failCallbackId  completeCallbackId:(id) completeCallbackId
 {
+    //有titlle就显示title。没有tiltle就隐藏导航栏
     if(title)
     {
+        self.h5CustomNavigationBar.hidden=NO;
         self.h5CustomNavigationBar.title=title;
+    }
+    else
+    {
+        self.h5CustomNavigationBar.hidden=YES;
     }
     if(frontColor)
     {
@@ -617,7 +631,10 @@
     }
     if(backgroundColor)
     {
-        self.h5CustomNavigationBar.barBackgroundColor=[self colorWithHexString:backgroundColor];
+        if ([backgroundColor isEqualToString:@"0"]) { self.h5CustomNavigationBar.barBackgroundColor=self.navigationController.navigationBar.barTintColor;
+        }else{
+            self.h5CustomNavigationBar.barBackgroundColor=[self colorWithHexString:backgroundColor];
+        }
     }
     if(image)
     {
@@ -937,21 +954,21 @@
 -(void)userLocationWithType:(id)type altitude:(id)altitude successCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId  completeCallbackId:(id) completeCallbackId
 {
     
-//    locationManager=[[HETLocationManager alloc]init];
-//    __weak typeof(self) weakSelf = self;
-//    [locationManager getUserLocationWithGPSType:type withAltitude:altitude completeBlock:^(NSDictionary *location, NSError *error) {
-//        __strong typeof(weakSelf) strongSelf = weakSelf;
-//        if(error)
-//        {
-//            [strongSelf->_jsBridge webViewUserLocationResponse:error.userInfo callBackId:failCallbackId];
-//        }
-//        else
-//        {
-//            NSDictionary *dic=@{@"data":location};
-//            NSLog(@"当前定位信息:%@",location);
-//            [strongSelf->_jsBridge webViewUserLocationResponse:dic callBackId:successCallbackId];
-//        }
-//    }];
+    locationManager=[[HETLocationManager alloc]init];
+    __weak typeof(self) weakSelf = self;
+    [locationManager getUserLocationWithGPSType:type withAltitude:altitude completeBlock:^(NSDictionary *location, NSError *error) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if(error)
+        {
+            [strongSelf->_jsBridge webViewUserLocationResponse:error.userInfo callBackId:failCallbackId];
+        }
+        else
+        {
+            NSDictionary *dic=@{@"data":location};
+            NSLog(@"当前定位信息:%@",location);
+            [strongSelf->_jsBridge webViewUserLocationResponse:dic callBackId:successCallbackId];
+        }
+    }];
 }
 /*
  #pragma mark - Navigation
@@ -981,8 +998,7 @@
     {
         [self.hetDeviceControlWKWebviewDelegate webViewDidFinishLoad:webView];
     }
-    
-    
+ 
     
 }
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error{

@@ -58,7 +58,9 @@
     self.backgroundView.backgroundColor = kWRDefaultBackgroundColor;
 }
 -(void)updateFrame {
-    NSInteger top = ([HETH5CustomNavigationBar isIphoneX]) ? 44 : 20;
+    //    NSInteger top = ([HETH5CustomNavigationBar isIphoneX]) ? 44 : 20;
+    //2018年11月21日16:15:55适配iPhonexs max
+    NSInteger top = CGRectGetHeight([UIApplication sharedApplication].statusBarFrame);
     NSInteger margin = 0;
     NSInteger buttonHeight = 44;
     NSInteger buttonWidth = 44;

@@ -46,6 +46,7 @@ static  NSString *CloudAuthOpenIdKey = @"HETCloudAuthOpenIdKey";
     self.openID = [self getOpenId];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardDismiss:) name:UIKeyboardWillHideNotification object:nil];
+    
 }
 
 // 根据键盘状态，调整_mainView的位置
@@ -81,24 +82,25 @@ static  NSString *CloudAuthOpenIdKey = @"HETCloudAuthOpenIdKey";
 
 - (IBAction)getAuthCodeAction:(id)sender {
     _account =  _telePhone.text;
-  
-        [[HETThirdCloudAuthorize shareInstance]getAuthorizationCodeWithAccount:_account withOpenId:self.openID  Completed:^(NSDictionary *responseDic, NSError *error) {
-            NSLog(@"user info success: %@", responseDic);
-            if(error){
-                [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
-            }else{
-                if([responseDic isKindOfClass:[NSDictionary class]]){
-                    NSString * authorizationCode = [responseDic objectForKey:@"authorizationCode"];
-                    self.AuthCode = authorizationCode;
-                }
-                
+    
+    [[HETThirdCloudAuthorize shareInstance]getAuthorizationCodeWithAccount:_account withOpenId:self.openID success:^(id responseObject) {
+        OPLog(@"user info success: %@", responseObject);
+        if (responseObject && [responseObject isKindOfClass:[NSDictionary class]]) {
+            if ([[responseObject allKeys] containsObject:@"data"]) {
+                NSDictionary *dict = [responseObject valueForKey:@"data"];
+                NSString * authorizationCode = [dict objectForKey:@"authorizationCode"];
+                self.AuthCode = authorizationCode;
             }
-        }];
+        }
+    } failure:^(NSError *error) {
+        [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
+    }];
+    
+   
 }
 
 - (IBAction)getRandomCodeAction:(id)sender {
- 
-    
+
     if (_AuthCode == nil || _AuthCode.length < 1) {
         [HETCommonHelp showHudAutoHidenWithMessage:@"请获取授权码"];
         return;
@@ -125,7 +127,7 @@ static  NSString *CloudAuthOpenIdKey = @"HETCloudAuthOpenIdKey";
                                   if (data == nil) {
                                       return ;
                                   }
-                                  NSLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil]);
+                                  OPLog(@"%@", [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil]);
                                   NSDictionary *responseObject =  [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
                                   NSString *code=[responseObject objectForKey:@"code"];
                                   if(code.intValue!=0)
@@ -151,9 +153,9 @@ static  NSString *CloudAuthOpenIdKey = @"HETCloudAuthOpenIdKey";
     _AuthCode = AuthCode;
     
     dispatch_async(dispatch_get_main_queue(), ^{
-         _authoCodeLabel.text = [NSString stringWithFormat:@"授权码: %@",AuthCode];
+        _authoCodeLabel.text = [NSString stringWithFormat:@"授权码: %@",AuthCode];
     });
-   
+    
 }
 
 - (void)setRandomCode:(NSString *)randomCode
@@ -176,24 +178,23 @@ static  NSString *CloudAuthOpenIdKey = @"HETCloudAuthOpenIdKey";
 
 - (IBAction)verifyRandomCodeAction:(id)sender {
     
- 
-        NSString *verifyCode = _verfiyTextFeild.text;
-        if(verifyCode.length == 0){
-            verifyCode = nil;
-        }
-        [[HETThirdCloudAuthorize shareInstance]autoAuthorizeWithRandomCode:_randomCode verificationCode:verifyCode withCompleted:^(NSString *openId, NSError *error) {
-            NSLog(@"openId: %@", openId);
-            if(error){
-                [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
-            }else
+    
+    NSString *verifyCode = _verfiyTextFeild.text;
+    if(verifyCode.length == 0){
+        verifyCode = nil;
+    }
+    [[HETThirdCloudAuthorize shareInstance]autoAuthorizeWithRandomCode:_randomCode verificationCode:verifyCode withCompleted:^(NSString *openId, NSError *error) {
+        OPLog(@"openId: %@", openId);
+        if(error){
+            [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
+        }else
+
             if (openId) {
-                  self.openID = openId;
-       
-                 [HETCommonHelp showHudAutoHidenWithMessage:@"授权成功"];
+                self.openID = openId;
+                
+                [HETCommonHelp showHudAutoHidenWithMessage:@"授权成功"];
             }
-        }];
-    
-    
+    }];
 }
 
 - (IBAction)tapAction:(id)sender {
@@ -227,13 +228,13 @@ static  NSString *CloudAuthOpenIdKey = @"HETCloudAuthOpenIdKey";
     return openId;
 }
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

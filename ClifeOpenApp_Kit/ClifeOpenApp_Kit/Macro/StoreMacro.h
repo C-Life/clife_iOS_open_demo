@@ -63,16 +63,18 @@
 
 //导航栏背景颜色
 #define NavBarColor [UIColor colorFromHexRGB:@"3285ff"]
-//#define NavBarColor [UIColor colorFromHexRGB:@"f4f4f4"]
+
 //控制器的背景颜色
 #define VCBgColor [UIColor colorFromHexRGB:@"efeff4"]
 
 //导航栏字体颜色
 #define NavTitleColor [UIColor colorFromHexRGB:@"ffffff"]
-//#define NavTitleColor [UIColor colorFromHexRGB:@"333333"]
 
 //字体大小
 #define OPFont(fontSize) [UIFont systemFontOfSize:(fontSize)]
+
+//字体大小
+#define OPColor(color) [UIColor colorFromHexRGB:(color)]
 
 //颜色十六进制转换RGB
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
@@ -94,7 +96,8 @@
 #endif
 
 
-
+#define kUserDefaultNetWorkConfig @"kUserDefaultNetWorkConfig"
+#define kUserDefaultLoginUIVersion @"kUserDefaultLoginUIVersion"
 
 /*
  *  极光推送

@@ -27,6 +27,10 @@
 #define CommonDeviceOnline NSLocalizedString(@"CommonDeviceOnline",nil)
 #define CommonDeviceOffline NSLocalizedString(@"CommonDeviceOffline",nil)
 
+#define CommonAlert NSLocalizedString(@"CommonAlert",nil)
+#define CommonSaveFailed NSLocalizedString(@"CommonSaveFailed",nil)
+#define CommonSaveSuccess NSLocalizedString(@"CommonSaveSuccess",nil)
+
 // 设备分享
 #define ShareFunctionWeiXin NSLocalizedString(@"ShareFunctionWeiXin",nil)
 #define ShareFunctionQQ NSLocalizedString(@"ShareFunctionQQ",nil)
@@ -67,6 +71,7 @@
 
 #define DeviceOffLineState NSLocalizedString(@"DeviceOffLineState",nil)
 #define CloudAuth NSLocalizedString(@"CloudAuth",nil)
+#define DeviceH5ViewLoading NSLocalizedString(@"DeviceH5ViewLoading",nil)
 // 蓝牙设备绑定
 #define BindBleBindFaile NSLocalizedString(@"BindBleBindFaile",nil)
 #define BLEOpenAlert NSLocalizedString(@"BLEOpenAlert",nil)
@@ -179,4 +184,12 @@
 
 // 设备详情
 #define DeviceDetailTitle NSLocalizedString(@"DeviceDetailTitle",nil)
+#define DeviceDetailTitleNickName NSLocalizedString(@"DeviceDetailTitleNickName",nil)
+
+// 修改设备名称
+#define DeviceChangeNameTitle NSLocalizedString(@"DeviceChangeNameTitle",nil)
+#define DeviceChangeNameTitleSave NSLocalizedString(@"DeviceChangeNameTitleSave",nil)
+#define DeviceChangeNameInputNickName NSLocalizedString(@"DeviceChangeNameInputNickName",nil)
+#define DeviceChangeNameNotSupportEmoji NSLocalizedString(@"DeviceChangeNameNotSupportEmoji",nil)
+
 #endif /* ChineseMacro_h */

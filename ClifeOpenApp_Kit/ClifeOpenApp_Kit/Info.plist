@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -70,7 +70,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>6</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>wechat</string>
@@ -209,6 +209,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>获取相机访问权限</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>允许用户定位</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>获取相册访问权限</string>
 	<key>UIBackgroundModes</key>

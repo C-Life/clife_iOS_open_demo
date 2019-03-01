@@ -10,11 +10,11 @@
 
 @interface HETWiFiDeviceH5ViewController ()
 {
-    HETWiFiDeviceState _currentDeviceState;
-    NSDictionary *_currentDeviceRunData;
-    NSDictionary *_currentDeviceCfgData;
+   
 }
-
+@property(nonatomic,assign) HETWiFiDeviceState currentDeviceState;
+@property(nonatomic,strong) NSDictionary *currentDeviceRunData;
+@property(nonatomic,strong) NSDictionary *currentDeviceCfgData;
 @end
 
 @implementation HETWiFiDeviceH5ViewController
@@ -39,7 +39,6 @@
     NSAssert(self.deviceModel.deviceSubtypeId, @"Parameter 'deviceSubType' should not be nil");
     NSAssert(self.deviceModel.macAddress, @"Parameter 'macAddress' should not be nil");
     [self.wifiBusiness start];
-    
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -52,11 +51,10 @@
 
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
     [super webView:webView didFinishNavigation:navigation];
-// 注释
-//    if (self.wifiBusiness.deviceDefaultCfgData.count)
-//    {
-//        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
-//    }
+    if (self.wifiBusiness.deviceDefaultCfgData.count)
+    {
+        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
+    }
     if (_currentDeviceCfgData.count)
     {
         [self.jsBridge webViewUpdataControlData:_currentDeviceCfgData];
@@ -76,10 +74,10 @@
 -(void)config:(id)data
 {
     [super config:data];
-//    if (self.wifiBusiness.deviceDefaultCfgData.count)
-//    {
-//         [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
-//    }
+    if (self.wifiBusiness.deviceDefaultCfgData.count)
+    {
+         [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
+    }
 }
 
 -(void)send:(id)data successCallback:(id)successCallback errorCallback:(id)errorCallback
@@ -93,13 +91,13 @@
     NSData * tempjsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&err];
     NSString * json = [[NSString alloc] initWithData:tempjsonData encoding:NSUTF8StringEncoding];
     WEAKSELF;
-    [_wifiBusiness deviceControlRequestWithJson:json withSuccessBlock:^(id responseObject) {
-        STRONGSELF;
-        [strongSelf.jsBridge updateDataSuccess:nil successCallBlock:successCallback];
-    } withFailBlock:^(NSError *error) {
-        STRONGSELF;
-        [strongSelf.jsBridge updateDataError:nil errorCallBlock:errorCallback];
-    }];
+        [_wifiBusiness deviceControlRequestWithJson:json successBlock:^(id responseObject) {
+            STRONGSELF;
+            [strongSelf.jsBridge updateDataSuccess:nil successCallBlock:successCallback];
+        } failureBlock:^(NSError *error) {
+            STRONGSELF;
+            [strongSelf.jsBridge updateDataError:nil errorCallBlock:errorCallback];
+        }];
     }
     else
     {
@@ -128,7 +126,7 @@
                 NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:responseObject];
                 [dic removeObjectForKey:@"updateTime"];
                 [dic removeObjectForKey:@"userId"];
-                strongSelf->_currentDeviceRunData=dic;
+                strongSelf.currentDeviceRunData=dic;
                 [strongSelf.jsBridge webViewUpdataRunData:dic];
             }
         } deviceCfgData:^(id responseObject) {
@@ -138,7 +136,7 @@
                 NSMutableDictionary *dic=[NSMutableDictionary dictionaryWithDictionary:responseObject];
                 [dic removeObjectForKey:@"updateTime"];
                 [dic removeObjectForKey:@"userId"];
-                strongSelf->_currentDeviceCfgData=dic;
+                 strongSelf.currentDeviceCfgData=dic;
              [strongSelf.jsBridge webViewUpdataControlData:dic];
             }
         } deviceErrorData:^(id responseObject) {
@@ -149,7 +147,7 @@
             }
         } deviceState:^(HETWiFiDeviceState state) {
             STRONGSELF;
-            strongSelf->_currentDeviceState=state;
+             strongSelf.currentDeviceState=state;
             [strongSelf.jsBridge webViewUpdataOnOffState:[NSString stringWithFormat:@"%ld",2-(long)state]];
             
         } failBlock:^(NSError *error) {

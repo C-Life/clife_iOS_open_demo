@@ -7,12 +7,12 @@
 //
 
 #import "HETBLEDeviceH5ViewController.h"
-
 @interface HETBLEDeviceH5ViewController ()
 {
-   
+
 }
 @property(nonatomic,assign) int lastBattery;
+@property(nonatomic,strong) NSDictionary *controlDataDic;//控制数据的字段
 @end
 
 @implementation HETBLEDeviceH5ViewController
@@ -38,7 +38,6 @@
     NSAssert(self.deviceModel.productId, @"Parameter 'productId' should not be nil");
     NSAssert(self.deviceModel.deviceTypeId, @"Parameter 'deviceType' should not be nil");
     NSAssert(self.deviceModel.deviceSubtypeId, @"Parameter 'deviceSubType' should not be nil");
-    
     self.lastBattery=-1;
     
     [self.bleBusiness addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld
@@ -57,6 +56,10 @@
             if(dic)
             {
                 [self.jsBridge webViewSendBLEStatusData:dic];
+                if(self.controlDataDic.count)
+                {
+                    [self.jsBridge webViewUpdataControlData:dic];
+                }
             }
         });
         
@@ -94,6 +97,23 @@
     _bleBusiness=nil;
     
 }
+- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
+    [super webView:webView didFinishNavigation:navigation];
+    if (self.bleBusiness.state)
+    {
+        [self.jsBridge webViewSendBLEStateType:[NSString stringWithFormat:@"%ld",(long)self.bleBusiness.state]];
+    }
+    //});
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        _controlDataDic=[_bleBusiness.parseDataObj decodeDataWithCommand:@"0040" data:nil];
+        if(_controlDataDic.count)
+        {
+            NSLog(@"控制数据的默认字段:%@",_controlDataDic);
+            [self.jsBridge webViewUpdataControlData:_controlDataDic];
+        }
+    });
+}
 #pragma 蓝牙扫描代理
 -(NSArray *)servicesUUID
 {
@@ -121,16 +141,7 @@
     }
 }
 
-- (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
 
-    [super webView:webView didFinishNavigation:navigation];
- 
-//    if (self.bleBusiness.state)
-//    {
-//        [self.jsBridge webViewSendBLEStateType:[NSString stringWithFormat:@"%ld",(long)self.bleBusiness.state]];
-//    }
-
-}
 
 #pragma mark
 
@@ -238,7 +249,10 @@
     [super config:data];
     if(!self.customBLEDelegate)
     {
-        [self.jsBridge webViewSendBLEStateType:[NSString stringWithFormat:@"%ld",(long)self.bleBusiness.state]];
+        if(self.bleBusiness.state)
+        {
+            [self.jsBridge webViewSendBLEStateType:[NSString stringWithFormat:@"%ld",(long)self.bleBusiness.state]];
+        }
     }
     
 }
@@ -266,6 +280,10 @@
         if(dic)
         {
             [self.jsBridge webViewGetBLERealTimeDataResponse:dic callBackId:successCallbackId];
+            if(self.controlDataDic.count)
+            {
+                [self.jsBridge webViewUpdataControlData:dic];
+            }
         }
         else
         {
@@ -370,9 +388,32 @@
             [self.jsBridge webViewSetBLETimeDataResponse:@"1" callBackId:successCallbackId];
             
         }
-
         
     }];
+}
+-(void)onBluetoothAdapterStateChangeWithSuccessCallbackId:(id)successCallbackId failCallbackId:(id)failCallbackId completeCallbackId:(id)completeCallbackId
+{
+    [_bleBusiness observeStateOfCBCentermanager:^(CBCentralManagerState state) {
+        if(state==CBCentralManagerStatePoweredOn)
+        {
+            [self.jsBridge webViewOnBluetoothAdapterStateChangeResponse:@"1" callBackId:successCallbackId];
+        }
+        else
+        {
+            [self.jsBridge webViewOnBluetoothAdapterStateChangeResponse:@"0" callBackId:successCallbackId];
+        }
+    }];
+}
+-(void)getBluetoothAdapterStateWithSuccessCallbackId:(id)successCallbackId failCallbackId:(id)failCallbackId completeCallbackId:(id)completeCallbackId
+{
+    if([_bleBusiness currentStateOfCBCentermanager]==CBCentralManagerStatePoweredOn)
+    {
+        [self.jsBridge webViewGetBluetoothAdapterStateResponse:@"1" callBackId:successCallbackId];
+    }
+    else
+    {
+        [self.jsBridge webViewGetBluetoothAdapterStateResponse:@"0" callBackId:successCallbackId];
+    }
 }
 -(void)send:(id)data successCallback:(id)successCallback errorCallback:(id)errorCallback
 {

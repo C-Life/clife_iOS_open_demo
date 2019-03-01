@@ -24,6 +24,9 @@
 "CommonDeviceOnline" = "在线";
 "CommonDeviceOffline" = "离线";
 
+"CommonAlert" = "提示";
+"CommonSaveFailed" = "保存失败";
+"CommonSaveSuccess" = "保存成功";
 // 设备分享
 "ShareFunctionWeiXin" = "微信";
 "ShareFunctionQQ" = "QQ";
@@ -42,6 +45,7 @@
 "ShareFunctionAlertTips" = "其他人将通过分享获得设备的控制权限，请勿将设备分享给陌生人";
 "ShareFunctionTimeTips"= "二维码将在15分钟后失效";
 "ShareFunctionScanTips"= "请使用APP扫描二维码";
+"DeviceH5ViewLoading"="正在下载设备页面";
 // Appdelegate
 
 "GetDeviceControlAuthSuccess" = "获取设备权限成功";
@@ -123,7 +127,7 @@
 "EmptyWifiNameTip" = "请设置WiFi";
 "ToConnectWifi" = "去连接wifi";
 "ConnectWifiHelpInfo" = "将手机WiFi连接如上图并返回该界面";
-"DeviceBindWithType" = "设备分类绑定";
+"DeviceBindWithType" = "   设备分类绑定";
 "DeviceListTitle" = "设备列表";
 "ChangeWifiTitle" = "切换WiFi";
 "ChangeWifiAlertInfo" = "请到WiFi设置页面进行连接设置";
@@ -131,7 +135,7 @@
 // 扫一扫
 "ScanQRCodeCellName" = "扫描C-Life自助接入";
 "ScanQRCodeTitle" = "扫一扫";
-"ScanQRCodeHelpInfo" = "将二维码对准方框，即可自动扫描";
+"ScanQRCodeHelpInfo" = "将条形码/二维码对准方框，即可自动扫描";
 "ScanQRCodeLightOn" = "照明";
 "ScanQRCodeFailed" = "扫描失败";
 "ScanQRCodeFailedAlertMessage" = "请检查是否为C-Life产品的二维码,您也可以试试手动绑定";
@@ -174,4 +178,11 @@
 
 // 设备详情
 "DeviceDetailTitle" = "设备详情";
+"DeviceDetailTitleNickName" = "备注名称";
+
+// 设备昵称
+"DeviceChangeNameTitle" = "设备昵称";
+"DeviceChangeNameTitleSave" = "保存";
+"DeviceChangeNameInputNickName" = "请输入设备昵称";
+"DeviceChangeNameNotSupportEmoji" = "不支持emoji表情输入";
 

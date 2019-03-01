@@ -6,3 +6,4 @@ node_modules/
 public/
 .deploy*/
 ClifeOpenApp_Kit/Pods
+ClifeOpenApp_Kit/ClifeOpenApp_Kit/Vendors/HETOpenSDK

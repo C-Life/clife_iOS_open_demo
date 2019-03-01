@@ -28,7 +28,7 @@ pod 'HETPublicSDK_WiFiModule/Marvell_MW300_V2','1.0.0'
 
 
 
-pod 'HETOpenSDK','2.0.8'
+pod 'HETOpenSDK','2.1.4'
 #pod 'HETOpenSDK/HETMattressDeviceSDK'
 
 pod 'FMDB','2.5' 
@@ -41,11 +41,12 @@ pod 'MJRefresh','3.1.14'
 pod 'WechatOpenSDK', '1.7.7'
 pod 'WeiboSDK', '3.1.3'
 pod 'TencentOpenApiSDK', '2.9.5'
+pod 'lottie-ios', '2.0.3'
 #pod 'Diplomat'
 pod 'Bugly', '2.4.8'
 pod 'SGQRCode', '2.2.0'
 ## H5下载解包的时候需要
-pod  'SSZipArchive','1.1'
+#pod  'SSZipArchive','1.1'
 pod 'Popover.OC'
 pod 'JPush', '3.0.6'
 pod 'MBProgressHUD'
