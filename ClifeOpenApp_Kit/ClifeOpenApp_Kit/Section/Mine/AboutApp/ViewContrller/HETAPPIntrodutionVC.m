@@ -26,7 +26,7 @@
 - (void)createSubView
 {
     [self.view addSubview:self.textView];
-    NSString *string = @"\tC-Life开放平台（以下简称开放平台）设备接入的SDK封装了C-Life对外开放的服务接口，以及手机与智能硬件通讯接口。包括用户模块，设备绑定模块，设备控制模块和其他的开放平台接口。开发者不需要关注这些模块的具体内部逻辑，只需要根据自己的业务需求编写界面和调用SDK接口就可以完成APP的快速开发。\n\t地址：[ 公司总部 ]深圳市南山区科技南十路6号深圳航天科技创新研究院10楼。\n\t电话：0755-26727188\n\t QQ：    2596642389";
+    NSString *string = @"\tC-Life开放平台（以下简称开放平台）设备接入的SDK封装了C-Life对外开放的服务接口，以及手机与智能硬件通讯接口。包括用户模块，设备绑定模块，设备控制模块和其他的开放平台接口。开发者不需要关注这些模块的具体内部逻辑，只需要根据自己的业务需求编写界面和调用SDK接口就可以完成APP的快速开发。\n\t地址：[ 公司总部 ]深圳市南山区科技南十路6号深圳航天科技创新研究院10楼。\n\t电话：0755-26727188\n\tQ  Q：2596642389";
     NSMutableParagraphStyle *paragraph = [[NSMutableParagraphStyle alloc] init];
     paragraph.lineSpacing = 7;
     NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:@{NSParagraphStyleAttributeName:[paragraph copy],NSFontAttributeName:[UIFont systemFontOfSize:16]}];

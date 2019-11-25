@@ -35,6 +35,8 @@
 #import "HETNotificationMacro.h"
 #import <Lottie/Lottie.h>
 #import "HETComRefreshHeader.h"
-//#import "MBProgressHUD.h"
+#import <ReactiveCocoa/ReactiveCocoa.h>
+#import "Objection/Objection.h"
+#import "HETAppConfigTool.h"
 #endif
 #endif /* HETOpenPlatformSDKDemo_pch */

@@ -185,6 +185,7 @@
 // 设备详情
 #define DeviceDetailTitle NSLocalizedString(@"DeviceDetailTitle",nil)
 #define DeviceDetailTitleNickName NSLocalizedString(@"DeviceDetailTitleNickName",nil)
+#define DeviceFirmwareUpgrade NSLocalizedString(@"DeviceFirmwareUpgrade",nil)
 
 // 修改设备名称
 #define DeviceChangeNameTitle NSLocalizedString(@"DeviceChangeNameTitle",nil)

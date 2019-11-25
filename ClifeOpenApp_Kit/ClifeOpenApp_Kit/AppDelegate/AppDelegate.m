@@ -11,6 +11,7 @@
 #import "HETDeviceListVC.h"
 #import "HETNavigationVC.h"
 #import <Bugly/Bugly.h>
+//#import <DoraemonKit.h>
 // 引入JPush功能所需头文件
 #import "JPUSHService.h"
 #import "HETAppUpgradeCheck.h"
@@ -19,22 +20,22 @@
 #import <UserNotifications/UserNotifications.h>
 #endif
 
-#define WX_APP_KEY      @"wx49a17f4b9643f2e0"
-#define WX_APP_SECRET   @"121b5279ba5f3b009f968c987ec2ac1c"
+#define WX_APP_KEY      @"xxx"
+#define WX_APP_SECRET   @"xxx"
 
-#define QQ_APP_ID       @"1106375657"
-#define QQ_APP_KEY      @"jbfVxPFXjhsrNLaO"
+#define QQ_APP_ID       @"xx"
+#define QQ_APP_KEY      @"xx"
 
-NSString *const KHETJPushAppKey = @"3587ba92615f0c61bbf348c2";
-#define WB_APP_KEY      @"222699060"
-#define WB_APP_SECRET   @"850ff4a0546a4fa2a15d1a5b2c086857"
-#define WB_RedirectURL  @"http://www.clife.net"
 
-#define kTestAPPKEY @"30765"
-#define kTestAPPSECRET @"5f699a78c319444cb8a291296049572c"
+NSString *const KHETJPushAppKey = @"xxx";
+#define WB_APP_KEY      @"xx"
+#define WB_APP_SECRET   @"xx"
+#define WB_RedirectURL  @"http://www.clife.cn"
+
 
 static NSString *KHETJPushchannel = @"Publish channel";
 static BOOL isProduction = FALSE;
+
 
 @interface AppDelegate ()<JPUSHRegisterDelegate>
 
@@ -44,13 +45,13 @@ static BOOL isProduction = FALSE;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
-    
-    
+//    [HETAppConfigTool saveAppId:kTestAPPKEY saveAppSecret:kTestAPPSECRET];
     // 1.注册第三方应用
-    [HETOpenSDK registerAppId:kTestAPPKEY appSecret:kTestAPPSECRET];
-    [HETOpenSDK setNetWorkConfig:[self getUserNetWorkConfig]];
+    [HETOpenSDK registerAppId:[HETAppConfigTool getAppId] appSecret:[HETAppConfigTool getAppSecret]];
+    [HETOpenSDK setNetWorkConfig:[HETAppConfigTool getNetWorkConfigType]];
     [HETOpenSDK openLog:true];
-    
+    //配置语言版本
+    [[HETOpenSDK shareInstance]setLocalizationType:HETNetworkLocalization_zh_CN];
     // 第三方登录
     [HETOpenSDK setPlaform:HETAuthPlatformType_QQ appKey:QQ_APP_ID appSecret:nil redirectURL:nil];
     [HETOpenSDK setPlaform:HETAuthPlatformType_Weibo appKey:WB_APP_KEY appSecret:WB_APP_SECRET redirectURL:WB_RedirectURL];

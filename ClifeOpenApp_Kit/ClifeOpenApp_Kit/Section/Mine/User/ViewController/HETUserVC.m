@@ -177,7 +177,14 @@
     }
     
     if (dict == self.clearCacheDict) {
-        [HETCommonHelp showHudAutoHidenWithMessage:DeviceControlViewOndevelopment];
+        
+        [HETAppConfigTool cleanChace];
+        NSString *sanboxPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,NSUserDomainMask,YES)[0] stringByAppendingPathComponent:@"web"];
+        BOOL remove = [[NSFileManager defaultManager] removeItemAtPath:sanboxPath error:nil];
+        if (remove == YES) {
+            [HETCommonHelp showHudAutoHidenWithMessage:@"清理成功"];
+        }
+//        [HETCommonHelp showHudAutoHidenWithMessage:DeviceControlViewOndevelopment];
     }
     
     if (dict == self.aboutAppDict) {

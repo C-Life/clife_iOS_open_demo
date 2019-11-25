@@ -14,5 +14,5 @@ typedef void (^ChangeBlock)(void);
 @property (nonatomic,strong) UISegmentedControl                                    *loginUISeg;
 @property (nonatomic,strong) ChangeBlock changeBlock;
 
-- (void)updateParams:(HETNetWorkConfigType)netWorkConfigType loginUIVersion:(NSString *)loginUIVersion;
+- (void)change;
 @end

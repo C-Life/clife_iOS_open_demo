@@ -98,7 +98,7 @@
     UIImage * image = [UIImage imageWithColor:[UIColor whiteColor] size:CGSizeMake(self.view.frame.size.width, 34)];
     
     //把白色的图片弄成自己想要的样子（图片处理大小和切圆角，方法自己上网搜索）
-//    image =[UIImage createRoundedRectImage:image size:CGSizeMake(self.view.frame.size.width, 34) radius:34/2];
+    //    image =[UIImage createRoundedRectImage:image size:CGSizeMake(self.view.frame.size.width, 34) radius:34/2];
     [self.searchController.searchBar setSearchFieldBackgroundImage:image forState:UIControlStateNormal];
 
     //    iOS11之后searchController有了新样式，可以放在导航栏
@@ -185,27 +185,27 @@
 #pragma mark - UISearchControllerDelegate代理
 - (void)willPresentSearchController:(UISearchController *)searchController
 {
-    NSLog(@"willPresentSearchController");
+    OPLog(@"willPresentSearchController");
 }
 
 - (void)didPresentSearchController:(UISearchController *)searchController
 {
-    NSLog(@"didPresentSearchController");
+    OPLog(@"didPresentSearchController");
 }
 
 - (void)willDismissSearchController:(UISearchController *)searchController
 {
-    NSLog(@"willDismissSearchController");
+    OPLog(@"willDismissSearchController");
 }
 
 - (void)didDismissSearchController:(UISearchController *)searchController
 {
-    NSLog(@"didDismissSearchController");
+    OPLog(@"didDismissSearchController");
 }
 
 - (void)presentSearchController:(UISearchController *)searchController
 {
-    NSLog(@"presentSearchController");
+    OPLog(@"presentSearchController");
 }
 
 #pragma mark - UISearchBarDelegate
@@ -274,6 +274,7 @@
         [self.navigationController pushViewController:bindBleDeviceVC animated:YES];
         return;
     }
+    
     // wifi绑定
     if([device.bindType integerValue] == 1){
         HETSetPassWordVC *setPasswordVC = [HETSetPassWordVC new];
@@ -282,7 +283,7 @@
         return;
     }
     
-    // GPRS绑定
+    // 4、GSM绑定、6-直连--内置Android系统、8-Zigbee
     if ([device.bindType integerValue] == 4 || [device.bindType integerValue] == 6 || [device.bindType integerValue] == 8) {
         HETBindGPRSDeviceVC *gprsVC = [HETBindGPRSDeviceVC new];
         gprsVC.device = device;

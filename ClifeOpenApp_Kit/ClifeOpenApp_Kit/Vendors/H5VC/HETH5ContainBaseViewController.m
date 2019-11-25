@@ -9,8 +9,10 @@
 #import "HETH5ContainBaseViewController.h"
 #if __has_include(<HETOpenSDK/HETOpenSDK.h>)
 #import <HETOpenSDK/HETReachability.h>
+#import <HETOpenSDK/HETOpenSDK.h>
 #else
 #import "HETReachability.h"
+#import "HETOpenSDK.h"
 #endif
 
 #import "HETH5CustomNavigationBar.h"
@@ -65,7 +67,7 @@
     
     
     [self.view addSubview:self.h5CustomNavigationBar];
-//    self.h5CustomNavigationBar.barBackgroundColor=self.navigationController.navigationBar.barTintColor;
+    //    self.h5CustomNavigationBar.barBackgroundColor=self.navigationController.navigationBar.barTintColor;
     self.h5CustomNavigationBar.barBackgroundColor= [UIColor clearColor];
     [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[UIImage imageNamed:@"h5_nav_back_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
     [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[UIImage imageNamed:@"h5_more_white"] highlighted:nil title:nil titleColor:[UIColor whiteColor] backBroundColor:nil];
@@ -89,6 +91,7 @@
         !self.onClickRightButton?:self.onClickRightButton(index,title);
     };
 }
+
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -98,19 +101,16 @@
     [_jsBridge setNavigationDelegate:self];
     [_jsBridge viewAppear];
 }
+
 -(void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     //self.navigationController.navigationBar.hidden=NO;
     [self.navigationController setNavigationBarHidden:NO animated:animated];
-    _jsBridge.delegate=nil;
+   // _jsBridge.delegate=nil;
     [_jsBridge viewDisAppear];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 - (void)loadRequest
 {
     //清除webView的缓存
@@ -143,8 +143,6 @@
                 } @finally {
                     
                 }
-                
-                
             }else{
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -153,7 +151,6 @@
             }
         }
     }
-    
 }
 
 //kvo 监听进度
@@ -203,10 +200,8 @@
     [_jsBridge webViewReady:nil];
     
     //webview加载完成后，掉一次视图显示
-//    [_jsBridge viewAppear];
+    //    [_jsBridge viewAppear];
 }
-
-
 
 /**
  *  js调用的设置页面标题接口(该方法用于将标题发送给app，以供app进行标题更新。)
@@ -253,7 +248,6 @@
 //
 //}
 
-
 /**
  *  相对网络请求
  *
@@ -274,25 +268,25 @@
     }
     NSData *jsonData;
     NSDictionary *dic;
-     if (data && ![data isEqualToString:@" "]) {
-       jsonData= [data dataUsingEncoding:NSUTF8StringEncoding];
-         dic=[NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
-     }
+    if (data && ![data isEqualToString:@" "]) {
+        jsonData= [data dataUsingEncoding:NSUTF8StringEncoding];
+        dic=[NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
+    }
     HETRequestMethod httpMethod=HETRequestMethodGet;
     if([[type uppercaseString] rangeOfString:@"GET"].location!=NSNotFound)
     {
         httpMethod=HETRequestMethodGet;
     }
-     if([[type uppercaseString] rangeOfString:@"POST"].location!=NSNotFound)
+    if([[type uppercaseString] rangeOfString:@"POST"].location!=NSNotFound)
     {
         httpMethod=HETRequestMethodPost;
     }
     [HETDeviceRequestBusiness startRequestWithHTTPMethod:httpMethod withRequestUrl:url processParams:dic needSign:bneedSign BlockWithSuccess:^(id responseObject) {
         
-//        NSDictionary *result = responseObject;
-//        NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
-//        NSDictionary *data = [result objectForKey:@"data"];
-//        OPLog(@"%@,%ld",data,code);
+        //        NSDictionary *result = responseObject;
+        //        NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
+        //        NSDictionary *data = [result objectForKey:@"data"];
+        //        OPLog(@"%@,%ld",data,code);
         [_jsBridge webViewHttpResponseSuccessResponse:responseObject successCallBlock:sucCallbackId];
     } failure:^(NSError *error) {
         
@@ -327,14 +321,9 @@
     {
         httpMethod=HETRequestMethodPost;
     }
-    
-    [HETDeviceRequestBusiness startRequestWithHTTPMethod:httpMethod withRequestUrl:url processParams:dic needSign:NO BlockWithSuccess:^(id responseObject) {
-        //NSDictionary *result = responseObject;
-//        NSInteger code= [[(NSDictionary *)result objectForKey:@"code"] integerValue];
-//        NSDictionary *data = [result objectForKey:@"data"];
+    [HETDeviceRequestBusiness generalHTTPRequestWithHTTPMethod:httpMethod withRequestUrl:url processParams:dic uploadFileInfo:nil BlockWithSuccess:^(id responseObject) {
         [_jsBridge webViewHttpResponseSuccessResponse:responseObject successCallBlock:sucCallbackId];
     } failure:^(NSError *error) {
-        
         NSString *errorMsg=error.userInfo[@"msg"];
         [_jsBridge webViewHttpResponseErrorResponse:@{@"code":@(error.code),@"msg":errorMsg.length? errorMsg:error.description} errorCallBlock:errCallbackId];
     }];
@@ -395,7 +384,6 @@
     }
 }
 
-
 /**
  *  h5从native端获取JSBridege版本号
  *
@@ -405,30 +393,26 @@
     [_jsBridge  webViewJSBridgeVersionResponse:@"2.0.0"];
 }
 
-
 /**
  *  h5从native端获取APP语言（国际化）
  *
  */
 -(void)h5GetAPPLanguage
 {
-    NSString *currentLanguage = [[NSLocale preferredLanguages] objectAtIndex:0];
-    OPLog(@"currentlanguage = %@",currentLanguage);
     NSString *appLanguage=@"zh_CN";
-    if ([currentLanguage containsString:@"zh-Hans"]) {//简体
-        OPLog(@"zh-Hans");
-    }
-    else if ([currentLanguage containsString:@"zh-Hant"]||[currentLanguage containsString:@"zh-HK"]||[currentLanguage containsString:@"zh-TW"]) {
-        OPLog(@"zh-Hant");
-        appLanguage=@"zh_TW";
-    }
-    else
-    {
-        appLanguage=@"en";
-    }
+    NSDictionary *dic = @{@(HETNetworkLocalization_zh_CN):@"zh_CN",
+                          @(HETNetworkLocalization_zh_TW):@"zh_TW",
+                          @(HETNetworkLocalization_zh_HK):@"zh_HK",
+                          @(HETNetworkLocalization_en):@"en",
+                          @(HETNetworkLocalization_fr):@"fr",
+                          @(HETNetworkLocalization_de):@"de",
+                          @(HETNetworkLocalization_ja):@"ja",
+                          @(HETNetworkLocalization_it):@"it",
+                          @(HETNetworkLocalization_es):@"es",
+                          @(HETNetworkLocalization_ko):@"ko"};
+    appLanguage = dic[@([[HETOpenSDK shareInstance] localizationType])];
     [_jsBridge webViewAPPLanguageResponse:appLanguage];
 }
-
 
 /**
  *  显示消息提示框
@@ -544,10 +528,6 @@
     //    [alertMessageStr addAttribute:NSForegroundColorAttributeName value:[UIColor greenColor] range:NSMakeRange(3, 2)];
     //    [alertMessageStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange(5, 2)];
     //    [alertController setValue:alertMessageStr forKey:@"attributedMessage"];
-    
-    
-    
-    
     // [alertController addAction:okAction1];
     [self presentViewController:alertController animated:YES completion:nil];
     
@@ -567,39 +547,35 @@
  */
 -(void)showActionSheetWithTitle:(id)title itemList:(id)itemList itemColor:(id) itemColor successCallbackId:(id) successCallbackId failCallbackId:(id) failCallbackId completeCallbackId:(id) completeCallbackId
 {
-       if (itemList && ![itemList isEqualToString:@" "]) {
-    NSString *titleStr=title;
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:!titleStr.length?nil:titleStr message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    // [alertController.view setNeedsLayout]; // 去掉这行log上会打印错误
-    
-    NSError *error;
-    NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
-    id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-    if([object isKindOfClass:[NSArray class]])
-    {
-        [object enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            UIAlertAction *itemAction = [UIAlertAction actionWithTitle:obj style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-                //        UITextField *login = alertController.textFields.firstObject;
-                [_jsBridge webViewShowActionSheetResponse:@{@"data":@{@"index":@(idx)}} callBackId:completeCallbackId];
+    if (itemList && ![itemList isEqualToString:@" "]) {
+        NSString *titleStr=title;
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:!titleStr.length?nil:titleStr message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        // [alertController.view setNeedsLayout]; // 去掉这行log上会打印错误
+        
+        NSError *error;
+        NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
+        id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        if([object isKindOfClass:[NSArray class]])
+        {
+            [object enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                UIAlertAction *itemAction = [UIAlertAction actionWithTitle:obj style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+                    //        UITextField *login = alertController.textFields.firstObject;
+                    [_jsBridge webViewShowActionSheetResponse:@{@"data":@{@"index":@(idx)}} callBackId:completeCallbackId];
+                }];
+                // [itemAction setValue:[self colorWithHexString:itemColor] forKey:@"_titleTextColor"];
+                [alertController addAction:itemAction];
             }];
-            // [itemAction setValue:[self colorWithHexString:itemColor] forKey:@"_titleTextColor"];
-            [alertController addAction:itemAction];
+        }
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
+            
         }];
+        /*取消按钮的颜色*/
+        //[cancelAction setValue:[self colorWithHexString:itemColor] forKey:@"_titleTextColor"];
+        [alertController addAction:cancelAction];
         
-        
-        
+        [self presentViewController:alertController animated:YES completion:nil];
     }
-    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action) {
-        
-    }];
-    /*取消按钮的颜色*/
-    //[cancelAction setValue:[self colorWithHexString:itemColor] forKey:@"_titleTextColor"];
-    [alertController addAction:cancelAction];
-    
-    [self presentViewController:alertController animated:YES completion:nil];
-       }
 }
-
 
 /**
  *  设置导航栏标题与颜色
@@ -640,7 +616,6 @@
     {
         self.h5CustomNavigationBar.barBackgroundImage=[self imageWithImagePath:image];// [UIImage imageWithContentsOfFile:image];
     }
-    
 }
 
 /**
@@ -672,7 +647,6 @@
     {
         self.h5CustomNavigationBar.rightButton.hidden=NO;
     }
-    
 }
 
 /**
@@ -685,24 +659,23 @@
  */
 -(void)setNavigationBarLeftBarButtonItems:(id)itemList  successCallbackId:(id) successCallbackId  failCallbackId:(id)failCallbackId
 {
-      if (itemList && ![itemList isEqualToString:@" "]) {
-    NSError *error;
-    NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
-    id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-    if([object isKindOfClass:[NSArray class]])
-    {
-        NSArray *array=object;
-        if(array.count)
+    if (itemList && ![itemList isEqualToString:@" "]) {
+        NSError *error;
+        NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
+        id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        if([object isKindOfClass:[NSArray class]])
         {
-            NSDictionary *dic=object[0];
-            UIColor *tintColor=[self colorWithHexString:dic[@"tintColor"]];
-            UIColor *backBroundColor=[self colorWithHexString:dic[@"backgroundColor"]];
-            [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[self imageWithImagePath:dic[@"image"]] highlighted:[self imageWithImagePath:dic[@"image"]] title:dic[@"title"] titleColor:tintColor backBroundColor:backBroundColor];
+            NSArray *array=object;
+            if(array.count)
+            {
+                NSDictionary *dic=object[0];
+                UIColor *tintColor=[self colorWithHexString:dic[@"tintColor"]];
+                UIColor *backBroundColor=[self colorWithHexString:dic[@"backgroundColor"]];
+                [self.h5CustomNavigationBar wr_setLeftButtonWithNormal:[self imageWithImagePath:dic[@"image"]] highlighted:[self imageWithImagePath:dic[@"image"]] title:dic[@"title"] titleColor:tintColor backBroundColor:backBroundColor];
+            }
         }
     }
-    }
 }
-
 
 /**
  *  设置导航栏右边按钮
@@ -714,39 +687,35 @@
  */
 -(void)setNavigationBarRightBarButtonItems:(id)itemList  successCallbackId:(id) successCallbackId  failCallbackId:(id)failCallbackId
 {
-      if (itemList && ![itemList isEqualToString:@" "]) {
-    NSError *error;
-    NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
-    id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
-    if([object isKindOfClass:[NSArray class]])
-    {
-        NSArray *array=object;
-        if(array.count)
+    if (itemList && ![itemList isEqualToString:@" "]) {
+        NSError *error;
+        NSData *jsonData = [itemList dataUsingEncoding:NSUTF8StringEncoding];
+        id object = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:&error];
+        if([object isKindOfClass:[NSArray class]])
         {
-            NSDictionary *dic=object[0];
-            UIColor *tintColor=[self colorWithHexString:dic[@"tintColor"]];
-            UIColor *backBroundColor=[self colorWithHexString:dic[@"backgroundColor"]];
-            [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[self imageWithImagePath:dic[@"image"]] highlighted:[self imageWithImagePath:dic[@"image"]] title:dic[@"title"] titleColor:tintColor backBroundColor:backBroundColor];
+            NSArray *array=object;
+            if(array.count)
+            {
+                NSDictionary *dic=object[0];
+                UIColor *tintColor=[self colorWithHexString:dic[@"tintColor"]];
+                UIColor *backBroundColor=[self colorWithHexString:dic[@"backgroundColor"]];
+                [self.h5CustomNavigationBar wr_setRightButtonWithNormal:[self imageWithImagePath:dic[@"image"]] highlighted:[self imageWithImagePath:dic[@"image"]] title:dic[@"title"] titleColor:tintColor backBroundColor:backBroundColor];
+            }
+            else
+            {
+                self.h5CustomNavigationBar.rightButton.hidden=YES;
+            }
         }
         else
         {
             self.h5CustomNavigationBar.rightButton.hidden=YES;
         }
-        
     }
     else
     {
         self.h5CustomNavigationBar.rightButton.hidden=YES;
     }
-      }
-    
-      else
-      {
-          self.h5CustomNavigationBar.rightButton.hidden=YES;
-      }
 }
-
-
 
 /**
  *  设置导航栏菜单
@@ -768,7 +737,6 @@
  *
  *  @param successCallbackId    接口调用成功的回调函数
  *  @param failCallbackId       接口调用失败的回调函数
- 
  */
 -(void)getNetworkTypeWithSuccessCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId
 {
@@ -780,8 +748,8 @@
     }
     NSDictionary *dic=@{@"data":@{@"isConnected":isConnected,@"networkType":netconnType}};
     [_jsBridge webViewCurrentNetworkTypeResponse:dic callBackId:successCallbackId];
-    
 }
+
 - (NSString *)getNetconnType{
     
     NSString *netconnType = @"none";
@@ -795,13 +763,11 @@
             netconnType = @"none";
         }
             break;
-            
         case ReachableViaWiFi:// Wifi
         {
             netconnType = @"Wifi";
         }
             break;
-            
         case ReachableViaWWAN:// 手机自带网络
         {
             // 获取手机网络类型
@@ -845,11 +811,9 @@
             }
         }
             break;
-            
         default:
             break;
     }
-    
     return netconnType;
 }
 
@@ -858,7 +822,6 @@
  *
  *  @param successCallbackId    接口调用成功的回调函数
  *  @param failCallbackId       接口调用失败的回调函数
- 
  */
 -(void)onNetworkStatusChangeWithSuccessCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId
 {
@@ -883,9 +846,6 @@
     };
 }
 
-
-
-
 /**
  *  获取设备信息
  *
@@ -901,13 +861,9 @@
     } failure:^(NSError *error) {
         OPLog(@"获取设备基本信息失败:%@",error);
         NSString *errorMsg=error.userInfo[@"msg"];
-        
-        
         [_jsBridge webViewGetDeviceInfoResponse:@{@"code":@(error.code),@"msg":errorMsg.length? errorMsg:error.description} callBackId:successCallbackId];
     }];
-    
 }
-
 
 /**
  *  H5主动获取设备MCU升级
@@ -915,13 +871,11 @@
  *  @param successCallbackId    接口调用成功的回调函数
  *  @param failCallbackId       接口调用失败的回调函数
  *  @param progressCallbackId   进度的回调函数
- 
  */
 -(void)getDeviceMcuUpgradeWithSuccessCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId progressCallbackId:(id)progressCallbackId
 {
     
 }
-
 
 /**
  *  H5分享接口
@@ -933,7 +887,6 @@
  *  @param successCallbackId   接口调用成功的回调函数
  *  @param failCallbackId    接口调用失败的回调函数
  *  @param completeCallbackId    接口调用结束的回调函数（调用成功、失败)
- 
  */
 -(void)showShareActionSheetWithTitle:(id )title content:(id) content images:(id) images  url:(id)url  successCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId  completeCallbackId:(id) completeCallbackId
 {
@@ -948,12 +901,9 @@
  *  @param successCallbackId   接口调用成功的回调函数
  *  @param failCallbackId    接口调用失败的回调函数
  *  @param completeCallbackId    接口调用结束的回调函数（调用成功、失败)
- 
  */
-
 -(void)userLocationWithType:(id)type altitude:(id)altitude successCallbackId:(id)successCallbackId  failCallbackId:(id)failCallbackId  completeCallbackId:(id) completeCallbackId
 {
-    
     locationManager=[[HETLocationManager alloc]init];
     __weak typeof(self) weakSelf = self;
     [locationManager getUserLocationWithGPSType:type withAltitude:altitude completeBlock:^(NSDictionary *location, NSError *error) {
@@ -970,6 +920,17 @@
         }
     }];
 }
+
+- (void)proxyHttpWithHet:(id)host path:(id)path paramJson:(id)paramJson successCallbackId:(id)successCallbackId failCallbackId:(id)failCallbackId
+{
+    [HETDeviceRequestBusiness proxyHttpWithHet:host path:path paramJson:paramJson BlockWithSuccess:^(id responseObject) {
+        [_jsBridge webViewHttpResponseSuccessResponse:responseObject successCallBlock:successCallbackId];
+    } failure:^(NSError *error) {
+        NSString *errorMsg=error.userInfo[@"msg"];
+        [_jsBridge webViewHttpResponseErrorResponse:@{@"code":@(error.code),@"msg":errorMsg.length? errorMsg:error.description} errorCallBlock:failCallbackId];
+    }];
+}
+
 /*
  #pragma mark - Navigation
  
@@ -980,8 +941,6 @@
  }
  */
 #pragma mark-==========WKNavigationDelegate================
-
-
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(null_unspecified WKNavigation *)navigation{
     //开始加载的时候，让进度条显示
     self.progressView.hidden = NO;
@@ -989,24 +948,27 @@
     {
         [self.hetDeviceControlWKWebviewDelegate webViewDidStartLoad:webView];
     }
-    
 }
+
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
-    
+    if(self.hetDeviceControlWKWebviewDelegate && [self.hetDeviceControlWKWebviewDelegate respondsToSelector:@selector(webViewDidFinishLoad:)])
+    {
+        [self.hetDeviceControlWKWebviewDelegate webViewDidFinishLoad:webView];
+    }
     
     if(self.hetDeviceControlWKWebviewDelegate && [self.hetDeviceControlWKWebviewDelegate respondsToSelector:@selector(webViewDidFinishLoad:)])
     {
         [self.hetDeviceControlWKWebviewDelegate webViewDidFinishLoad:webView];
     }
- 
-    
+    NSString *navigationBarHeight=[NSString stringWithFormat:@"%f",CGRectGetHeight(self.h5CustomNavigationBar.frame)- CGRectGetHeight([UIApplication sharedApplication].statusBarFrame)];
+    NSString *statusBarHeight=[NSString stringWithFormat:@"%f",CGRectGetHeight([UIApplication sharedApplication].statusBarFrame)];
+    [self.jsBridge sendNavigationBarHeight:navigationBarHeight StatusBarHeight:statusBarHeight];
 }
+
 - (void)webView:(WKWebView *)webView didFailProvisionalNavigation:(null_unspecified WKNavigation *)navigation withError:(NSError *)error{
-    
-     NSLog(@"webView加载失败了:%@",error);
+    NSLog(@"webView加载失败了:%@",error);
     /* 停止加载页面*/
     [webView stopLoading];
-    
     if ([error code] == NSURLErrorCancelled) {
         
         //        [webView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:self.h5Path]]];
@@ -1016,8 +978,8 @@
     {
         [self.hetDeviceControlWKWebviewDelegate webView:webView didFailLoadWithError:error];
     }
-    
 }
+
 - (void)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler {
     // 类似 UIWebView 的 -webView: shouldStartLoadWithRequest: navigationType:
     NSString *requestString =[[navigationAction.request URL]absoluteString];
@@ -1034,10 +996,9 @@
         {
             [self.hetDeviceControlWKWebviewDelegate updateAPPUIprotolString:requestString];
         }
-        
     }
-    
 }
+
 - (void)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(NSString *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(void (^)(void))completionHandler
 {
     completionHandler();
@@ -1052,6 +1013,7 @@
         completionHandler(NSURLSessionAuthChallengeUseCredential,card);
     }
 }
+
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge
 {
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
@@ -1074,39 +1036,9 @@
             [[challenge sender] continueWithoutCredentialForAuthenticationChallenge:challenge];
         }
     }
-    
     [[challenge sender] continueWithoutCredentialForAuthenticationChallenge:challenge];
-    
 }
 
-//
-//-(NSString*)DataTOjsonString:(id)object
-//{
-//    if([object isKindOfClass:[NSNull class]]||!object)
-//    {
-//        return @"";
-//    }
-//    NSString *jsonString = nil;
-//    NSError *error;
-//    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:object
-//                                                       options:NSJSONWritingPrettyPrinted // Pass 0 if you don't care about the readability of the generated string
-//                                                         error:&error];
-//    if (! jsonData) {
-//        OPLog(@"Got an error: %@", error);
-//    } else {
-//        jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-//    }
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\'" withString:@"\\\'"];
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\n" withString:@"\\n"];
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\r" withString:@"\\r"];
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\f" withString:@"\\f"];
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\u2028" withString:@"\\u2028"];
-//    jsonString = [jsonString stringByReplacingOccurrencesOfString:@"\u2029" withString:@"\\u2029"];
-//
-//    return jsonString;
-//}
 -(void )imageWithImagePath:(NSString *)path imageView:(UIImageView *)imageView
 {
     UIImage *image;
@@ -1127,7 +1059,6 @@
         OPLog(@"图片处理后路径:%@",filePathArray[0]);
         image= [UIImage imageWithContentsOfFile:filePathArray[0]];
         imageView.image=image;
-        
     }
     // return image;
 }
@@ -1162,6 +1093,7 @@
     }
     return image;
 }
+
 - (UIColor *) colorWithHexString: (NSString *)color
 {
     NSString *cString = [[color stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] uppercaseString];
@@ -1205,7 +1137,6 @@
     {
         [[NSScanner scannerWithString:aString] scanHexInt:&a];
     }
-    
     return [UIColor colorWithRed:((float) r / 255.0f) green:((float) g / 255.0f) blue:((float) b / 255.0f) alpha:((float) a / 255.0f)];
 }
 
@@ -1215,20 +1146,18 @@
     }
     return _h5CustomNavigationBar;
 }
+
 -(UIProgressView *)progressView{
     if (!_progressView) {
-        _progressView                   = [[UIProgressView alloc]
-                                           initWithProgressViewStyle:UIProgressViewStyleDefault];
+        _progressView = [[UIProgressView alloc]initWithProgressViewStyle:UIProgressViewStyleDefault];
         _progressView.backgroundColor = [UIColor clearColor];
-        _progressView.frame             = CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 5);
+        _progressView.frame= CGRectMake(0, 0, [UIScreen mainScreen].bounds.size.width, 5);
         _progressView.trackTintColor=[UIColor clearColor];
         /*[_progressView setTrackTintColor:[UIColor colorWithRed:240.0/255
          green:240.0/255
          blue:240.0/255
          alpha:1.0]];*/
         _progressView.progressTintColor =self.h5CustomNavigationBar.barBackgroundColor;
-        
-        
     }
     return _progressView;
 }
@@ -1236,7 +1165,11 @@
 {
     [self.ablity stopNotifier];
     self.ablity=nil;
-    [_wkWebView removeObserver:self
-                    forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+    [_wkWebView removeObserver:self forKeyPath:NSStringFromSelector(@selector(estimatedProgress))];
+}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
 }
 @end

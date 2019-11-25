@@ -82,7 +82,6 @@
 
 -(void)send:(id)data successCallback:(id)successCallback errorCallback:(id)errorCallback
 {
-    NSLog(@"web send -------");
     if (data && ![data isEqualToString:@" "]) {
     NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];

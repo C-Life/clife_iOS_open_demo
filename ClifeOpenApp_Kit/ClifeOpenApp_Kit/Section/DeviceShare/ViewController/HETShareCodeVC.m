@@ -71,8 +71,11 @@
     [HETDeviceShareBusiness getShareCodeWithDeviceId:self.deviceId shareType:HETDeviceShareType_FaceToFaceShare success:^(id responseObject) {
         STRONGSELF
         OPLog(@"responseObject == %@",responseObject);
-        NSString *shareCode = [responseObject valueForKey:@"shareCode"];
-        [strongSelf setupGenerateQRCode:shareCode];
+        if ([[responseObject allKeys] containsObject:@"data"]) {
+           NSDictionary *shareCodeDict = [responseObject valueForKey:@"data"];
+           NSString *shareCode = [shareCodeDict valueForKey:@"shareCode"];
+           [strongSelf setupGenerateQRCode:shareCode];
+        }
     } failure:^(NSError *error) {
         OPLog(@"error == %@",error);
         [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];

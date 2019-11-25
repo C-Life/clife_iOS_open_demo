@@ -13,11 +13,19 @@
 #import "HETSQRCodeScanningVC.h"
 #import "HETH5ContainBaseViewController.h"
 #import "ChangeNameViewController.h"
+
+#import "HETDeviceUpgradeProtocol.h"
+#import "HETOpenSDKBaseBleHandle.h"
+#import "HETDUBaseWifiHandle.h"
+#import "HETDUProcessProtocol.h"
+
 static CGFloat kDeviceDetailHeadCellHeight = 80.f;
 static CGFloat kCellIOneRowHeight = 48.f;
 @interface DeviceDetailsVC ()<UITableViewDataSource,UITableViewDelegate>
-@property (nonatomic, strong) UITableView    * deviceDetailTableView;
-@property (nonatomic, strong) NSMutableArray *dataSource;
+@property (nonatomic,strong) UITableView    * deviceDetailTableView;
+@property (nonatomic,strong) NSMutableArray *dataSource;
+@property (nonatomic,strong) HETDeviceVersionModel *deviceVersionModel;
+@property (nonatomic,strong) id<HETDeviceUpgradeProtocol> upgradeManager;
 @end
 
 @implementation DeviceDetailsVC
@@ -36,6 +44,9 @@ static CGFloat kCellIOneRowHeight = 48.f;
     
     // 4.初始化界面
     [self createSubView];
+    
+    // 5.检查固件版本
+    [self deviceUpgradeCheck];
 }
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -79,14 +90,17 @@ static CGFloat kCellIOneRowHeight = 48.f;
     scanMode.imageName = @"DeviceDetailsVC_deviceScan";
     scanMode.titleName = ScanQRCodeCellName ;
     
+    DeviceDetailCellModel *updateModel =  [DeviceDetailCellModel new];
+    updateModel.imageName = @"DeviceDetailsVC_deviceScan";
+    updateModel.titleName = DeviceFirmwareUpgrade;
+    
     [_dataSource addObject:deviceNickName];
     [_dataSource addObject:scanMode];
-    
+    [_dataSource addObject:updateModel];
     // 分享设备是没有下次分享权限
     if (_deviceModel.share.integerValue == 2) {
-       [_dataSource addObject:deviceShareMode];
+        [_dataSource addObject:deviceShareMode];
     }
-
 }
 
 #pragma mark - UITableViewDataSource
@@ -157,16 +171,17 @@ static CGFloat kCellIOneRowHeight = 48.f;
                 [self pushChangeNameVC];
                 break;
             case 1:
-                [self scaneAction];
+                [self pushToScanVC];
                 break;
                 
             case 2:
-                [self pushToShareVC];
+                [self pushToUpgradeVC];
                 break;
+            case 3:
+                [self pushToShareVC];
             default:
                 break;
         }
-        
     }
 }
 
@@ -185,7 +200,7 @@ static CGFloat kCellIOneRowHeight = 48.f;
     [self.navigationController pushViewController:shareDeviceVC animated:YES];
 }
 
-- (void)scaneAction
+- (void)pushToScanVC
 {
     HETSQRCodeScanningVC *scanVC = [HETSQRCodeScanningVC new];
     __weak typeof(self) weakself = self;
@@ -200,6 +215,100 @@ static CGFloat kCellIOneRowHeight = 48.f;
     [self.navigationController  pushViewController:scanVC animated:YES];
 }
 
+- (void)pushToUpgradeVC{
+    // 分享设备是没有权限
+    if (_deviceModel.share.integerValue == 1) {
+        [HETCommonHelp showHudAutoHidenWithMessage:@"非绑定用户不能操作设备升级"];
+        return;
+    }
+    
+    self.upgradeManager = [[JSObjection defaultInjector] getObject:@protocol(HETDeviceUpgradeProtocol)] ;
+    [self.upgradeManager checkWithDeviceId:self.deviceModel.deviceId success:^(HETDeviceVersionModel *versionModel) {
+        if ([versionModel normalNeedUpgrade]) {
+            [self upgradeAlert];
+        }else{
+            NSString *message = [NSString stringWithFormat:@"当前已是最新版本!"];
+            [HETCommonHelp showHudAutoHidenWithMessage:message];
+        }
+    } failure:^(NSError *error) {
+        OPLog(@"error:%@",error);
+        [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
+    }];
+}
+
+#pragma mark - 固件升级逻辑
+- (void)upgradeAlert{
+    NSString *message = [NSString stringWithFormat:@"当前版本:%@\n最新版本:%@ \n 确认进行固件升级？",self.deviceVersionModel.oldDeviceVersion,self.deviceVersionModel.newDeviceVersion];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"升级固件" message:message preferredStyle:UIAlertControllerStyleAlert];
+    [alert addAction:[UIAlertAction actionWithTitle:CommonCancel style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"确定升级" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self upgradeHandleWithModuleType:self.deviceModel.moduleType.integerValue];
+    }]];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)upgradeHandleWithModuleType:(NSInteger)moduleType{
+    switch (moduleType) {
+        case 1:
+        {
+            id<HETDUProcessProtocol> Handle = [HETDUBaseWifiHandle deviceInfo:self.deviceModel version:self.deviceVersionModel];
+            UIViewController *con = [self.upgradeManager upgradeVChandle:Handle];
+            WEAKSELF
+            self.upgradeManager.upgradeSuccess = ^{
+                STRONGSELF
+                [strongSelf deviceUpgradeCheck];
+                [strongSelf.navigationController popViewControllerAnimated:YES];
+            };
+            self.upgradeManager.upgradeFailure = ^{
+                STRONGSELF
+                [strongSelf.navigationController popViewControllerAnimated:YES];
+            };
+            [self.navigationController pushViewController:con animated:YES];
+        }
+            break;
+        case 2:
+        {
+            id<HETDUProcessProtocol> Handle = [HETOpenSDKBaseBleHandle deviceInfo:self.deviceModel version:self.deviceVersionModel];
+            UIViewController *con = [self.upgradeManager upgradeVChandle:Handle];
+            WEAKSELF
+            self.upgradeManager.upgradeSuccess = ^{
+                STRONGSELF
+                [strongSelf deviceUpgradeCheck];
+                [strongSelf.navigationController popViewControllerAnimated:YES];
+            };
+            self.upgradeManager.upgradeFailure = ^{
+                STRONGSELF
+                [strongSelf.navigationController popViewControllerAnimated:YES];
+            };
+            [self.navigationController pushViewController:con animated:YES];
+        }
+            break;
+            
+        default:
+            [HETCommonHelp showHudAutoHidenWithMessage:@"此设备暂不支持升级"];
+            break;
+    }
+}
+
+- (void)deviceUpgradeCheck{
+    WEAKSELF
+    [HETDeviceUpgradeBusiness deviceUpgradeCheckWithDeviceId:self.deviceModel.deviceId success:^(HETDeviceVersionModel *deviceVersionModel) {
+        STRONGSELF
+        OPLog(@"deviceVersionModel:%@",deviceVersionModel);
+        strongSelf.deviceVersionModel = deviceVersionModel;
+        DeviceDetailCellModel *updateModel = strongSelf.dataSource[2];
+        if (updateModel.titleName == DeviceFirmwareUpgrade) {
+            updateModel.subTitleName = deviceVersionModel.oldDeviceVersion;
+        }
+        [strongSelf.deviceDetailTableView reloadData];
+    } failure:^(NSError *error) {
+        OPLog(@"error:%@",error);
+        [HETCommonHelp showHudAutoHidenWithMessage:[error.userInfo valueForKey:@"NSLocalizedDescription"]];
+    }];
+}
+
 - (void)backToDeviceControl
 {
     NSArray *vcArray = self.navigationController.viewControllers;
@@ -210,7 +319,6 @@ static CGFloat kCellIOneRowHeight = 48.f;
         }
     }
 }
-
 
 #pragma mark setter getter
 - (UITableView *)deviceDetailTableView
@@ -224,11 +332,11 @@ static CGFloat kCellIOneRowHeight = 48.f;
         _deviceDetailTableView.separatorColor = [UIColor colorFromHexRGB:@"c6c6c6"];
         _deviceDetailTableView.sectionHeaderHeight = 5.0f;
         _deviceDetailTableView.sectionFooterHeight = 5.0f;
-
+        
         //去掉TableView中的默认横线
         _deviceDetailTableView.tableFooterView = [UIView new];
     }
-     return _deviceDetailTableView;
+    return _deviceDetailTableView;
 }
 
 - (void)backAction
@@ -246,13 +354,13 @@ static CGFloat kCellIOneRowHeight = 48.f;
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

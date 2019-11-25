@@ -81,7 +81,7 @@
 }
 
 - (void)QRCodeAlbumManagerDidReadQRCodeFailure:(SGQRCodeAlbumManager *)albumManager {
-    NSLog(@"暂未识别出二维码");
+    OPLog(@"暂未识别出二维码");
 }
 
 #pragma mark - - - SGQRCodeScanManagerDelegate

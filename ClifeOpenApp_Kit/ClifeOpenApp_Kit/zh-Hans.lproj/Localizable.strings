@@ -179,6 +179,7 @@
 // 设备详情
 "DeviceDetailTitle" = "设备详情";
 "DeviceDetailTitleNickName" = "备注名称";
+"DeviceFirmwareUpgrade" = "固件升级";
 
 // 设备昵称
 "DeviceChangeNameTitle" = "设备昵称";

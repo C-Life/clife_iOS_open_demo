@@ -17,7 +17,7 @@
 #import <AVFoundation/AVFoundation.h>
 #define cellH 48.0f
 
-@interface HETAddDeviceVC ()<UITableViewDataSource,UITableViewDelegate>
+@interface HETAddDeviceVC ()<UITableViewDataSource,UITableViewDelegate,CLLocationManagerDelegate>
 
 ///顶部视图
 @property (nonatomic,strong) HETAddDeviceTopView *topView;
@@ -27,7 +27,7 @@
 @property (nonatomic,strong) NSMutableArray *deviceArr;
 ///小类设备数组
 @property (nonatomic,strong) NSMutableArray *subTypeDeviceArr;
-
+@property (nonatomic, strong) CLLocationManager *locationMagager;
 @end
 
 @implementation HETAddDeviceVC
@@ -47,6 +47,8 @@
     
     // 5.添加事件处理
     [self addAction];
+    
+    [self getcurrentLocation];
 }
 
 #pragma mark - Init
@@ -81,6 +83,30 @@
         make.left.right.bottom.equalTo(self.view);
     }];
     
+}
+
+- (void)getcurrentLocation {
+    if (@available(iOS 13, *)) {
+        if (CLLocationManager.authorizationStatus == kCLAuthorizationStatusAuthorizedWhenInUse) {//开启了权限，直接搜索
+            [self wifSsid];
+        } else if (CLLocationManager.authorizationStatus == kCLAuthorizationStatusDenied) {//如果用户没给权限，则提示
+
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"定位权限关闭提示" message:@"你关闭了定位权限，导致无法使用WIFI功能" preferredStyle:UIAlertControllerStyleAlert];
+            [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+               NSLog(@"取消");
+            }]];
+            [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+               NSLog(@"确定");
+            }]];
+            // 弹出对话框
+            [self presentViewController:alert animated:true completion:nil];
+        } else {
+            //请求权限
+            [self.locationMagager requestWhenInUseAuthorization];
+        }
+    } else {
+        [self wifSsid];
+    }
 }
 
 #pragma mark - Request
@@ -221,6 +247,44 @@
     }
     return _deviceListTableView;
 }
+
+- (CLLocationManager *)locationMagager {
+    if (!_locationMagager) {
+        _locationMagager = [[CLLocationManager alloc] init];
+        _locationMagager.delegate = self;
+    }
+    return _locationMagager;
+}
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse ||
+    status == kCLAuthorizationStatusAuthorizedAlways) {
+//        [self wifSsid];
+        NSLog(@"📕:%@",[self wifSsid]);
+    }
+}
+
+- (NSString*)wifSsid
+{
+    NSArray *interfaces = (__bridge_transfer NSArray*)CNCopySupportedInterfaces();
+    NSDictionary *info = nil;
+    for (NSString *ifname in interfaces) {
+        info = (__bridge_transfer NSDictionary*)CNCopyCurrentNetworkInfo((__bridge CFStringRef)ifname);
+        if (info && [info count]) {
+            break;
+        }
+        info = nil;
+    }
+    
+    NSString *ssid = nil;
+    
+    if ( info ){
+        ssid = [info objectForKey:@"SSID"];
+    }
+    info = nil;
+    return ssid? ssid:@"";
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

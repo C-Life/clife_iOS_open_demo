@@ -10,6 +10,5 @@
 
 extern NSString *const kBindDeviceSuccess;
 
-extern NSString *const kNotificationLogin;
 
 

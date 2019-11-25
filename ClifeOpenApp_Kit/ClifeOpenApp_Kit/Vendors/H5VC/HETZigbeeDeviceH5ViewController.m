@@ -10,7 +10,7 @@
 
 @interface HETZigbeeDeviceH5ViewController()
 {
-
+    
 }
 @property(nonatomic,assign) HETWiFiDeviceState currentDeviceState;
 @property(nonatomic,strong) NSDictionary *currentDeviceRunData;
@@ -51,6 +51,11 @@
 }
 - (void)webView:(WKWebView *)webView didFinishNavigation:(null_unspecified WKNavigation *)navigation{
     [super webView:webView didFinishNavigation:navigation];
+    [self renderData];
+    
+}
+-(void)renderData
+{
     if (self.wifiBusiness.deviceDefaultCfgData.count)
     {
         [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
@@ -69,32 +74,30 @@
         [self.jsBridge webViewUpdataOnOffState:[NSString stringWithFormat:@"%ld",2-(long)_currentDeviceState]];
         // });
     }
-    
 }
-
 -(void)config:(id)data
 {
     [super config:data];
-    if (self.wifiBusiness.deviceDefaultCfgData.count)
-    {
-        [self.jsBridge webViewUpdataControlData:self.wifiBusiness.deviceDefaultCfgData];
-    }
+    [self renderData];
 }
 
 -(void)send:(id)data successCallback:(id)successCallback errorCallback:(id)errorCallback
 {
+    
     if (data && ![data isEqualToString:@" "]) {
         NSData *jsonData = [data dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *dic = [NSJSONSerialization JSONObjectWithData:jsonData options:0 error:nil];
         NSError * err;
         NSData * tempjsonData = [NSJSONSerialization dataWithJSONObject:dic options:NSJSONWritingPrettyPrinted error:&err];
         NSString * json = [[NSString alloc] initWithData:tempjsonData encoding:NSUTF8StringEncoding];
+        NSLog(@"发送命令json ====== %@",json);
         WEAKSELF;
         [_wifiBusiness deviceControlRequestWithJson:json successBlock:^(id responseObject) {
             STRONGSELF;
             [strongSelf.jsBridge updateDataSuccess:nil successCallBlock:successCallback];
         } failureBlock:^(NSError *error) {
             STRONGSELF;
+            NSLog(@"发送命令json失败原因 ====%@",error);
             [strongSelf.jsBridge updateDataError:nil errorCallBlock:errorCallback];
         }];
     }
@@ -120,17 +123,28 @@
         WEAKSELF;
         _wifiBusiness=[[HETDeviceControlBusiness alloc] initWithHetDeviceModel:self.deviceModel deviceRunData:^(id responseObject) {
             STRONGSELF;
+            NSLog(@"获取运行数据");
+            NSLog(@"responseObject ==== %@",responseObject);
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
-                
-                strongSelf.currentDeviceCfgData=responseObject;
-                if(strongSelf.currentDeviceCfgData.count)
-                {
-                    [strongSelf.jsBridge webViewUpdataControlData:responseObject];
+                if (strongSelf.deviceModel.moduleId.integerValue == 190 ) {// zigbee3.0
+                    strongSelf.currentDeviceRunData= responseObject;
+                    if(strongSelf.currentDeviceRunData.count)
+                    {
+                        [strongSelf.jsBridge webViewUpdataRunData:responseObject];
+                    }
+                }else{
+                    strongSelf.currentDeviceCfgData=responseObject;
+                    if(strongSelf.currentDeviceCfgData.count)
+                    {
+                        [strongSelf.jsBridge webViewUpdataControlData:responseObject];// zigbee2.0 运行数据走控制数据通道
+                    }
                 }
             }
         } deviceCfgData:^(id responseObject) {
             STRONGSELF;
+            NSLog(@"获取控制数据");
+            NSLog(@"responseObject ==== %@",responseObject);
             if([responseObject isKindOfClass:[NSDictionary class]])
             {
                 strongSelf.currentDeviceCfgData=responseObject;
@@ -161,5 +175,8 @@
     return _wifiBusiness;
 }
 
-
+- (void)dealloc
+{
+    OPLog(@"%@ dealloc！！！",[self class]);
+}
 @end

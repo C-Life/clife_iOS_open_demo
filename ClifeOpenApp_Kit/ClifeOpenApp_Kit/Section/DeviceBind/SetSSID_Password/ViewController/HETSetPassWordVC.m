@@ -10,7 +10,7 @@
 #import "HETChangeWIFIVC.h"
 #import "HETBindWifiDeviceVC.h"
 #import "HETChangeAPWifiVC.h"
-
+#import "HETBindBleDeviceVC.h"
 #import "CLWifiPasswordInfo.h"
 
 #define CC_scale  (float)ScreenWidth/640.0
@@ -314,6 +314,14 @@
         changeWIFIVC.password = self.passwordField.text;
         [self.navigationController pushViewController:changeWIFIVC animated:YES];
         return;
+    }
+    // BLE转WiFi的设备
+    else if([self.device.moduleId integerValue] == 64){
+        HETBindBleDeviceVC *bleVC = [HETBindBleDeviceVC new];
+        bleVC.device = self.device;
+        bleVC.ssid = self.wifiNameField.text;
+        bleVC.password = self.passwordField.text;
+        [self.navigationController pushViewController:bleVC animated:YES];
     }
     // smartLink 设备
     else{

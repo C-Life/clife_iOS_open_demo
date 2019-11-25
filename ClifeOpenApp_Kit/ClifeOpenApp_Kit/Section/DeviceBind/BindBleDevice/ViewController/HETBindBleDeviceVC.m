@@ -26,6 +26,8 @@
 /** 是否搜索到设备 **/
 @property(nonatomic,assign) BOOL                        scanDevice;
 
+/** 蓝牙绑定、扫描控制类 **/
+@property(nonatomic,strong) HETBLESmartLink             *bleSmartLink;
 
 @end
 
@@ -33,26 +35,26 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // 1.设置背景颜色
     self.view.backgroundColor = VCBgColor;
-
+    
     // 2.设置导航栏
     [self createNavViews];
-
+    
     // 3.初始化界面
     [self createSubView];
-
+    
     // 4.初始化蓝牙通讯类
     [self setUpBleBusiness];
-
+    
     // 5.搜索设备
     [self searchDevice];
     self.deviceArr = [NSMutableArray array];
-
+    
     // app进入前台
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterPlayground) name:UIApplicationDidBecomeActiveNotification object:nil];
-
+    
     // app退到后台
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appDidEnterBackground) name:UIApplicationWillResignActiveNotification object:nil];
 }
@@ -60,19 +62,24 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-
+    
     if (self.timer) {
         [self.timer invalidate];
     }
-
-    [self.bleBusiness stopScanForPeripherals];
+    if (self.bleBusiness) {
+        [self.bleBusiness stopScanForPeripherals];
+    }
+    
+    if (self.bleSmartLink) {
+        [self.bleSmartLink stop];
+    }
 }
 
 - (void)createNavViews
 {
     // 1.导航栏标题
     self.navigationItem.title = AddDeviceVCTitle;
-
+    
     // 2.添加返回按钮
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"nav_back"] style:UIBarButtonItemStylePlain target:self action:@selector(backAction)];
 }
@@ -84,7 +91,7 @@
     [self.bindAnimationView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-
+    
     [self.view addSubview:self.tableView];
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.view.mas_top).offset(64);
@@ -92,6 +99,12 @@
         make.right.equalTo(self.view.mas_right);
         make.bottom.equalTo(self.view.mas_bottom);
     }];
+}
+
+- (void)setUpBleBusiness
+{
+    //初始化蓝牙设备的业务类，需要设备的productId，deviceTypeId，deviceSubtypeId
+    self.bleBusiness=[[HETBLEBusiness alloc]initWithProductId:self.device.productId.integerValue deviceTypeId:self.device.deviceTypeId.integerValue deviceSubtypeId:self.device.deviceSubtypeId.integerValue];
 }
 
 #pragma mark - UITableViewDataSource
@@ -121,47 +134,55 @@
 #pragma mark - UITableViewDelegate (选中设备绑定)
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     CBPeripheral *cbp = (CBPeripheral *)[self.deviceArr objectAtIndex:indexPath.row];
     [UIView animateWithDuration:1.0 animations:^{
         self.bindAnimationView.productName = cbp.name;
         self.bindAnimationView.productCode = [NSString stringWithFormat:@"%@",self.device.productCode];
         [self.bindAnimationView startBinding];
-    } completion:^(BOOL finished) {
         self.bindAnimationView.hidden = NO;
+    } completion:^(BOOL finished) {
         self.tableView.hidden = YES;
     }];
-
+    
     if (cbp.state!=CBPeripheralStateConnected)
     {
-        __weak typeof(self) weakself = self;
+        WEAKSELF
+        if ([self.device.moduleId integerValue] == 64) {
+            [self.bleSmartLink stopScanForPeripherals];
+            [self.bleSmartLink bindDeviceWithWithPeripheral:cbp deviceModel:self.device SSID:self.ssid password:self.password timeOut:60.0f completionHandler:^(NSString *deviceId, NSError *error) {
+                STRONGSELF
+                [strongSelf getBindDeviceResult:error];
+               
+            }];
+            return;
+        }
+        
         [self.bleBusiness bindBleDeviceWithPeripheral:cbp macAddress:nil completionHandler:^(NSString *deviceId, NSError *error) {
-
-            [weakself.bleBusiness disconnectWithPeripheral:cbp];
-            if(error)
-            {
-                [HETCommonHelp showHudAutoHidenWithMessage:BindBleBindFaile];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [weakself.navigationController popViewControllerAnimated:YES];
-                });
-            }
-            else
-            {
-                [weakself.bindAnimationView startBindsuccess];
-                [[NSNotificationCenter defaultCenter] postNotificationName:kBindDeviceSuccess object:nil];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-                    [weakself.navigationController popToRootViewControllerAnimated:YES];
-                });
-            }
+            STRONGSELF
+            [strongSelf getBindDeviceResult:error];
         }];
     }
 }
 
-- (void)setUpBleBusiness
+- (void)getBindDeviceResult:(NSError *)error
 {
-    //初始化蓝牙设备的业务类，需要设备的productId，deviceTypeId，deviceSubtypeId
-    self.bleBusiness=[[HETBLEBusiness alloc]initWithProductId:self.device.productId.integerValue deviceTypeId:self.device.deviceTypeId.integerValue deviceSubtypeId:self.device.deviceSubtypeId.integerValue];
+    if(error)
+    {
+        [HETCommonHelp showHudAutoHidenWithMessage:BindBleBindFaile];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popViewControllerAnimated:YES];
+        });
+    }
+    else
+    {
+        [self.bindAnimationView startBindsuccess];
+        [[NSNotificationCenter defaultCenter] postNotificationName:kBindDeviceSuccess object:nil];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.navigationController popToRootViewControllerAnimated:YES];
+        });
+    }
 }
 
 #pragma mark -  搜索蓝牙设备
@@ -169,49 +190,61 @@
 {
     // 这里的start 只是显示进度的动画层
     [self.bindAnimationView startSearchProgressing];
-
+    
     // 扫描蓝牙设备超时时间
     CGFloat timeOut = 5.0f;
-
+    
     // 更新进度的频率
     CGFloat inerval = 0.06f;
-
+    
     if (self.timer) {
         [self.timer invalidate];
     }
-
+    
     self.timer = [NSTimer scheduledTimerWithTimeInterval:inerval target:self selector:@selector(updataProgress) userInfo:nil repeats:YES];
-
+    
     self.scanDevice = NO;
-
     WEAKSELF
+    if ([self.device.moduleId integerValue] == 64) {
+        self.bleSmartLink = [HETBLESmartLink new];
+        [self.bleSmartLink scanForPeripheralsWithTimeOut:timeOut name:nil mac:nil scanForPeripheralsBlock:^(NSArray<CBPeripheral *> *peripherals, NSError *error) {
+             STRONGSELF
+            [strongSelf error:error peripherals:peripherals];
+        }];
+        return;
+    }
+    
     [self.bleBusiness scanForPeripheralsWithTimeOut:timeOut name:nil mac:nil scanForPeripheralsBlock:^(NSArray<CBPeripheral *> *peripherals, NSError *error) {
-        OPLog(@"error = %@",error);
-        if (error) {
-            weakSelf.scanDevice = NO;
-            [weakSelf scanDeviceFail];
-            return ;
-        }
-        if (peripherals) {
-            weakSelf.scanDevice = YES;
-            OPLog(@"peripherals = %@",peripherals);
-            OPLog(@"[NSThread currentThread] = %@",[NSThread currentThread]);
-            [peripherals enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                CBPeripheral *dev = (CBPeripheral*)obj;
-                if (![weakSelf.deviceArr containsObject:dev]) {
-                    [weakSelf.deviceArr addObject:dev];
-                }
-                [UIView animateWithDuration:1.0 animations:^{
-                    [weakSelf.bindAnimationView stopSearchProgressing];
-                    weakSelf.bindAnimationView.hidden = YES;
-                } completion:^(BOOL finished) {
-                    [weakSelf.tableView reloadData];
-                    weakSelf.tableView.hidden = NO;
-                }];
-            }];
-            return;
-        }
+        STRONGSELF
+        [strongSelf error:error peripherals:peripherals];
     }];
+}
+
+- (void)error:(NSError *)error peripherals:(NSArray<CBPeripheral *> *)peripherals{
+    OPLog(@"error = %@",error);
+    if (error) {
+        self.scanDevice = NO;
+        [self scanDeviceFail];
+        return ;
+    }
+    if (peripherals) {
+        self.scanDevice = YES;
+        OPLog(@"peripherals = %@",peripherals);
+        OPLog(@"[NSThread currentThread] = %@",[NSThread currentThread]);
+        [peripherals enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            CBPeripheral *dev = (CBPeripheral*)obj;
+            if (![self.deviceArr containsObject:dev]) {
+                [self.deviceArr addObject:dev];
+            }
+            [UIView animateWithDuration:1.0 animations:^{
+                [self.bindAnimationView stopSearchProgressing];
+                self.bindAnimationView.hidden = YES;
+            } completion:^(BOOL finished) {
+                [self.tableView reloadData];
+                self.tableView.hidden = NO;
+            }];
+        }];
+    }
 }
 
 - (void)checkBleState
@@ -222,7 +255,7 @@
         [self.bleBusiness  stopScanForPeripherals];
         [self bleUnOnWorkTip];
     }
-
+    
     if (state == CBManagerStatePoweredOn) {
         self.progress = 0;
         self.bindAnimationView.progressStr = [NSString stringWithFormat:@"%d",self.progress];
@@ -236,18 +269,18 @@
 - (void)scanDeviceFail
 {
     [self.bindAnimationView stopSearchProgressing];
-
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:SearchDeviceErrorTitle message:SearchDeviceErrorMessage preferredStyle:UIAlertControllerStyleAlert];
-
+    
     [alert addAction:[UIAlertAction actionWithTitle:ExitBtnTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         [self.navigationController popViewControllerAnimated:YES];
     }]];
-
+    
     [alert addAction:[UIAlertAction actionWithTitle:SearchAgainTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.progress = 0;
         [self searchDevice];
     }]];
-
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -255,26 +288,26 @@
 - (void)bleUnOnWorkTip
 {
     [self.bindAnimationView stopSearchProgressing];
-
+    
     if (self.timer) {
         [self.timer invalidate];
     }
-
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:BLEOpenAlert message:@"" preferredStyle:UIAlertControllerStyleAlert];
-
+    
     [alert addAction:[UIAlertAction actionWithTitle:CommonSet style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         NSURL *url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
         if ([[UIApplication sharedApplication]canOpenURL:url]) {
             [[UIApplication sharedApplication]openURL:url];
         }
     }]];
-
+    
     [alert addAction:[UIAlertAction actionWithTitle:CommonOK style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         self.progress = 0;
         self.bindAnimationView.progressStr = [NSString stringWithFormat:@"%d",self.progress];
         [self searchDevice];
     }]];
-
+    
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -301,7 +334,7 @@
 -(void)updataProgress
 {
     self.progress++;
-
+    
     if (self.progress <= 100) {
         self.bindAnimationView.progressStr = [NSString stringWithFormat:@"%d",self.progress];
     }else{
@@ -346,7 +379,7 @@
 }
 /*
  #pragma mark - Navigation
-
+ 
  // In a storyboard-based application, you will often want to do a little preparation before navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
  // Get the new view controller using [segue destinationViewController].

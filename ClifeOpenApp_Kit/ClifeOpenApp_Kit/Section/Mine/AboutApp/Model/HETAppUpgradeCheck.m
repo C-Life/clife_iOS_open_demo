@@ -60,7 +60,7 @@
         NSString *server_app_Version = appInfoModel.externalVersion;
         
         // 比较大版本
-        if ([app_Version integerValue] > [server_app_Version integerValue]) {
+        if ([app_Version floatValue] > [server_app_Version floatValue]) {
             OPLog(@"没有新的版本");
             return ;
         }

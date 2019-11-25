@@ -109,9 +109,6 @@
     }];
     
     // 2.进度条
-    self.progressHud = [[MBProgressHUD alloc]initWithView:self.view];
-    self.progressHud.mode = MBProgressHUDModeDeterminateHorizontalBar;
-    self.progressHud.label.text = DeviceH5ViewLoading;
     [self.view addSubview:self.progressHud];
 }
 
@@ -131,16 +128,16 @@
     [HETDeviceRequestBusiness startRequestWithHTTPMethod:HETRequestMethodPost withRequestUrl:@"/v1/oauth2/create" processParams:params needSign:YES BlockWithSuccess:^(id responseObject) {
         STRONGSELF
         OPLog(@"云授权授权信息：%@",responseObject);
-        NSDictionary *dict = [(NSDictionary *)responseObject objectForKey:@"data"];
-        NSString *accessToken   =  [dict objectForKey:@"accessToken"];
-        NSString *openId        =  [dict objectForKey:@"openId"];
-        NSString * expiresIn    =  [dict objectForKey:@"expiresIn"];
-        NSString *refreshToken  =  [dict objectForKey:@"refreshToken"];
+//        NSDictionary *dict = [(NSDictionary *)responseObject objectForKey:@"data"];
+//        NSString *accessToken   =  [dict objectForKey:@"accessToken"];
+//        NSString *openId        =  [dict objectForKey:@"openId"];
+//        NSString * expiresIn    =  [dict objectForKey:@"expiresIn"];
+//        NSString *refreshToken  =  [dict objectForKey:@"refreshToken"];
         //[HETOpenSDK registerOpenId:openId accessToken:accessToken refreshToken:refreshToken expiresIn:expiresIn ];
         strongSelf.userlogin = YES;
         [strongSelf getDeviceList];
     } failure:^(NSError *error) {
-
+        OPLog(@"error ==%@",error);
     }];
 }
 
@@ -151,7 +148,6 @@
     [HETDeviceRequestBusiness fetchAllBindDeviceSuccess:^(NSArray<HETDevice *> *deviceArray) {
         STRONGSELF
         OPLog(@"responseObject ==%@",deviceArray);
-        OPLog(@"[NSThread currentThread] = %@",[NSThread currentThread]);
         [strongSelf.deviceListTableView.mj_header endRefreshing];
         strongSelf.deviceArr = [deviceArray mutableCopy];
         strongSelf.emptyState = strongSelf.deviceArr.count ? HETEmptyViewStateUnknow :HETEmptyViewStateNoData;
@@ -198,7 +194,7 @@
     if (self.deviceArr.count > indexPath.row) {
         HETDevice *device = self.deviceArr[indexPath.row];
         [self PushToDeviceControlVC:device];
-        return;
+//        return;
         //  LED原生控制器的写法
         //        if ([device.productId integerValue] == 63) {
         //            LEDDeviceVC *ledVc = [LEDDeviceVC new];
@@ -207,12 +203,12 @@
         //        }else
         //            //   蓝牙控制器原生的写法
         //            if([device.productId integerValue] == 2275){
-        //                HETBleControllerViewController *ledVC = [HETBleControllerViewController new];
-        //                ledVC.device = device;
-        //                [self.navigationController pushViewController:ledVC animated:true];
+//                        HETBleControllerViewController *ledVC = [HETBleControllerViewController new];
+//                        ledVC.device = device;
+//                        [self.navigationController pushViewController:ledVC animated:true];
         //            }
         //            else{// H5设备控制
-        //                [self PushToDeviceControlVC:device];
+        //               [self PushToDeviceControlVC:device];
         //            }
     }
 }
@@ -295,12 +291,6 @@
         [h5vc.navigationController pushViewController:detailVC animated:YES];
     };
     
-//    NSString *document = [[NSBundle mainBundle]pathForResource:@"webdata" ofType:nil];
-//
-//    NSString *path1755 = [document stringByAppendingPathComponent:@"/1755/page/index.html"];
-//    NSString *bundlePath =  [[NSBundle mainBundle]pathForResource:@"humidi" ofType:@"bundle"];
-//    NSString *path1755 = [bundlePath stringByAppendingPathComponent:@"/page/index.html"];
-    
     @weakify(self)
     [[HETH5Manager shareInstance] getH5Path:^(NSString *h5Path, BOOL needRefresh, NSString *h5ConfigLibVersion, NSError *error) {
         OPLog(@"needRefresh == %@,h5PagePath--->:%@",@(needRefresh),h5Path);
@@ -338,12 +328,13 @@
     if (deviceModel.bindType.integerValue == 2) {
         //标准3A蓝牙协议
         h5vc = [HETBLEDeviceH5ViewController new];
-    }else if(deviceModel.bindType.integerValue == 4){//82
+    }else if(deviceModel.bindType.integerValue == 4){
+        //gsm 44
         if ([deviceModel.moduleId integerValue] == 44) {
             h5vc = [HETWiFiDeviceH5ViewController new];
             return h5vc;
         }
-        //NB设备
+        //NB设备 82
         h5vc = [HETNBIoTDeviceH5ViewController new];
     }else if(deviceModel.bindType.integerValue == 1 || deviceModel.bindType.integerValue == 6){
         //标准5AWIFI协议，还有直连设备
@@ -470,6 +461,7 @@
     [[HETAuthorize shareManager] unauthorize];
     [HETCommonHelp showHudAutoHidenWithMessage:AccessTokenOutDate];
     self.userlogin = NO;
+    [self.progressHud hideAnimated:true];
 }
 
 - (void)exitLoginAction
@@ -560,6 +552,16 @@
         };
     }
     return _loginEmptyView;
+}
+
+- (MBProgressHUD *)progressHud
+{
+    if (!_progressHud) {
+        _progressHud = [[MBProgressHUD alloc]initWithView:self.view];
+        _progressHud.mode = MBProgressHUDModeDeterminateHorizontalBar;
+        _progressHud.label.text = DeviceH5ViewLoading;
+    }
+    return _progressHud;
 }
 
 - (void)dealloc

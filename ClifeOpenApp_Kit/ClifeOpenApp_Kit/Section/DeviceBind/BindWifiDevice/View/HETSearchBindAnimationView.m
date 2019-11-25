@@ -130,7 +130,7 @@
     }];
 
     self.productCodeLable = [[UILabel alloc]init];
-    self.productCodeLable.backgroundColor = [UIColor whiteColor];
+    self.productCodeLable.backgroundColor = [UIColor clearColor];
     self.productCodeLable.textColor = UIColorFromRGB(0x919191);
     self.productCodeLable.text = @"";
     self.productCodeLable.textAlignment = NSTextAlignmentCenter;
@@ -139,6 +139,7 @@
     [self.productCodeLable mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(self.CicleImageView);
         make.top.equalTo(self.productNameLable.mas_bottom).offset(12);
+        make.width.equalTo(@(self.CicleImageView.image.size.width-12));
     }];
 
     self.bindingLable = [[UILabel alloc]init];

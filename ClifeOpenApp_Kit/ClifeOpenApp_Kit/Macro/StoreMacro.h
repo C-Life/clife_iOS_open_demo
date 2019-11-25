@@ -9,6 +9,10 @@
 #ifndef StoreMacro_h
 #define StoreMacro_h
 
+//企业包
+#define kTestAPPKEY @"30765"
+#define kTestAPPSECRET @"5f699a78c319444cb8a291296049572c"
+
 #define SYSTEM_VERSION_EQUAL_TO(v)                  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedSame)
 
 #define SYSTEM_VERSION_GREATER_THAN(v)              ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedDescending)
@@ -98,6 +102,8 @@
 
 #define kUserDefaultNetWorkConfig @"kUserDefaultNetWorkConfig"
 #define kUserDefaultLoginUIVersion @"kUserDefaultLoginUIVersion"
+#define kUserDefaultAppId @"kUserDefaultAppId"
+#define kUserDefaultAppSecret @"kUserDefaultAppSecret"
 
 /*
  *  极光推送

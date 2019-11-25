@@ -10,6 +10,5 @@
 
 NSString *const kBindDeviceSuccess = @"bindDeviceSuccess";
 
-NSString *const kNotificationLogin = @"HETLoginOffNotification";
 
 
